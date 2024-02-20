@@ -14,11 +14,11 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  addProduct(formData: FormData, mediaList: Media[]): Observable<Product> {
-
+  addProduct(productData: FormData): Observable<Product> {
+    const headers = new HttpHeaders();
     
     // Utilisez les en-têtes définis pour l'envoi de données
-    return this.httpClient.post<Product>(`${this.baseUrl}/addd`,formData);
+    return this.httpClient.post<Product>(`${this.baseUrl}/addd`,productData, {headers});
   }
   public getProductById(pid:number){
     return this.httpClient.get<Product>(`${this.baseUrl}/${pid}`)

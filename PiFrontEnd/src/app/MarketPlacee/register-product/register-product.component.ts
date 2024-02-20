@@ -58,7 +58,7 @@ export class RegisterProductComponent  implements OnInit {
       this.productObj.description = this.productForm.value.description;
       
       // this.productService.addProduct(this.productObj, this.file[0]).subscribe(data =>
-      this.productService.addProduct(formData, this.mediaList).subscribe(data =>
+      this.productService.addProduct(formData).subscribe(data =>
         
         console.log(data)
       )
@@ -101,7 +101,25 @@ export class RegisterProductComponent  implements OnInit {
     }
   
   }
+  onSubmit() {
+    this.productService.addProduct(this.formData).subscribe(
+      () => {
+        console.log('Produit ajouté avec succès');
+        // Réinitialiser le formulaire ou rediriger vers une autre page
+      },
+      error => {
+        console.error('Erreur lors de l\'ajout du produit:', error);
+        // Gérer l'erreur
+      }
+    );
+  }
 
+  onFileSelectedd(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.formData.append('image', file);
+    }
+  }
   
  
 

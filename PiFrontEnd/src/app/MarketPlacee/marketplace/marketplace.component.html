@@ -396,6 +396,21 @@
                                                 </div>
                                                 <!-- End Single Item -->
                                             </div>
+                                            <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+                                                <div>
+                                                  <label for="reference">Référence:</label>
+                                                  <input type="text" id="reference" name="reference" ngModel required>
+                                                </div>
+                                                <!-- Ajoutez d'autres champs pour les détails du produit -->
+                                              
+                                                <div>
+                                                  <label for="image">Image:</label>
+                                                  <input type="file" id="image" name="image" (change)="onFileSelected($event)" accept="image/*" required>
+                                                </div>
+                                              
+                                                <button type="submit" [disabled]="!productForm.valid">Ajouter</button>
+                                              </form>
+                                              
                                             <div class="col-lg-4 col-md-6 col-12">
                                                 <!-- Start Single Item -->
                                                 <div class="single-item-grid">

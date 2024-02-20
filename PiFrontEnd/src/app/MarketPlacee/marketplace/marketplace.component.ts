@@ -34,5 +34,26 @@ export class MarketplaceComponent implements OnInit {
   goToProduct(id:number){
     this.router.navigate(['detail' , id]);
   }
+  formData: FormData = new FormData();
+
+  onSubmit() {
+    this.productService.addProduct(this.formData).subscribe(
+      () => {
+        console.log('Produit ajouté avec succès');
+        // Réinitialiser le formulaire ou rediriger vers une autre page
+      },
+      error => {
+        console.error('Erreur lors de l\'ajout du produit:', error);
+        // Gérer l'erreur
+      }
+    );
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.formData.append('image', file);
+    }
+  }
 
 }
