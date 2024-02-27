@@ -23,6 +23,7 @@ public class Claims implements Serializable {
     @Column(name = "idClaims")
     private Integer idClaims;
     private String title;
+    private String otherDetails;
     private String description;
     @Enumerated(EnumType.STRING)
     private TypeClaim typeClaim;
