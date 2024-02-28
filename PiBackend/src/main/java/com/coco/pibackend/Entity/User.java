@@ -1,40 +1,31 @@
 package com.coco.pibackend.Entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class User implements Serializable {
+@AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name="User")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_user;
-    private String username;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
+
+
     private String password;
-    @OneToMany(mappedBy = "user")
-    private Set<AnnonceCarpoling> annonceCarpolingSet;
-    @OneToMany(mappedBy = "user")
-    private Set<MarketPlace> marketPlaces;
-    @OneToMany(mappedBy = "user")
-    Set<AnnonceCollocation>annonceCollocations;
-    @OneToMany(mappedBy = "user")
-    private Set<Blog>blogs;
-    @OneToOne(mappedBy = "user")
-    private Profil profil;
-    @OneToMany(mappedBy = "user")
-    private Set<Events> events;
-    @OneToMany(mappedBy = "user")
-    private Set<Claims> claims;
 
 
 }
+
+

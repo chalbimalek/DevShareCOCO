@@ -1,9 +1,6 @@
 package com.coco.pibackend.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +13,9 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@DiscriminatorValue(value = "Student")
 public class Student extends User  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id_user;
+
     private String specialite;
     private String classe;
     private boolean fumer;
