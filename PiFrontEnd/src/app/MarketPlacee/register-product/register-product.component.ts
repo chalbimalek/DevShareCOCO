@@ -1,10 +1,12 @@
-import { Component , OnInit} from '@angular/core';
+import { Component , ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 import { ProductService } from '../../Service/product.service';
 import { Product } from '../../model/product';
 import Swal from 'sweetalert2';
-import { Media } from '../../model/Media';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FileHandle } from 'src/app/model/file_handle.model';
+import { HttpErrorResponse } from '@angular/common/http';
 export interface Fruit {
   name: string;
 }
@@ -14,20 +16,31 @@ export interface Fruit {
   styleUrls: ['./register-product.component.css']
 })
 export class RegisterProductComponent  implements OnInit {
-  productForm!: FormGroup;
-  productObj: Product = new Product();
+  productFormm!: FormGroup;
   file = [];
   image:string='';
   public indexImage: object = {};
   formData: FormData = new FormData();
   isLinear=true;
   myForm!: FormGroup;
+
+  product:Product ={
+    idProduct:0,
+    reference:"",
+    name:"",
+    quantity:0,
+    price:0,
+    description:"",
+    adresse:"",
+    numero:0,
+    brand:"",
+    imageModels:[]
+  }
   ngOnInit(): void {
    
   }
   selectedFile: File | undefined;
   productData: Product = {} as Product;
-  product: Product = new Product();
   quantity: number = 0;
   files: File[] = [];
  // define an empty array of Media objects
@@ -37,36 +50,35 @@ export class RegisterProductComponent  implements OnInit {
 
   }
   constructor(
-    private productService: ProductService) {
-    this.productForm = new FormGroup({
+    private productService: ProductService , private sannitizer: DomSanitizer) {
+    this.productFormm = new FormGroup({
       name: new FormControl("inserer", [Validators.required]),
       description: new FormControl("", [Validators.required]),
       brand: new FormControl("", [Validators.required]),
       
     });
   }
-  mediaList: Media[] = [];
   showForm: boolean = true;
 
   onClickSubmitForm() {
 
-    if (!this.productForm.invalid) {
-      console.log(this.productForm.value);
-      const formData = new FormData();
-      this.productObj.name = this.productForm.value.name;
-      this.productObj.brand = this.productForm.value.brand;
-      this.productObj.description = this.productForm.value.description;
+    if (!this.productFormm.invalid) {
+      console.log(this.productFormm.value);
+   //   const formData = new FormData();
+    //  this.productObj.name = this.productFormm.value.name;
+     // this.productObj.brand = this.productFormm.value.brand;
+      //this.productObj.description = this.productFormm.value.description;
       
       // this.productService.addProduct(this.productObj, this.file[0]).subscribe(data =>
-      this.productService.addProduct(formData).subscribe(data =>
+    //  this.productService.addProduct(this.product).subscribe(data =>
         
-        console.log(data)
-      )
-      Swal.fire('Success!', 'Event added successfully!', 'success');
+      //  console.log(data)
+      //)
+     // Swal.fire('Success!', 'Event added successfully!', 'success');
       
       // To reset the form
-     this.productForm.reset();
-     this.showForm = false;
+     this.productFormm.reset();
+    // this.showForm = false;
     } else {
     }
   }
@@ -101,27 +113,73 @@ export class RegisterProductComponent  implements OnInit {
     }
   
   }
-  onSubmit() {
-    this.productService.addProduct(this.formData).subscribe(
-      () => {
+  onSubmit(productForm :NgForm) {
+
+    const preparedFormData=this.preparedFormData(this.product);
+    this.productService.addProduct(preparedFormData).subscribe(
+      (response :Product) => {
         console.log('Produit ajouté avec succès');
+        productForm.reset;
+        this.product.imageModels=[]
         // Réinitialiser le formulaire ou rediriger vers une autre page
       },
-      error => {
+      (error:HttpErrorResponse) => {
+        console.log(error);
         console.error('Erreur lors de l\'ajout du produit:', error);
         // Gérer l'erreur
       }
     );
   }
 
+  preparedFormData(product :Product):FormData{
+    const formData =new FormData();
+    formData.append(
+      'product',
+      new Blob ([JSON.stringify(product)], {type :'application/json'})
+);
+        for(var i = 0 ;i <product.imageModels.length; i++){
+          formData.append(
+            'imageFile',
+            product.imageModels[i].file,
+            product.imageModels[i].file.name
+          );
+        }
+        return formData;
+  }
+
   onFileSelectedd(event: any) {
-    if (event.target.files.length > 0) {
+    if (event.target.files) {
       const file = event.target.files[0];
-      this.formData.append('image', file);
+
+      const FileHandle:FileHandle ={
+        file:file,
+        url:this.sannitizer.bypassSecurityTrustUrl(
+          window.URL.createObjectURL(file)
+        )
+      }
+      this.product.imageModels.push(FileHandle);
     }
   }
-  
- 
+  removeImage(i:number){
+    this.product.imageModels.splice(i,1)
+  }
+  fileDropped(file_handle:FileHandle){
+      this.product.imageModels.push(file_handle);
+  }
+  @ViewChild('selectfile') selectfile!: ElementRef<HTMLInputElement>;
+
+  isFileInputInvalid(): boolean {
+    // Vérifier si selectfile et selectfile.nativeElement sont définis
+    if (this.selectfile && this.selectfile.nativeElement) {
+      // Vérifier si selectfile.nativeElement.files est défini
+      if (this.selectfile.nativeElement.files) {
+          // Vérifier si des fichiers sont sélectionnés
+          return this.selectfile.nativeElement.files.length === 0 && this.selectfile.nativeElement.getAttribute('required') !== null;
+      }
+  }
+  // Retourner false si selectfile, selectfile.nativeElement ou selectfile.nativeElement.files sont nuls
+  return false;
+}
 
   
 }

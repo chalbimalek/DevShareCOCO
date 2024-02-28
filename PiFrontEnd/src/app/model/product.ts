@@ -1,19 +1,15 @@
-import { Media } from "./Media";
 import { Category } from "./enumerations/Category";
+import { FileHandle } from "./file_handle.model";
 
-export class Product{
-  id!:number;
-  reference!:string;
-  name!:string;
-  quantity!:number;
-  price!:number;
-  description!:string;
-  discount!:number;
-  PriceAfterDiscount!:number;
-  brand!:string;
-  category!:Category;
-  image!:Media;
-  medias!:Media[];
-  status!:string;
-  validated!: boolean;
+export interface Product{
+  idProduct:number;
+  reference:string;
+  adresse:string;
+  numero:number;
+  name:string;
+  quantity:number;
+  price:number;
+  description:string;
+  brand:string;
+  imageModels:FileHandle[];
   }
