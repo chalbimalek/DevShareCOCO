@@ -166,14 +166,16 @@
                         <div class="product-images">
                             <main id="gallery">
                                 <div class="main-img">
-                                    <img src="assets/images/item-details/image1.jpg" id="current" alt="#">
+                                    <img [src]="product.imageModels[selectProductIndex].url"  id="current" alt="#">
                                 </div>
                                 <div class="images">
+                                    <div>
                                     <img src="assets/images/item-details/image1.jpg" class="img" alt="#">
                                     <img src="assets/images/item-details/image2.jpg" class="img" alt="#">
                                     <img src="assets/images/item-details/image3.jpg" class="img" alt="#">
                                     <img src="assets/images/item-details/image4.jpg" class="img" alt="#">
                                     <img src="assets/images/item-details/image5.jpg" class="img" alt="#">
+                                    </div>
                                 </div>
                             </main>
                         </div>
@@ -196,7 +198,7 @@
                                     <li>
                                         <a href="tel:+002562352589" class="call">
                                             <i class="lni lni-phone-set"></i>
-                                            +00 256 235 2589
+                                            +216 {{product.numero}}
                                             <span>Call & Get more info</span>
                                         </a>
                                     </li>

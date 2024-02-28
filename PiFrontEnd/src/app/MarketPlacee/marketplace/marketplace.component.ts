@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../Service/product.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../../model/product';
+import { map } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ImageProcessingService } from 'src/app/image/image-processing.service';
 
 @Component({
   selector: 'app-marketplace',
@@ -10,44 +13,38 @@ import { Product } from '../../model/product';
   styleUrls: ['./marketplace.component.css']
 })
 export class MarketplaceComponent implements OnInit {
-
+p:number=1;
   searchTerm: any ;
-  public getproduct: Product[] = []; // Initialisation avec un tableau vide
-  constructor(
-    private httpClient: HttpClient,
-    private productService: ProductService,
-    private router: Router,
-    
-  ) { }
-  showForm: boolean = false;
-  toggleForm() {
-    this.showForm = !this.showForm;
-  }
+  public productDetails: Product[] = [];
+
+  constructor(private router : Router,private productservice:ProductService,private sanitizer:DomSanitizer,private imageProcessingService:ImageProcessingService){}
   ngOnInit(): void {
-    this.productService.getAllProduct().subscribe((data:any)=>{
-      console.log(data)
-      this.getproduct=data;
-    })
+    this.getAllProduct();
   }
+  public getAllProduct(){
+    this.productservice.getAllProduct(this.pageNumber).
+    pipe(
+     map((products: Product[],i) => products.map((product: Product) => this.imageProcessingService.createImages(product)))
   
-
-  goToProduct(id:number){
-    this.router.navigate(['detail' , id]);
-  }
-  formData: FormData = new FormData();
-
-  onSubmit() {
-    this.productService.addProduct(this.formData).subscribe(
-      () => {
-        console.log('Produit ajouté avec succès');
-        // Réinitialiser le formulaire ou rediriger vers une autre page
-      },
-      error => {
-        console.error('Erreur lors de l\'ajout du produit:', error);
-        // Gérer l'erreur
-      }
+    ).
+    subscribe(
+      (resp:Product[])=>{
+      console.log(resp);
+      this.productDetails=resp;
+    },(error:HttpErrorResponse )=>{
+      console.log(error);
+    }
     );
   }
+
+  goToProduct(id:any){
+    this.router.navigate(['/detail',{id:id}]);
+  }
+
+  formData: FormData = new FormData();
+
+ 
+  product!:Product ;
 
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
@@ -55,5 +52,36 @@ export class MarketplaceComponent implements OnInit {
       this.formData.append('image', file);
     }
   }
+  /////////////////////////
+  pageNumber: number = 0;
+  showLoadButton = false;
 
+
+ 
+  public getAllProducts(){
+    this.productservice.getAllProduct(this.pageNumber)
+    .pipe(
+      map((x: Product[], i) => x.map((product: Product) => this.imageProcessingService.createImages(product)))
+    )
+    .subscribe(
+      (resp: Product[]) =>{
+        console.log(resp);
+        if(resp.length == 8){
+          this.showLoadButton = true;
+        }else{this.showLoadButton = false}
+        resp.forEach(p => this.productDetails.push(p));
+        // this.productDetails = resp;
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+
+    );
+  }
+
+  public loadMoreProduct(){
+
+    this.pageNumber = this.pageNumber+1;
+    this.getAllProducts();
+  }
+// | paginate :{itemsPerPage:5,currentPage:p};
 }

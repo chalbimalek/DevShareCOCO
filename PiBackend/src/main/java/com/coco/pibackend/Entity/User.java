@@ -29,8 +29,7 @@ public class User implements Serializable {
     Set<AnnonceCollocation>annonceCollocations;
     @OneToMany(mappedBy = "user")
     private Set<Blog>blogs;
-    @OneToOne(mappedBy = "user")
-    private Profil profil;
+
     @OneToMany(mappedBy = "user")
     private Set<Events> events;
     @OneToMany(mappedBy = "user")
