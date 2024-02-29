@@ -22,7 +22,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     @OneToMany(mappedBy = "user")
-    private Set<AnnonceCarpoling> annonceCarpolingSet;
+    private Set<AnnonceCarpooling> annonceCarpolingSet;
     @OneToMany(mappedBy = "user")
     private Set<MarketPlace> marketPlaces;
     @OneToMany(mappedBy = "user")

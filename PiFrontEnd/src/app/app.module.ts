@@ -13,6 +13,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { FilterPipe } from './filter.pipe';
+import { AddCarpoolingComponent } from './carpooling/add-carpooling/add-carpooling.component';
+import { CarpoolingListComponent } from './carpooling/carpooling-list/carpooling-list.component';
+import { CarpoolingDetailsComponent } from './carpooling/carpooling-details/carpooling-details.component';
+import { ReactiveComponent } from './carpooling/reactive/reactive.component';
+
+
+
+
+
 
 
 @NgModule({
@@ -24,6 +33,12 @@ import { FilterPipe } from './filter.pipe';
     NavbarComponent,
     FooterComponent,
     FilterPipe,
+    AddCarpoolingComponent,
+    CarpoolingListComponent,
+    CarpoolingDetailsComponent,
+    ReactiveComponent,
+    
+   
     
   ],
   imports: [
@@ -34,7 +49,8 @@ import { FilterPipe } from './filter.pipe';
     BrowserAnimationsModule,
     MatFormFieldModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+  
   ],
   providers: [],
   bootstrap: [AppComponent]
