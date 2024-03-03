@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Product } from '../model/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Media } from '../model/Media';
 
 
 @Injectable({
@@ -14,17 +13,16 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  addProduct(productData: FormData): Observable<Product> {
-    const headers = new HttpHeaders();
-    
-    // Utilisez les en-têtes définis pour l'envoi de données
-    return this.httpClient.post<Product>(`${this.baseUrl}/addd`,productData, {headers});
+  addProduct(productData: FormData){
+
+        // Utilisez les en-têtes définis pour l'envoi de données
+    return this.httpClient.post<Product>(`${this.baseUrl}/addd`,productData);
   }
   public getProductById(pid:number){
-    return this.httpClient.get<Product>(`${this.baseUrl}/${pid}`)
+    return this.httpClient.get<Product>("http://localhost:8080/api/"+pid)
   }
-  public getAllProduct(){
-    return this.httpClient.get<Product[]>(this.baseUrl + "/getall")
+  public getAllProduct(pageNumber:any){
+    return this.httpClient.get<Product[]>(this.baseUrl + "/getall?pageNumber="+pageNumber)
   }
 
 
@@ -39,6 +37,9 @@ export class ProductService {
     // Exécuter la requête HTTP GET avec la chaîne de requête
     return this.httpClient.get<Product[]>(`${this.baseUrl}?${queryString}`);
   }
+  public deleteProduct(id:number){
+   return this.httpClient.delete("http://localhost:8080/api"+"/delete/"+id);
+    }
 
 }
 

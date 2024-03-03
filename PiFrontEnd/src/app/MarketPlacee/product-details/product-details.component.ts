@@ -8,19 +8,22 @@ import { Product } from '../../model/product';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-   product !:Product
-   id!: number 
+  selectProductIndex = 0;
+  product!: Product;
    constructor(
      private productService: ProductService,
      private route: ActivatedRoute
    ) {}
   
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id']; // Vérifiez que 'id' est correctement extrait des paramètres de l'URL
-      this.productService.getProductById(this.id).subscribe((data) => {
-        this.product = data;
-        console.log(data);
-      });
-    };
+  
+    this.product = this.route.snapshot.data['product'];
+    
   }
+
+  changeIndex(index:any){
+    this.selectProductIndex=index;
+  }
+
+}
 
