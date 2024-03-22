@@ -14,7 +14,7 @@ import { ImageProcessingService } from 'src/app/image/image-processing.service';
 })
 export class MarketplaceComponent implements OnInit {
 p:number=1;
-  searchTerm: any ;
+  searchTerm: string='' ;
   public productDetails: Product[] = [];
 
   constructor(private router : Router,private productservice:ProductService,private sanitizer:DomSanitizer,private imageProcessingService:ImageProcessingService){}
@@ -36,9 +36,15 @@ p:number=1;
     }
     );
   }
+  get filteredProducts() {
+    return this.productDetails.filter(product => {
+      // Filtrer les produits en fonction du terme de recherche
+      return product.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+    });
+  }
 
   goToProduct(id:any){
-    this.router.navigate(['/detail',{id:id}]);
+    this.router.navigate(['/detailback',{id:id}]);
   }
 
   formData: FormData = new FormData();
@@ -77,11 +83,28 @@ p:number=1;
 
     );
   }
-
-  public loadMoreProduct(){
-
-    this.pageNumber = this.pageNumber+1;
-    this.getAllProducts();
+  pages !:Array<number>;
+  setpage(i:any,event:any){
+     event.preventDefault();
+     this.pageNumber=i;
+     this.getAllProduct();
   }
+ 
+  updatePriceRange(event: Event) {
+    const target = (event.target as HTMLInputElement);
+    if (target && target.value) {
+        const price = +target.value; // Convertir en nombre
+        if (!isNaN(price)) { // Vérifier si la conversion est valide
+            this.productDetails = this.productDetails.filter(product =>{     console.log('Prix du produit :', product.price);
+            return product.price <= price;} );
+        }
+    }
+}
+
+
+
+
+  
+  currentDate: Date = new Date();
 // | paginate :{itemsPerPage:5,currentPage:p};
 }

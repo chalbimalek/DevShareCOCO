@@ -94,9 +94,9 @@
   <ul class="menu-inner py-1 overflow-auto">
     <!-- Dashboard -->
     <li class="menu-item active">
-      <a href="index.html" class="menu-link">
+      <a class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
-        <div data-i18n="Analytics">Dashboard</div>
+        <div data-i18n="Analytics" routerLink="list">Dashboard</div>
       </a>
     </li>
 
@@ -104,13 +104,13 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
-        <div data-i18n="Layouts" routerLink="/back/listP">Layouts</div>
+        <div data-i18n="Layouts" routerLink="showback">Layouts</div>
       </a>
 
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="layouts-without-menu.html" class="menu-link">
-            <div data-i18n="Without menu">Without menu</div>
+            <div data-i18n="Without menu" routerLink="/addproduitBack">Without menu</div>
           </a>
         </li>
         <li class="menu-item">

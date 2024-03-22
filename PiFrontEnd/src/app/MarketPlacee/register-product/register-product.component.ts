@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/model/file_handle.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 export interface Fruit {
   name: string;
 }
@@ -34,7 +35,7 @@ export class RegisterProductComponent  implements OnInit {
     adresse:"",
     numero:0,
     brand:"",
-    imageModels:[]
+    imageModels:[],
   }
   ngOnInit(): void {
    
@@ -50,7 +51,7 @@ export class RegisterProductComponent  implements OnInit {
 
   }
   constructor(
-    private productService: ProductService , private sannitizer: DomSanitizer) {
+    private productService: ProductService ,private router :Router, private sannitizer: DomSanitizer) {
     this.productFormm = new FormGroup({
       name: new FormControl("inserer", [Validators.required]),
       description: new FormControl("", [Validators.required]),
@@ -119,8 +120,16 @@ export class RegisterProductComponent  implements OnInit {
     this.productService.addProduct(preparedFormData).subscribe(
       (response :Product) => {
         console.log('Produit ajouté avec succès');
+
         productForm.reset;
-        this.product.imageModels=[]
+        this.product.imageModels=[];
+        productForm.resetForm();
+      
+        // Rediriger vers la liste des produits
+        this.router.navigate(['/marketplace']);
+  
+        // Afficher une alerte de succès
+        Swal.fire('Success!', 'Produit ajouté avec succès', 'success');
         // Réinitialiser le formulaire ou rediriger vers une autre page
       },
       (error:HttpErrorResponse) => {
@@ -180,6 +189,7 @@ export class RegisterProductComponent  implements OnInit {
   // Retourner false si selectfile, selectfile.nativeElement ou selectfile.nativeElement.files sont nuls
   return false;
 }
+currentDate!: Date;
 
   
 }

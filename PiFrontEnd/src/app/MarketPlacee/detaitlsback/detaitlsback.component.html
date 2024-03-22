@@ -18,27 +18,33 @@
 
         </div>
         <div class="col-6">
-            <div class="product-information">
-                <div class="mt-3">
-                   <h2> {{product.name}}</h2>
-                </div>
-                <div class="mt-3">
-                    Description: <br>
-                    {{product.description}}
-                </div>
+  <mat-card class="product-card">
+    <mat-card-content>
 
-                <div class="mt-3">                    
-                   <b>Rs. {{product.price}}</b> &nbsp;  <b style="text-decoration: line-through; color: red;">{{product.price}} </b>
-                </div>
+      <div class="mt-3">
+        <h2>{{product.name}}</h2>
+      </div>
+      <div class="mt-3">
+        <h4>Brand  :{{product.brand}}</h4>
+      </div>
+      <div class="mt-3">
+        Description: <br>
+        {{product.description}}
+      </div>
 
-                <div class="mt-5 text-center">                    
-                    <button mat-raised-button color="warn" style="width: 200px;" >Buy Now</button>
-                
-                    &nbsp;
-                    <button mat-raised-button  style="width: 200px; color: gold;" >Add to Cart</button>
-                </div>
-            </div>
-            
-        </div>
-    </div>
+      <div class="mt-3">
+        <b style="color: blueviolet;">Rs. {{product.price}} dt</b> &nbsp;
+      </div>
+      <p class="location">
+        <i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{product.adresse}} </a>
+      </p>
+      <hr>
+      <button mat-raised-button color="accent">Call me : Num +216 {{product.numero}}</button>
+      <hr>
+    </mat-card-content>
+  </mat-card>
+  <canvas class="qr-code" #qrcode> </canvas> <b>QR code</b>
+</div>
+
+
 </div>

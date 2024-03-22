@@ -29,7 +29,22 @@ import { AlltemplateBackComponent } from './BackOffice/alltemplate-back/alltempl
 import { FooterBackComponent } from './BackOffice/footer-back/footer-back.component';
 import { NavbarBackComponent } from './BackOffice/navbar-back/navbar-back.component';
 import { SidebarBackComponent } from './BackOffice/sidebar-back/sidebar-back.component';
-import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationModule depuis ngx-pagination
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
+import { AlltemplatefrontComponent } from './FrontOffice/alltemplatefront/alltemplatefront.component';
+import { FooterfrontComponent } from './FrontOffice/footerfront/footerfront.component'; // Importez NgxPaginationModule depuis ngx-pagination
+import * as QRCode from 'qrcode';
+import { RegisterCarpoolingComponent } from './Carpooling/register-carpooling/register-carpooling.component';
+import { ListCarpoolingComponent } from './Carpooling/list-carpooling/list-carpooling.component';
+import { DetailsCarpoolingComponent } from './Carpooling/details-carpooling/details-carpooling.component';
+import { DateFormatPipe } from './date-format.pipe'; // Importez la bibliothèque qrcode
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { SignupComponent } from './signup/signup.component';
+import { GuardComponent } from './guard/guard.component';
+import { LoginComponent } from './login/login.component';
+import { ProfilComponent } from './profil/profil.component';
+import { GoogleRecaptchaComponent } from './google-recaptcha/google-recaptcha.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -52,6 +67,18 @@ import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationM
     FooterBackComponent,
     NavbarBackComponent,
     SidebarBackComponent,
+    NavbarFrontComponent,
+    AlltemplatefrontComponent,
+    FooterfrontComponent,
+    RegisterCarpoolingComponent,
+    ListCarpoolingComponent,
+    DetailsCarpoolingComponent,
+    DateFormatPipe,
+    SignupComponent,
+    GuardComponent,
+    LoginComponent,
+    ProfilComponent,
+    GoogleRecaptchaComponent,
     
   ],
   imports: [
@@ -70,7 +97,9 @@ import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationM
     MatDialogModule,
     CommonModule,
     MatCardModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatDatepickerModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

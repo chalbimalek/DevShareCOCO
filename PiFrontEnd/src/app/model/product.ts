@@ -12,4 +12,5 @@ export interface Product{
   description:string;
   brand:string;
   imageModels:FileHandle[];
+
   }
