@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../Service/auth.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profil',
@@ -7,10 +8,10 @@ import { AuthService } from '../Service/auth.service';
   styleUrls: ['./profil.component.css']
 })
 export class ProfilComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private matDialog: MatDialog,) {}
 
   logout() {
     this.authService.logout(); // Appelle la méthode de déconnexion
   }
-
+  
 }

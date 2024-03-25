@@ -156,7 +156,7 @@
                                                 <!-- Start Single Item -->
                                                 <div class="single-item-grid" >
                                                     <div class="image">
-                                                        <img [src]="a.imageModels[0].url" alt="#" class="product-image image-size" >
+                                                        <img [src]="a.imageModels[0].url" alt="#" class="product-image image-size" (click)="goToProduct(a.idProduct)">
                                                         <ng-container *ngIf=" a.imageModels.length > 1">
                                                             <div class="plus-icon">
                                                               +
@@ -178,9 +178,7 @@
                                                                         class="lni lni-heart"></i></a>
                                                             </li>
                                                         </ul>
-                                                        <div class="mt-2" class="button-container">
-                                                            <button type="button"  color="red" (click)="goToProduct(a.idProduct)">View Details</button>
-                                                         </div>
+                                                   
                                                     </div>
                                                 </div>
                                                

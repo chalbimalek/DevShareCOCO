@@ -20,6 +20,16 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfilComponent } from './profil/profil.component';
 import { AuthGuardService } from './Service/auth-guard.service';
+import { CartComponent } from './cart/cart.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
+import { BuyProductResolverService } from './buy-product-resolver.service';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { OrderDetaisComponent } from './order-detais/order-detais.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
+import { CollocationResolveService } from './Collocation/ImageCollocation/collocation-resolve.service';
+import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
+import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
@@ -41,7 +51,16 @@ const routes: Routes = [
     component: ProfilComponent,
    
   },
+  {path:'listCollocation',  canActivate: [AuthGuardService],component: ListCollocationComponent},
+  {path:'detailsColl',  canActivate: [AuthGuardService],component: DetailsCollocationComponent,resolve: { product: CollocationResolveService }},
+  {path:'addCollocation',  canActivate: [AuthGuardService],component: AddCollocationComponent},
+
   {path:'marketplace',  canActivate: [AuthGuardService],component: MarketplaceComponent},
+  {path:'cart',component: CartComponent},
+{path:'buyProduct',component:BuyProductComponent,  resolve: {
+  productDetails: BuyProductResolverService} },
+  { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService], data:{roles:['User']} },
+{path:'paiment',component:PaymentComponent ,  canActivate:[AuthGuardService]},
   {path:'registerproduct', component: RegisterProductComponent},
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
@@ -60,7 +79,8 @@ const routes: Routes = [
   resolve:{
     product:ProductResolveBackService
   }},
-  
+  { path: 'orderInformation' , component: OrderDetaisComponent ,  canActivate:[AuthGuardService]},
+
 
 {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
 

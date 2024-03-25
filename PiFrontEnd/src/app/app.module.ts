@@ -45,6 +45,17 @@ import { LoginComponent } from './login/login.component';
 import { ProfilComponent } from './profil/profil.component';
 import { GoogleRecaptchaComponent } from './google-recaptcha/google-recaptcha.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartComponent } from './cart/cart.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { OrderDetaisComponent } from './order-detais/order-detais.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
+import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
+import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
 
 
 
@@ -79,6 +90,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     LoginComponent,
     ProfilComponent,
     GoogleRecaptchaComponent,
+    CartComponent,
+    BuyProductComponent,
+    MyOrdersComponent,
+    OrderDetaisComponent,
+    PaymentComponent,
+    SnackbarComponent,
+    AddCollocationComponent,
+    ListCollocationComponent,
+    DetailsCollocationComponent,
     
   ],
   imports: [
@@ -99,7 +119,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     NgxPaginationModule,
     MatDatepickerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

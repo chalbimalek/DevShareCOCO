@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { OrderDetails } from '../model/OrderDetails';
+import { MyOrderDetails } from '../model/MyOrderDetails';
 
 
 @Injectable({
@@ -41,5 +43,47 @@ export class ProductService {
    return this.httpClient.delete("http://localhost:8080/api"+"/delete/"+id);
     }
 
+    public addToCart(productId:any){
+      return this.httpClient.get("http://localhost:8080/api/addToCart/"+productId);
+     }
+
+     public getCartDetails(){
+      return this.httpClient.get("http://localhost:8080/api/getCartDetails");
+     }
+
+     public getProductDetails(isSingeProductCheckout:any,productId:any){
+      return this.httpClient.get<Product[]>("http://localhost:8080/api/getProductDetails/"+isSingeProductCheckout+"/"+productId);
+     }
+  
+     public placeOrder(orderDetails: OrderDetails, isCartCheckout:any){
+      return this.httpClient.post("http://localhost:8080/api/placeOrder/"+isCartCheckout, orderDetails);
+     }
+     public getAllOrderDetailsForAdmin() : Observable<MyOrderDetails[]>{
+      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getAllOrderDetails");
+     }
+  
+    public getMyOrders() : Observable<MyOrderDetails[]>{
+      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getOrderDetails");
+     }
+  
+    public deleteCartItem(cartId:any){
+      return this.httpClient.delete("http://localhost:8080/api/deleteCartItem/"+cartId);
+     }
+  
+     markOrderAsDelivered(orderId: any): Observable<any> {
+      return this.httpClient.get("http://localhost:8080/api/markOrderAsDelivered/" + orderId)
+        .pipe(
+          tap(() => {
+            this.orderDeliveredSubject.next(true); // Mettre à jour l'état de la commande livrée
+          })
+        );
+    }
+  
+    getOrderDeliveredState(): Observable<boolean> {
+      return this.orderDeliveredSubject.asObservable();
+    }
+     private orderDeliveredSubject = new BehaviorSubject<boolean>(false);
+
+  
 }
 

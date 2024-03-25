@@ -3,6 +3,7 @@ import { ProductService } from '../../Service/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../model/product';
 import * as QRCode from 'qrcode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detaitlsback',
@@ -10,6 +11,20 @@ import * as QRCode from 'qrcode';
   styleUrls: ['./detaitlsback.component.css']
 })
 export class DetaitlsbackComponent implements OnInit {
+addToCart(productId: any) {
+
+   this.productService.addToCart(productId).subscribe(
+    
+    
+      (response) => {
+        console.log(response);
+        Swal.fire('Success!', 'Produit ajouté avec succès dans le cart', 'success');
+
+      },(error) => {
+        console.log(error)
+      }
+    )
+    console.log(productId);}
 
   selectProductIndex = 0;
   product!: Product;

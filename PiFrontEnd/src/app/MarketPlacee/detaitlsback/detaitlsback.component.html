@@ -41,6 +41,13 @@
       <hr>
       <button mat-raised-button color="accent">Call me : Num +216 {{product.numero}}</button>
       <hr>
+      <div class="mt-5 text-center">                    
+        <button mat-raised-button color="warn" style="width: 200px;" >Buy Now</button>
+    
+        &nbsp;
+        <button mat-raised-button  style="width: 200px; color: gold;" (click)="addToCart(product.idProduct)">Add to Cart</button>
+    </div>
+
     </mat-card-content>
   </mat-card>
   <canvas class="qr-code" #qrcode> </canvas> <b>QR code</b>
