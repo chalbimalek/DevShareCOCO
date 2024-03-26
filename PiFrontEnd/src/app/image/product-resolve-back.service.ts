@@ -40,7 +40,7 @@ export class ProductResolveBackService implements Resolve<Product>{
       brand: "",
       adresse:"",
       numero:0,
-      imageModels: []
+      imageModels: [],
     };
   }
 }

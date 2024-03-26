@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student extends User  {
+public class Student  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id_user;

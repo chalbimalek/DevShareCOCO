@@ -7,6 +7,7 @@ import { ProdutShowDialogComponent } from '../produt-show-dialog/produt-show-dia
 import { ImageProcessingService } from '../../image/image-processing.service';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-show-product-details',
@@ -42,15 +43,30 @@ displayedColumns: string[] = ['idProduct', 'Name', 'brand', 'description','image
   }
 
  public deleteProduct(id : number){
-this.productservice.deleteProduct(id).subscribe(
-  (resp)=>{
-    console.log("delete successed");
-this.getAllProduct();
-  },
-  (error:HttpErrorResponse)=>{
-    console.log(error); 
-  }
-);
+  Swal.fire({
+    title: 'Confirmation',
+    text: 'Êtes-vous sûr de vouloir supprimer ce produit ?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result:SweetAlertResult) => {
+    if (result.isConfirmed) {
+      this.productservice.deleteProduct(id).subscribe(
+        () => {
+          console.log("Suppression réussie");
+          this.getAllProduct();
+          Swal.fire('Success!', 'Produit supprimée avec succès', 'success');
+
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      );
+    }
+  });
   }
   showImages(product:Product){
     console.log(product);
@@ -64,12 +80,12 @@ this.getAllProduct();
     
   }
   editProduct(id:any){
-    this.route.navigate(['/addproduitBack',{id : id}])
+    this.route.navigate(['back/addproduitBack',{id : id}])
     
 
   }
 
   add(){
-      this.route.navigate(['/addproduitBack'])
+      this.route.navigate(['back/addproduitBack'])
   }
 }

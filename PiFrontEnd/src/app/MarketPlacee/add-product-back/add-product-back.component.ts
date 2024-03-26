@@ -27,7 +27,7 @@ isnewProduct=true;
     price:0,
     description:"",
     brand:"",
-    imageModels:[]
+    imageModels:[],
   };
   ngOnInit(): void {
   this.product= this.activatedRouter.snapshot.data['product'];
@@ -108,7 +108,7 @@ isnewProduct=true;
   }
  
 showproduct(){
-  this.route.navigate(['/show'])
+  this.route.navigate(['back/showback'])
 }
 
 @ViewChild('selectfile') selectfile!: ElementRef<HTMLInputElement>;
