@@ -6,6 +6,7 @@ import { ProductService } from '../../Service/product.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/model/file_handle.model';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Category } from 'src/app/model/enumerations/Category';
 
 @Component({
   selector: 'app-add-product-back',
@@ -28,6 +29,7 @@ isnewProduct=true;
     description:"",
     brand:"",
     imageModels:[],
+    category: Category.ELECTRONICS
   };
   ngOnInit(): void {
   this.product= this.activatedRouter.snapshot.data['product'];

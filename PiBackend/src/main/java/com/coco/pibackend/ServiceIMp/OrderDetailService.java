@@ -9,6 +9,8 @@ import com.coco.pibackend.Security.JWT.AuthTokenFilter;
 import com.coco.pibackend.dao.ProductDao;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,8 +41,8 @@ public class OrderDetailService {
     }
 
     public List<OrderDetail> getOrderDetails() {
-        String currentUser = AuthTokenFilter.CURRENT_USER;
-        User user = userDao.findByUsername(currentUser).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User user = userDao.findByUsername(username).get();
 
         return orderDetailDao.findByUser(user);
     }
@@ -51,8 +53,9 @@ public class OrderDetailService {
         for(OrderProductQuantity o: productQuantityList) {
             Product product = productDao.findById(o.getProductId()).get();
 
-            String currentUser = AuthTokenFilter.CURRENT_USER;
-            User user= userDao.findByUsername(currentUser).get();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user= userDao.findByUsername(username).get();
 
             OrderDetail orderDetail = new OrderDetail(
                     orderInput.getFullName(),
@@ -80,7 +83,9 @@ public class OrderDetailService {
             orderDetailDao.save(orderDetail);
         }
     }
-
+    public List<String> getMostPurchasedCategory() {
+        return orderDetailDao.findMostPurchasedCategory();
+    }
 
 
 }

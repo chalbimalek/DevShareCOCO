@@ -12,5 +12,5 @@ import java.util.List;
 public interface CartDao extends CrudRepository<Cart, Integer> {
 
     public List<Cart> findByUser(User user);
-
+    public Cart findCartByUser(User user);
 }

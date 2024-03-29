@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../model/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { OrderDetails } from '../model/OrderDetails';
 import { MyOrderDetails } from '../model/MyOrderDetails';
+import { Category } from '../model/enumerations/Category';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -13,7 +15,9 @@ export class ProductService {
 
   private baseUrl = 'http://localhost:8080/api'; // L'URL de base de votre backend
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private authservice:AuthService, private httpClient: HttpClient) { }
+
+
 
   addProduct(productData: FormData){
 
@@ -44,34 +48,74 @@ export class ProductService {
     }
 
     public addToCart(productId:any){
-      return this.httpClient.get("http://localhost:8080/api/addToCart/"+productId);
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get("http://localhost:8080/api/addToCart/"+productId, { headers });
      }
 
      public getCartDetails(){
-      return this.httpClient.get("http://localhost:8080/api/getCartDetails");
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get("http://localhost:8080/api/getCartDetails", { headers });
      }
 
      public getProductDetails(isSingeProductCheckout:any,productId:any){
-      return this.httpClient.get<Product[]>("http://localhost:8080/api/getProductDetails/"+isSingeProductCheckout+"/"+productId);
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get<Product[]>("http://localhost:8080/api/getProductDetails/"+isSingeProductCheckout+"/"+productId, { headers });
      }
   
      public placeOrder(orderDetails: OrderDetails, isCartCheckout:any){
-      return this.httpClient.post("http://localhost:8080/api/placeOrder/"+isCartCheckout, orderDetails);
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.post("http://localhost:8080/api/placeOrder/"+isCartCheckout, orderDetails, { headers });
      }
      public getAllOrderDetailsForAdmin() : Observable<MyOrderDetails[]>{
-      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getAllOrderDetails");
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getAllOrderDetails", { headers });
      }
   
     public getMyOrders() : Observable<MyOrderDetails[]>{
-      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getOrderDetails");
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get<MyOrderDetails[]>("http://localhost:8080/api/getOrderDetails", { headers });
      }
   
     public deleteCartItem(cartId:any){
-      return this.httpClient.delete("http://localhost:8080/api/deleteCartItem/"+cartId);
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.delete("http://localhost:8080/api/deleteCartItem/"+cartId, { headers });
      }
   
      markOrderAsDelivered(orderId: any): Observable<any> {
-      return this.httpClient.get("http://localhost:8080/api/markOrderAsDelivered/" + orderId)
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get("http://localhost:8080/api/markOrderAsDelivered/" + orderId, { headers })
         .pipe(
           tap(() => {
             this.orderDeliveredSubject.next(true); // Mettre à jour l'état de la commande livrée
@@ -80,10 +124,24 @@ export class ProductService {
     }
   
     getOrderDeliveredState(): Observable<boolean> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
       return this.orderDeliveredSubject.asObservable();
     }
      private orderDeliveredSubject = new BehaviorSubject<boolean>(false);
+     ///////////
+     getProductsByCategory(category: Category): Observable<Product[]> {
+      return this.httpClient.get<Product[]>(this.baseUrl+"/products", { params: { category: category } });
+    }
 
+    getMostPurchasedCategory(): Observable<string[]> {
+      return this.httpClient.get<string[]>("http://localhost:8080/api/statistics/most-purchased-category");
+    }
+    
+    
   
 }
 

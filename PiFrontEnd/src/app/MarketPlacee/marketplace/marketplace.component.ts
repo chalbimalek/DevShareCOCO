@@ -6,6 +6,7 @@ import { Product } from '../../model/product';
 import { map } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageProcessingService } from 'src/app/image/image-processing.service';
+import { Category } from 'src/app/model/enumerations/Category';
 
 @Component({
   selector: 'app-marketplace',
@@ -107,4 +108,38 @@ p:number=1;
   
   currentDate: Date = new Date();
 // | paginate :{itemsPerPage:5,currentPage:p};
+
+
+///////////////
+categories: { name: Category; iconClass: string; }[] = [
+  { name: Category.ELECTRONICS, iconClass: 'lni lni-dinner' },
+  { name: Category.FASHION, iconClass: 'lni lni-control-panel' },
+  { name: Category.HOMEANDGARDEN, iconClass: 'lni lni-bullhorn' }
+  // Ajoutez d'autres catégories si nécessaire
+];
+
+
+loadProductsByCategory(category: Category): void {
+  this.selectedCategory = category;
+  this.productservice.getProductsByCategory(category)
+    .subscribe(products => {
+      this.productDetails = products.map(product => this.imageProcessingService.createImages(product));
+    });
+}
+
+selectedCategory!: Category  | string;
+
+isSelected(category: any): boolean {
+  if (typeof this.selectedCategory === 'string' && this.selectedCategory === 'all') {
+    return category === 'all'; // Si selectedCategory est 'all', retourne true seulement si category est 'all'
+  } else {
+    return this.selectedCategory === category.name; // Compare avec category.name seulement si selectedCategory est de type Category
+  }
+}
+showAllProducts(){
+  this.selectedCategory='all';
+  this.getAllProduct()
+}
+
+
 }

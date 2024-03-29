@@ -10,6 +10,7 @@ export interface Product{
   quantity:number;
   price:number;
   description:string;
+  category:Category
   brand:string;
   imageModels:FileHandle[];
 

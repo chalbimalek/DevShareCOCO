@@ -17,7 +17,14 @@ export class AuthService {
   register(signupRequest: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/signup`, signupRequest);
   }
+  setToken(token: string): void {
+    localStorage.setItem('accessToken', token);
+  }
 
+  // Méthode pour récupérer le token JWT depuis le localStorage
+  getToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
   login(loginRequest: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/signin`, loginRequest).pipe(
       map((response: any) => {
@@ -67,6 +74,8 @@ export class AuthService {
         const decodedToken: any = jwt_decode(token);
         // Récupérer l'ID de l'utilisateur à partir du token décrypté
         const userId = decodedToken.sub;
+        console.log("eeeeeeeee"+userId);
+        
         return userId;
       } catch (error) {
         console.error('Erreur lors du décryptage du token JWT:', error);

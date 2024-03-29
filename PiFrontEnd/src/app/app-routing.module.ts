@@ -56,8 +56,8 @@ const routes: Routes = [
   {path:'addCollocation',  canActivate: [AuthGuardService],component: AddCollocationComponent},
 
   {path:'marketplace',  canActivate: [AuthGuardService],component: MarketplaceComponent},
-  {path:'cart',component: CartComponent},
-{path:'buyProduct',component:BuyProductComponent,  resolve: {
+  {path:'cart',  canActivate: [AuthGuardService],component: CartComponent},
+{path:'buyProduct',  canActivate: [AuthGuardService],component:BuyProductComponent,  resolve: {
   productDetails: BuyProductResolverService} },
   { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService], data:{roles:['User']} },
 {path:'paiment',component:PaymentComponent ,  canActivate:[AuthGuardService]},

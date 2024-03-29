@@ -59,6 +59,8 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
 
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/model/file_handle.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Category } from 'src/app/model/enumerations/Category';
 export interface Fruit {
   name: string;
 }
@@ -36,6 +37,7 @@ export class RegisterProductComponent  implements OnInit {
     numero:0,
     brand:"",
     imageModels:[],
+    category: Category.ELECTRONICS
   }
   ngOnInit(): void {
    
@@ -190,6 +192,17 @@ export class RegisterProductComponent  implements OnInit {
   return false;
 }
 currentDate!: Date;
+
+
+
+categoryOptions = Object.values(Category).map(value => ({ label: value, value: value }));
+
+onCategoryChange(event: any) {
+  this.product.category = event.target.value;
+  console.log("Selected Category:", this.product.category);
+  // Autres traitements à effectuer lorsque la catégorie est sélectionnée
+}
+
 
   
 }

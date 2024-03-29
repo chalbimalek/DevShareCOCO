@@ -14,6 +14,8 @@ import com.coco.pibackend.execption.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -65,8 +67,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void removeNotification(User receiver, Post owningPost, String type) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         Notification targetNotification = getNotificationByReceiverAndOwningPostAndType(receiver, owningPost, type);
         if (targetNotification.getSender() != null && targetNotification.getSender().equals(authUser)) {
             targetNotification.setSender(null);
@@ -77,8 +79,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotificationsForAuthUserPaginate(Integer page, Integer size) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         return notificationRepository.findNotificationsByReceiver(
                 authUser,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "dateUpdated"))
@@ -87,8 +89,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void markAllSeen() {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         notificationRepository.findNotificationsByReceiverAndIsSeenIsFalse(authUser)
                 .forEach(notification -> {
                     if (notification.getReceiver().equals(authUser)) {
@@ -101,8 +103,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void markAllRead() {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         notificationRepository.findNotificationsByReceiverAndIsReadIsFalse(authUser)
                 .forEach(notification -> {
                     if (notification.getReceiver().equals(authUser)) {

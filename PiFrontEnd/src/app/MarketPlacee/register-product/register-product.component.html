@@ -43,9 +43,9 @@
                     <!-- Start Dashboard Sidebar -->
                     <div class="dashboard-sidebar">
                         <div class="user-image">
-                            <img src="assets/images/dashboard/user-image.jpg" alt="#">
-                            <h3>Steve Aldridge
-                                <span><a href="javascript:void(0)">@username</a></span>
+                            <img src="assets/images/dashboard/1.jpg" alt="#">
+                            <h3>Malek Chalbi
+                                <span><a href="javascript:void(0)">@</a></span>
                             </h3>
                         </div>
                         <div class="dashboard-menu">
@@ -148,6 +148,13 @@
                                                   <div *ngIf="numero.errors && numero.errors['pattern']">Numero must be 8 digits.</div>
                                                 </div>
                                               </div>
+                                              <select class="form-select" id="categorySelect" name="category" [(ngModel)]="product.category" required #category="ngModel" (change)="onCategoryChange($event)">
+                                                <option value="" disabled selected>Choisissez une catégorie</option>
+                                                <option *ngFor="let option of categoryOptions" [value]="option.value">{{ option.label }}</option>
+                                              </select>
+                                              <div *ngIf="category.invalid && (category.dirty || category.touched)" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                                <div *ngIf="category.errors && category.errors['required']">Le lieux est requis.</div>
+                                            </div>
                                               <div class="form-outline mb-4">
                                                 <label class="form-label" for="form3Example1n">price</label>
                                                 <input class="form-control" type="number" id="form3Example1n" name="price"  [(ngModel)]="product.price"required min="0" max="10000" #price="ngModel">

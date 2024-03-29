@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
     public void followUser(String userId) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepository.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepository.findByUsername(username).get();
 
         if (!authUser.getId().equals(userId)) {
             User userToFollow = getUserById(userId);
@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public void unfollowUser(String userId) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepository.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepository.findByUsername(username).get();
 
         if (!authUser.getId().equals(userId)) {
             User userToUnfollow = getUserById(userId);
@@ -111,7 +111,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserResponse userToUserResponse(User user) {
-        String username = AuthTokenFilter.CURRENT_USER;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         return UserResponse.builder()
                 .user(user)
                 .followedByAuthUser(user.getFollowerUsers().contains(username))

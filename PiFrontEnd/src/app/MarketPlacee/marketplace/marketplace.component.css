@@ -41,3 +41,7 @@
     height: 200px; /* Hauteur fixe de l'image */
     object-fit: cover; /* Ajuster la taille de l'image pour remplir le conteneur tout en préservant le rapport hauteur/largeur */
 }
+.selected-button {
+  background-color: #3366ff; /* Couleur de fond du bouton sélectionné */
+  color: white; /* Couleur du texte du bouton sélectionné */
+}
