@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../model/product';
 import * as QRCode from 'qrcode';
 import Swal from 'sweetalert2';
+import { ProductRating } from 'src/app/model/ProductRating';
+import { QRDialogComponent } from 'src/app/qrdialog/qrdialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
 
 @Component({
   selector: 'app-detaitlsback',
@@ -30,12 +34,12 @@ addToCart(productId: any) {
   product!: Product;
 
   constructor(private activatedRoute: ActivatedRoute, private router : Router,
-    private productService: ProductService) { }
+    private productService: ProductService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
    this.product = this.activatedRoute.snapshot.data['product'];
-    
+    this.getproductraitingbyproduct(this.product.idProduct);
   }
 
   changeIndex(index:any){
@@ -49,32 +53,79 @@ addToCart(productId: any) {
     address: 'Adresse du produit'
   };
 
-  @ViewChild('qrcode', { static: false }) qrcode!: ElementRef;
 
-  ngAfterViewInit(): void {
-    const qrData = this.constructQRData(this.product); // Méthode pour construire les données du code QR
-    this.generateQRCode(qrData);
-  }
+  openQRDialog(): void {
+    const dialogRef = this.dialog.open(QRDialogComponent, {
+      width: '300px',
+      data: { product: this.product } // Passer l'URL de votre code QR à afficher
+    });
 
-  constructQRData(product:any): string {
-    // Construisez ici les données pour le code QR à partir des informations de la carte
-    const productWithoutImage = { ...product };
-    delete productWithoutImage.imageModels; 
-    return JSON.stringify(productWithoutImage);
-  }
-
-  generateQRCode(qrData: string): void {
-    QRCode.toCanvas(this.qrcode.nativeElement, qrData, (error) => {
-      if (error) {
-        console.error('Erreur lors de la génération du code QR:', error);
-      }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('La boîte de dialogue a été fermée');
     });
   }
 
-
   currentDate: Date = new Date();
+  //////////////////////////rating//////////////////
+  
+  saveProductRating(productId: number, rating: number, comment: string): void {
+    const productRating: ProductRating = {
+      rating: rating,
+      comment: comment,
+      
+    };
+          this.productService.saveProductRating(productId, productRating).subscribe(
+      response => {
+        console.log('Rating saved successfully:', response);
+        Swal.fire('Success!', 'Add Comment ', 'success');
 
-}
+        // Gérer la réponse comme vous le souhaitez, par exemple actualiser l'affichage des notations
+      },
+      error => {
+        console.error('An error occurred while saving rating:', error);
+        // Gérer l'erreur comme vous le souhaitez
+      }
+    );
+  }
+  rating: number = 0; // Note de rating actuelle
+  comment: string = '';
+
+  setRating(rating: number): void {
+    this.rating = rating;
+    this.ratingSelected=true;
+  }
+
+
+  productRating: ProductRating[] | null = null; // Initialiser avec une valeur nulle
+
+  getproductraitingbyproduct(id :number) {
+    this.productService.getProductRatingByProductId(id).subscribe(
+      (data: ProductRating[]) => {
+        this.productRating = data; // Stockez les données dans la variable productRating
+      },
+      error => {
+        console.log('Une erreur s\'est produite lors de la récupération des notes de rating du produit:', error);
+      }
+    );
+  }
+  
+  openCommentDialog(): void {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
+      width: '600px', // Définissez la largeur de la boîte de dialogue selon vos besoins
+      data: { productRating: this.productRating } // Transmettez les données des commentaires à afficher
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('La boîte de dialogue des commentaires a été fermée');
+    });
+  }
+  
+
+  ratingSelected: boolean = false;
+
+  }
+
+
   
 
 

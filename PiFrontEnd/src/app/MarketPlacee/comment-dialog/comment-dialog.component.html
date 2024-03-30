@@ -1,0 +1,22 @@
+<!-- Dans votre template de composant de boîte de dialogue (comment-dialog.component.html) -->
+<mat-dialog-content class="dialog-content">
+    <h2 class="dialog-title">Commentaire</h2>
+    <div class="ratings-container" *ngIf="data.productRating">
+      <div *ngFor="let rating of data.productRating" class="rating">
+        <p><span><b>{{ rating.user?.username }}</b></span></p>
+        <div class="stars">
+          <span *ngIf="rating.rating >= 1" class="star filled"><i class="fa fa-star"></i></span>
+          <span *ngIf="rating.rating >= 2" class="star filled"><i class="fa fa-star"></i></span>
+          <span *ngIf="rating.rating >= 3" class="star filled"><i class="fa fa-star"></i></span>
+          <span *ngIf="rating.rating >= 4" class="star filled"><i class="fa fa-star"></i></span>
+          <span *ngIf="rating.rating >= 5" class="star filled"><i class="fa fa-star"></i></span>
+        </div>
+        <div>
+         
+          <p><b>Commentaire:</b> {{ rating.comment }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  
+  

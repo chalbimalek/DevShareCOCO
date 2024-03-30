@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../Service/product.service';
+import { ProductService } from '../../Service/product.service';
 import { Router } from '@angular/router';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 

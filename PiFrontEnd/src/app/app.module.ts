@@ -45,17 +45,20 @@ import { LoginComponent } from './login/login.component';
 import { ProfilComponent } from './profil/profil.component';
 import { GoogleRecaptchaComponent } from './google-recaptcha/google-recaptcha.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CartComponent } from './cart/cart.component';
-import { BuyProductComponent } from './buy-product/buy-product.component';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { OrderDetaisComponent } from './order-detais/order-detais.component';
-import { PaymentComponent } from './payment/payment.component';
+import { CartComponent } from './MarketPlacee/cart/cart.component';
+import { BuyProductComponent } from './MarketPlacee/buy-product/buy-product.component';
+import { MyOrdersComponent } from './MarketPlacee/my-orders/my-orders.component';
+import { OrderDetaisComponent } from './MarketPlacee/order-detais/order-detais.component';
+import { PaymentComponent } from './MarketPlacee/payment/payment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+import { MessageFormComponent } from './message-form/message-form.component';
+import { QRDialogComponent } from './qrdialog/qrdialog.component';
+import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-dialog.component';
 
 
 
@@ -101,6 +104,9 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
     AddCollocationComponent,
     ListCollocationComponent,
     DetailsCollocationComponent,
+    MessageFormComponent,
+    QRDialogComponent,
+    CommentDialogComponent,
     
   ],
   imports: [

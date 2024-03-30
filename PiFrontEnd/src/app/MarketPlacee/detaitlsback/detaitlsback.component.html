@@ -39,18 +39,62 @@
         <i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{product.adresse}} </a>
       </p>
       <hr>
-      <button mat-raised-button color="accent">Call me : Num +216 {{product.numero}}</button>
-      <hr>
-      <div class="mt-5 text-center">                    
-        <button mat-raised-button color="warn" style="width: 200px;" >Buy Now</button>
-    
-        &nbsp;
-        <button mat-raised-button  style="width: 200px; color: gold;" (click)="addToCart(product.idProduct)">Add to Cart</button>
-    </div>
+      <p class="h5">Call me : +216 {{product.numero}}</p>
 
+      <hr>
+      <div class="mt-5 text-center">                        
+        &nbsp;
+        <button mat-raised-button color="warn" style="width: 200px;" (click)="addToCart(product.idProduct)">Add to Cart</button>
+    </div>
+    &nbsp;
+
+    <div class="rating">
+      <span class="star" (click)="setRating(1)" [class.filled]="rating >= 1">
+        <i class="fa fa-star"></i>
+      </span>
+      <span class="star" (click)="setRating(2)" [class.filled]="rating >= 2">
+        <i class="fa fa-star"></i>
+      </span>
+      <span class="star" (click)="setRating(3)" [class.filled]="rating >= 3">
+        <i class="fa fa-star"></i>
+      </span>
+      <span class="star" (click)="setRating(4)" [class.filled]="rating >= 4">
+        <i class="fa fa-star"></i>
+      </span>
+      <span class="star" (click)="setRating(5)" [class.filled]="rating >= 5">
+        <i class="fa fa-star"></i>
+      </span>
+  
+      <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="comment" name="comment" [(ngModel)]="comment" required minlength="2" maxlength="50" #commentField="ngModel"></textarea>
+        <div *ngIf="commentField.invalid && (commentField.dirty || commentField.touched)" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+            <div *ngIf="commentField.errors && commentField.errors['required']">Comment is required.</div>
+            <div *ngIf="commentField.errors && commentField.errors['minlength']">Comment must be at least 2 characters long.</div>
+            <div *ngIf="commentField.errors && commentField.errors['maxlength']">Comment cannot exceed 50 characters.</div>
+        </div>
+                <label for="floatingTextarea">Comments</label>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success" 
+    (click)="saveProductRating(product.idProduct, rating, comment)"
+    [disabled]="commentField.invalid  || !ratingSelected ">
+<i class="bi bi-chat-dots"></i> Comment
+</button>
+<div *ngIf="!ratingSelected && !commentField.invalid" class="alert alert-danger" role="info">
+  Veuillez sélectionner une étoile avant de commenter.
+</div>
+
+    
+ 
+    
     </mat-card-content>
   </mat-card>
-  <canvas class="qr-code" #qrcode> </canvas> <b>QR code</b>
+ 
+  <button mat-raised-button color="primary" (click)="openQRDialog()">QR Code</button>
+
+  <button mat-raised-button color="success" (click)="openCommentDialog()">List of Comments</button>
+
+  
 </div>
 
 

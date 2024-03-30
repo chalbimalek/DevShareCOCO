@@ -20,19 +20,22 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfilComponent } from './profil/profil.component';
 import { AuthGuardService } from './Service/auth-guard.service';
-import { CartComponent } from './cart/cart.component';
-import { BuyProductComponent } from './buy-product/buy-product.component';
+import { CartComponent } from './MarketPlacee/cart/cart.component';
+import { BuyProductComponent } from './MarketPlacee/buy-product/buy-product.component';
 import { BuyProductResolverService } from './buy-product-resolver.service';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { OrderDetaisComponent } from './order-detais/order-detais.component';
-import { PaymentComponent } from './payment/payment.component';
+import { MyOrdersComponent } from './MarketPlacee/my-orders/my-orders.component';
+import { OrderDetaisComponent } from './MarketPlacee/order-detais/order-detais.component';
+import { PaymentComponent } from './MarketPlacee/payment/payment.component';
 import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
 import { CollocationResolveService } from './Collocation/ImageCollocation/collocation-resolve.service';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+import { MessageFormComponent } from './message-form/message-form.component';
+import { QRDialogComponent } from './qrdialog/qrdialog.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
+  //{path:'msg',component:MessageFormComponent},
 
   {path:'',component:AlltemplatefrontComponent, children:[
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
@@ -54,16 +57,16 @@ const routes: Routes = [
   {path:'listCollocation',  canActivate: [AuthGuardService],component: ListCollocationComponent},
   {path:'detailsColl',  canActivate: [AuthGuardService],component: DetailsCollocationComponent,resolve: { product: CollocationResolveService }},
   {path:'addCollocation',  canActivate: [AuthGuardService],component: AddCollocationComponent},
-
   {path:'marketplace',  canActivate: [AuthGuardService],component: MarketplaceComponent},
   {path:'cart',  canActivate: [AuthGuardService],component: CartComponent},
 {path:'buyProduct',  canActivate: [AuthGuardService],component:BuyProductComponent,  resolve: {
   productDetails: BuyProductResolverService} },
-  { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService], data:{roles:['User']} },
+  { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService] },
 {path:'paiment',component:PaymentComponent ,  canActivate:[AuthGuardService]},
   {path:'registerproduct', component: RegisterProductComponent},
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
+  {path:'qrcode',component:QRDialogComponent}
 
 ]},
   

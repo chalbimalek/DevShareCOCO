@@ -6,6 +6,7 @@ import { OrderDetails } from '../model/OrderDetails';
 import { MyOrderDetails } from '../model/MyOrderDetails';
 import { Category } from '../model/enumerations/Category';
 import { AuthService } from './auth.service';
+import { ProductRating } from '../model/ProductRating';
 
 
 @Injectable({
@@ -141,7 +142,17 @@ export class ProductService {
       return this.httpClient.get<string[]>("http://localhost:8080/api/statistics/most-purchased-category");
     }
     
+    saveProductRating(productId: number, productRating: ProductRating): Observable<ProductRating> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.post<ProductRating>("http://localhost:8080/api/api/product-ratings/"+productId, productRating, { headers });
+    }
     
-  
+    getProductRatingByProductId(productId: number): Observable<ProductRating[]> {
+      return this.httpClient.get<ProductRating[]>("http://localhost:8080/api/api/product-ratings/product/"+productId);
+    }
 }
 

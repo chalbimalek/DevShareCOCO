@@ -36,3 +36,37 @@
       height: 50px; /* Réduisez la hauteur selon vos besoins */
     }
   }
+  .ratings-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px; /* Optionnel : Ajoutez de l'espace autour de la div */
+  }
+  
+  .rating {
+    margin-bottom: 10px; /* Optionnel : Ajoutez de l'espace entre chaque note */
+  }
+  
+  .stars {
+    margin-top: 5px; /* Optionnel : Ajoutez de l'espace entre le texte et les étoiles */
+  }
+  
+  .star {
+    color: gold; /* Couleur des étoiles */
+  }
+  
+  .filled {
+    color: gold; /* Couleur des étoiles remplies */
+  }
+  /* Étoile non remplie */
+.star {
+  color: gray; /* Couleur par défaut des étoiles non sélectionnées */
+  transition: color 0.3s; /* Animation de transition */
+}
+
+/* Étoile remplie */
+.star.filled {
+  color: gold; /* Couleur des étoiles sélectionnées */
+}
+
+  

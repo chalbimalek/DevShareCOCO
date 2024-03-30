@@ -21,21 +21,20 @@ public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer  messageId;
+    private Long id;
 
-    String body;
-    LocalDateTime date;
+  /*  @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
-    @JsonIgnore
     @ManyToOne
-    User sender;
-    @JsonIgnore
-    @ManyToOne
-    User reciver;
-    @JsonIgnore
-    @ManyToOne
-    Chatroom chatroom;
-    @OneToMany
-    List<Media> medias;
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
 
+    @Column(nullable = false)
+    private String content;
+
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
+*/
 }

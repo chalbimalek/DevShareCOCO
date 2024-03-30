@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../model/product';
+import { Product } from '../../model/product';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from '../Service/product.service';
-import { OrderDetails } from '../model/OrderDetails';
+import { ProductService } from '../../Service/product.service';
+import { OrderDetails } from '../../model/OrderDetails';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 
