@@ -78,12 +78,13 @@ addToCart(productId: any) {
       response => {
         console.log('Rating saved successfully:', response);
         Swal.fire('Success!', 'Add Comment ', 'success');
+        this.rating = 0; 
+        this.comment = '';
+        this.ratingSelected = false;
 
-        // Gérer la réponse comme vous le souhaitez, par exemple actualiser l'affichage des notations
       },
       error => {
         console.error('An error occurred while saving rating:', error);
-        // Gérer l'erreur comme vous le souhaitez
       }
     );
   }

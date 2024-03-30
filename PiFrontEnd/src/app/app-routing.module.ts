@@ -32,10 +32,12 @@ import { AddCollocationComponent } from './Collocation/add-collocation/add-collo
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
 import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
+import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
   //{path:'msg',component:MessageFormComponent},
+  {path:'chat',component:ChatbotComponent},
 
   {path:'',component:AlltemplatefrontComponent, children:[
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
@@ -66,7 +68,8 @@ const routes: Routes = [
   {path:'registerproduct', component: RegisterProductComponent},
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
-  {path:'qrcode',component:QRDialogComponent}
+  {path:'qrcode',component:QRDialogComponent},
+  {path:'chat',component:ChatbotComponent}
 
 ]},
   

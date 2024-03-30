@@ -59,6 +59,7 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
 import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-dialog.component';
+import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
 
 
 
@@ -107,6 +108,7 @@ import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-di
     MessageFormComponent,
     QRDialogComponent,
     CommentDialogComponent,
+    ChatbotComponent,
     
   ],
   imports: [
