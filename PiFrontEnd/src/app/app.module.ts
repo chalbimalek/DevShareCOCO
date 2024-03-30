@@ -60,6 +60,8 @@ import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-dialog.component';
 import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
+import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
+import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.component';
 
 
 
@@ -109,6 +111,8 @@ import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
     QRDialogComponent,
     CommentDialogComponent,
     ChatbotComponent,
+    StatistiqueComponent,
+    RatingChartComponent,
     
   ],
   imports: [

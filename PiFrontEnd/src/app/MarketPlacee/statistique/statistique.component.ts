@@ -1,106 +1,50 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ProductService } from '../../Service/product.service';
-import { Product } from '../../model/product';
-import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { ProdutShowDialogComponent } from '../produt-show-dialog/produt-show-dialog.component';
-import { ImageProcessingService } from '../../image/image-processing.service';
-import { map } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import Chart from 'chart.js/auto';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import jspdf from 'jspdf';
+import { ProductService } from 'src/app/Service/product.service';
+import Chart from 'chart.js/auto';
 
 @Component({
-  selector: 'app-show-product-details',
-  templateUrl: './show-product-details.component.html',
-  styleUrls: ['./show-product-details.component.css']
+  selector: 'app-statistique',
+  templateUrl: './statistique.component.html',
+  styleUrls: ['./statistique.component.css']
 })
-export class ShowProductDetailsComponent implements OnInit{
-
-
-constructor(private productservice:ProductService, 
-  public imageDialog:MatDialog,
-  private imageProcessingService:ImageProcessingService,
-  private route:Router){}
-productDetails:Product[]=[];
-displayedColumns: string[] = ['idProduct', 'Name', 'brand', 'description','images','edit','delete'];
-
+export class StatistiqueComponent {
+  constructor(private productService:ProductService){}
 
   ngOnInit(): void {
-    this.getAllProduct();
-        this.fetchMostPurchasedCategory();
-        this.getStatistiquesRating();
+    this.getStatistiquesRating();
+    this.fetchMostPurchasedCategory();
 
   }
+  statistiques!: string[];
 
- 
+  categories: { nom: string, nombreEtoiles: number }[] = [];
 
-  
-  public getAllProduct(){
-    this.productservice.getAllProduct(0).
-    pipe(
-      map((products: Product[],i) => products.map((product: Product) => this.imageProcessingService.createImages(product)))
-
-   ).
-    subscribe(
-      (resp:Product[])=>{
-      console.log(resp);
-      this.productDetails=resp;
-    }
+  getStatistiquesRating() {
+    this.productService.statistiqueRating().subscribe(
+      data => {
+        this.statistiques = data;
+        this.processStatistiques();
+        console.log('Statistiques des ratings : ', this.statistiques);
+      },
+      error => {
+        console.error('Une erreur est survenue lors de la récupération des statistiques des ratings : ', error);
+      }
     );
   }
 
- public deleteProduct(id : number){
-  Swal.fire({
-    title: 'Confirmation',
-    text: 'Êtes-vous sûr de vouloir supprimer ce produit ?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimer',
-    cancelButtonText: 'Annuler'
-  }).then((result:SweetAlertResult) => {
-    if (result.isConfirmed) {
-      this.productservice.deleteProduct(id).subscribe(
-        () => {
-          console.log("Suppression réussie");
-          this.getAllProduct();
-          Swal.fire('Success!', 'Produit supprimée avec succès', 'success');
-
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      );
-    }
-  });
-  }
-  showImages(product:Product){
-    console.log(product);
-    this.imageDialog.open(ProdutShowDialogComponent ,{
-      data:{
-        images:product.imageModels
-    },
-      height:'500px',
-      width:'800px'
+  processStatistiques(): void {
+    this.categories = this.statistiques.map(categorie => {
+      const [nom, nombreEtoiles] = categorie.split(',');
+      return { nom, nombreEtoiles: parseInt(nombreEtoiles) };
     });
-    
-  }
-  editProduct(id:any){
-    this.route.navigate(['back/addproduitBack',{id : id}])
-    
-
   }
 
-  add(){
-      this.route.navigate(['back/addproduitBack'])
+  generateArray(n: number): any[] {
+    return Array.from({ length: n });
   }
-
-
-//////
-mostPurchasedCategory: string | null = null;
+  ///////////////////////////////////////////////
+  mostPurchasedCategory: string | null = null;
 @ViewChild('chartCanvas') private chartCanvas!: ElementRef<HTMLCanvasElement>;
 private chartContext: CanvasRenderingContext2D | null = null;
 private chart: Chart | null = null;
@@ -139,7 +83,7 @@ initializeChart(): void {
 
 // Plus tard, lorsque vous avez les données à afficher sur le graphique
 fetchMostPurchasedCategory(): void {
-  this.productservice.getMostPurchasedCategory()
+  this.productService.getMostPurchasedCategory()
     .subscribe(response => {
       try {
         const data: string[] = response;
@@ -211,21 +155,4 @@ generatePdf(): void {
 generatePdfButtonClicked(): void {
   this.generatePdf();
 }
-
-statistiques: any;
-
-getStatistiquesRating() {
-  this.productservice.statistiqueRating().subscribe(
-    data => {
-      this.statistiques = data;
-      console.log('Statistiques des ratings : ', this.statistiques);
-    },
-    error => {
-      console.error('Une erreur est survenue lors de la récupération des statistiques des ratings : ', error);
-    }
-  );
-}
-
-
-
 }

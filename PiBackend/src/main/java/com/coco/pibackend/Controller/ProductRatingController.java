@@ -33,6 +33,9 @@ public class ProductRatingController {
     public List<ProductRating> getProductRatingByProductId(@PathVariable int productId) {
         return productRatingService.getProductRatingByproductId(productId);
     }
+@GetMapping("/statistiqueRating")
+    public List<String> statistiqueRating() {
+        return productRatingService.statistiqueRating();
+    }
 
-    // Vous pouvez ajouter d'autres méthodes du contrôleur selon vos besoins
-}
+    }

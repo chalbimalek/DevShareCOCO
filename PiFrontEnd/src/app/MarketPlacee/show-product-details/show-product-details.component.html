@@ -53,7 +53,15 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   
-
+  <div class="container">
+    <div *ngFor="let categorie of statistiques" class="categorie">
+      <div>{{ categorie.nom }}:</div>
+      <div class="etoiles">
+        <span *ngFor="let etoile of categorie.nombreEtoiles" class="etoile"></span>
+      </div>
+    </div>
+  </div>
+  
 
 <!--<div >
     <p>La catégorie la plus achetée est : "{{ mostPurchasedCategory }}"</p>

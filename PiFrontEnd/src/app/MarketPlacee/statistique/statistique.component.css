@@ -1,10 +1,4 @@
-.table{
-    width: 50%;
-}
-button {
-    margin-right: 200px; /* ou toute autre valeur de marge désirée */
-  }
-  
+
 .container {
     display: flex;
     flex-direction: column;

@@ -33,6 +33,7 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
 import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
+import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
@@ -69,7 +70,7 @@ const routes: Routes = [
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
   {path:'qrcode',component:QRDialogComponent},
-  {path:'chat',component:ChatbotComponent}
+  {path:'chat',component:ChatbotComponent},
 
 ]},
   
@@ -90,7 +91,7 @@ const routes: Routes = [
 
 {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
 
-
+{path:'stat',component:StatistiqueComponent},
 
 ]
 

@@ -63,6 +63,8 @@ public class ProductRatingService {
         return productRatingRepository.getProductRatingByProduct_IdProduct(id);
     }
 
-
+    public List<String> statistiqueRating(){
+        return productRatingRepository.statistiqueRating();
+    }
     // Vous pouvez ajouter d'autres méthodes de service selon vos besoins
 }

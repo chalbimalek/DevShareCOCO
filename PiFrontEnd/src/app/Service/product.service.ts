@@ -154,5 +154,9 @@ export class ProductService {
     getProductRatingByProductId(productId: number): Observable<ProductRating[]> {
       return this.httpClient.get<ProductRating[]>("http://localhost:8080/api/api/product-ratings/product/"+productId);
     }
+
+    statistiqueRating():Observable<string[]>{
+      return this.httpClient.get<string[]>("http://localhost:8080/api/api/product-ratings/statistiqueRating");
+    }
 }
 
