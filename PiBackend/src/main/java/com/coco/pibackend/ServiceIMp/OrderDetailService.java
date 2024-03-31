@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -52,7 +53,6 @@ public class OrderDetailService {
 
         for(OrderProductQuantity o: productQuantityList) {
             Product product = productDao.findById(o.getProductId()).get();
-
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User user= userDao.findByUsername(username).get();
@@ -64,8 +64,8 @@ public class OrderDetailService {
                     orderInput.getAlternateContactNumber(),
                     ORDER_PLACED,
                     product.getPrice()*o.getQuantity(),
-                    product,
-                    user);
+                    Collections.singletonList(product),
+                    Collections.singletonList(user));
 
             if(!isSingleProductCheckout) {
                 List<Cart> carts= cartDao.findByUser(user);

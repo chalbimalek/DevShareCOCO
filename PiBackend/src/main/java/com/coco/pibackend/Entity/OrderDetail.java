@@ -1,7 +1,14 @@
 package com.coco.pibackend.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 public class OrderDetail {
 
@@ -14,11 +21,11 @@ public class OrderDetail {
     private String orderAlternateContactNumber;
     private String orderStatus;
     private Double orderAmount;
-    @OneToOne
-    private Product product;
+    @ManyToMany
+    private List<Product> product;
 
-    @OneToOne
-    private User user;
+    @ManyToMany
+    private List<User> user;
 
     public OrderDetail() {
         super();
@@ -28,7 +35,7 @@ public class OrderDetail {
 
 
     public OrderDetail(String orderFullName, String orderFullOrder, String orderContactNumber,
-                       String orderAlternateContactNumber, String orderStatus, Double orderAmount, Product product, User user) {
+                       String orderAlternateContactNumber, String orderStatus, Double orderAmount,List <Product> product,List <User> user) {
         super();
         this.orderFullName = orderFullName;
         this.orderFullOrder = orderFullOrder;
@@ -40,7 +47,7 @@ public class OrderDetail {
         this.user = user;
     }
 
-
+/*
 
     public Product getProduct() {
         return product;
@@ -64,7 +71,7 @@ public class OrderDetail {
         this.user = user;
     }
 
-
+*/
 
     public Integer getOrderId() {
         return orderId;

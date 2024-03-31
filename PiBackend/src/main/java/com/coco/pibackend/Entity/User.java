@@ -40,7 +40,10 @@ public class User {
     @Column
     private String cin;
     @Column String phone;
-
+    @ManyToMany
+    private List<OrderDetail> orderDetails;
+    @OneToOne
+    private Cart cart;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

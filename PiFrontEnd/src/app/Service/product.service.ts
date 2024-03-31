@@ -7,6 +7,7 @@ import { MyOrderDetails } from '../model/MyOrderDetails';
 import { Category } from '../model/enumerations/Category';
 import { AuthService } from './auth.service';
 import { ProductRating } from '../model/ProductRating';
+import { CartDetail } from '../model/CartDetail';
 
 
 @Injectable({
@@ -57,13 +58,13 @@ export class ProductService {
       return this.httpClient.get("http://localhost:8080/api/addToCart/"+productId, { headers });
      }
 
-     public getCartDetails(){
+     public getCartDetails():Observable<CartDetail[]>{
       const token = this.authservice.getToken();
       let headers = new HttpHeaders();
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
-      return this.httpClient.get("http://localhost:8080/api/getCartDetails", { headers });
+      return this.httpClient.get<CartDetail[]>("http://localhost:8080/api/getCartDetails", { headers });
      }
 
      public getProductDetails(isSingeProductCheckout:any,productId:any){
@@ -157,6 +158,24 @@ export class ProductService {
 
     statistiqueRating():Observable<string[]>{
       return this.httpClient.get<string[]>("http://localhost:8080/api/api/product-ratings/statistiqueRating");
+    }
+
+    deleteProductFromCart(productId: number): Observable<any> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.delete("http://localhost:8080/api/product/"+productId, { headers });
+    }
+
+    removeProductFromCart(productId: number): Observable<any> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get<any>("http://localhost:8080/api/api/removeProductFromCart/"+productId, { headers })
     }
 }
 

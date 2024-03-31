@@ -2,17 +2,19 @@ package com.coco.pibackend.Controller;
 
 
 import com.coco.pibackend.Entity.Cart;
+import com.coco.pibackend.Entity.Product;
 import com.coco.pibackend.Entity.User;
 import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Security.JWT.AuthTokenFilter;
 import com.coco.pibackend.Service.CartServiceInterface;
 import com.coco.pibackend.ServiceIMp.CartService;
+import com.coco.pibackend.ServiceIMp.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class CartController {
     private CartServiceInterface cartService;
     @Autowired
     private UserRepo userDao;
+    @Autowired
+    private ProductService productService;
     @PreAuthorize("hasRole('ROLE_MEMBRE')")
 
    // @PreAuthorize("hasRole('User')")
@@ -43,10 +47,16 @@ public class CartController {
 
     @PreAuthorize("hasRole('ROLE_MEMBRE')")
     @GetMapping({"/getCartDetails"})
-    public List<Cart> getCartDetails() {
+    public List<Product> getCartDetails() {
         return cartService.getCartDetails();
 
     }
+    @PreAuthorize("hasRole('ROLE_MEMBRE')")
+    @GetMapping("/api/removeProductFromCart/{productId}")
+    public void removeProductFromCart(@PathVariable(name= "productId") Integer productId) {
+        productService.removeProductFromCart(productId);
+    }
+
     /*@GetMapping("/getUserFromUsername")
     public User getUserFromUsername() {
         return cartService.getuserfromusername();

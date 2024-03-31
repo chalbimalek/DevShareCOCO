@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../Service/product.service';
 import { Router } from '@angular/router';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { CartDetail } from 'src/app/model/CartDetail';
+import { Product } from 'src/app/model/product';
 
 @Component({
   selector: 'app-cart',
@@ -9,9 +11,9 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-
+  product!:Product;
   displayedColumns: string[] = ['Name', 'Description', 'Price','Action'];
-  cartDetails : any[] = [];
+  cartDetails : CartDetail[] = [];
 
   constructor(private productService : ProductService,
     private router : Router) { }
@@ -21,20 +23,16 @@ export class CartComponent implements OnInit {
   }
 
 
- getCartDetails(){
-
-      this.productService.getCartDetails().subscribe(
-        (response: any) => {
-            if(Array.isArray(response)) {
-                console.log(response);
-                this.cartDetails = response;
-            } else {
-                console.log("Response is not an array");
-            }
-        },
-        (error) => {
-            console.log(error);
-        }
+  getCartDetails() {
+    this.productService.getCartDetails().subscribe(
+      (response: CartDetail[]) => {
+        this.cartDetails = response;
+        console.log(this.cartDetails);
+         // Vérifiez la structure des données dans la console
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 
@@ -77,6 +75,34 @@ export class CartComponent implements OnInit {
     //     console.log(error);
     //   }
     // );
+  }
+  deleteProductFromCart(productId: number) {
+    if (productId) { // Vérifiez d'abord si productId est défini
+      this.productService.deleteProductFromCart(productId).subscribe(
+        response => {
+          console.log('Product deleted from cart successfully');
+       
+
+          // Mettez à jour votre liste de produits de panier ou effectuez d'autres actions nécessaires ici
+        },
+        error => {
+          console.error('Error deleting product from cart:', error);
+        }
+      );
+    } else {
+      console.error('ProductId is undefined or null');
+    }
+  }
+  removeFromCart(productId: number) {
+    this.productService.removeProductFromCart(productId).subscribe(
+      response => {
+        console.log(response);
+        this.getCartDetails(); // Appel de cartDetails après la suppression du produit
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   }

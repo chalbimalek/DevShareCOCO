@@ -1,6 +1,7 @@
 package com.coco.pibackend.Entity;
 
 import com.coco.pibackend.Enum.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +34,11 @@ public class Product implements Serializable {
     private String description;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private List<OrderDetail> orderDetails;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Cart> carts;
     @ManyToMany(fetch = FetchType.EAGER ,cascade =  CascadeType.ALL)
     @JoinTable(name = "products_image" ,joinColumns = {@JoinColumn(name = "product_id")}
     ,inverseJoinColumns = {@JoinColumn (name = "image_id")})

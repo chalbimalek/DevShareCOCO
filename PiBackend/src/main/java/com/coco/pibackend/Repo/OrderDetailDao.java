@@ -14,9 +14,10 @@ public interface OrderDetailDao extends CrudRepository<OrderDetail, Integer>{
 
     public List<OrderDetail> findByUser(User user);
 
-    @Query("SELECT o.product.category, COUNT(o.product.category) AS categoryCount " +
+    @Query("SELECT p.category, COUNT(p.category) AS categoryCount " +
             "FROM OrderDetail o " +
-            "GROUP BY o.product.category " +
+            "JOIN o.product p " + // Joindre la table Product à travers la liste de produits dans OrderDetail
+            "GROUP BY p.category " +
             "ORDER BY categoryCount DESC")
     List<String> findMostPurchasedCategory();
 

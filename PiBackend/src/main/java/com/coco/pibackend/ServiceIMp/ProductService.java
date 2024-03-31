@@ -10,12 +10,15 @@ import com.coco.pibackend.Repo.MediaRepo;
 import com.coco.pibackend.Repo.ProductRepo;
 import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Security.JWT.AuthTokenFilter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +29,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
 
-
+    @PersistenceContext
+    private EntityManager entityManager;
     private final ProductRepo productRepo;
     private final MediaRepo mediaRepo;
     private final RefGenerator refGenerator;
@@ -114,10 +118,17 @@ public class ProductService {
         return productRepo.findByNameContainingIgnoreCaseAndBrandAndPriceContainingIgnoreCase(
                 name,brand,price);
     }*/
+   @Transactional
+   public void deleteProduct(int id) {
+       Product productToRemove = entityManager.find(Product.class, id);
+       if (productToRemove != null) {
+           entityManager.remove(productToRemove);
+       }
+   }
 
-    public void deleteproduit(int id) {
-        productRepo.deleteById(id);
-    }
+
+
+
 
 
     public List<Product> getProductDetails(boolean isSingeProductCheckout, Integer productId) {
@@ -134,23 +145,38 @@ public class ProductService {
             User user = userRepo.findByUsername(username).get();
             List<Cart> carts = cartDao.findByUser(user);
 
-            return carts.stream().map(x -> x.getProduct()).collect(Collectors.toList());
-
-        }
-    }
-
-        public List<Product> getProductsByCategory (Category category){
-            // Récupérer tous les produits depuis le repository
-            int a = 0;
-            List<Product> allProducts = getAllProduct(a);
-
-            // Filtrer les produits par catégorie
-            List<Product> filteredProducts = allProducts.stream()
-                    .filter(product -> product.getCategory() == category)
+            return carts.stream()
+                    .flatMap(cart -> cart.getProduct().stream()) // Mapper les produits de chaque panier
+                    .distinct() // Supprimer les doublons
                     .collect(Collectors.toList());
-
-            return filteredProducts;
         }
-
-
     }
+
+    public List<Product> getProductsByCategory(Category category) {
+        // Récupérer tous les produits depuis le repository
+        int a = 0;
+        List<Product> allProducts = getAllProduct(a);
+
+        // Filtrer les produits par catégorie
+        List<Product> filteredProducts = allProducts.stream()
+                .filter(product -> product.getCategory() == category)
+                .collect(Collectors.toList());
+
+        return filteredProducts;
+    }
+
+    @Transactional
+    public void removeProductFromCart(Integer productId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username).get();
+        Cart cart = cartDao.findCartByUser(user);
+        if (cart != null) {
+            Product productToRemove = productRepo.getProductByIdProduct(productId);
+            if (productToRemove != null) {
+                cart.getProduct().remove(productToRemove);
+                cartDao.save(cart);
+            }
+        }
+    }
+}

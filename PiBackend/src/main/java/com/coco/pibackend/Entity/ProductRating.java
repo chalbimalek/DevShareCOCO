@@ -14,9 +14,9 @@ public class ProductRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.REMOVE)
     private User user;
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.REMOVE)
     private Product product;
     private int rating;
     private String comment;
