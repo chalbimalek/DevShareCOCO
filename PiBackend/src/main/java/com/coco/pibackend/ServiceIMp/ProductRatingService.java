@@ -1,9 +1,7 @@
 package com.coco.pibackend.ServiceIMp;
 
-import com.coco.pibackend.Entity.Cart;
-import com.coco.pibackend.Entity.Product;
-import com.coco.pibackend.Entity.ProductRating;
-import com.coco.pibackend.Entity.User;
+import com.coco.pibackend.Entity.*;
+import com.coco.pibackend.Repo.ProductCommentRepository;
 import com.coco.pibackend.Repo.ProductRatingRepository;
 import com.coco.pibackend.Repo.ProductRepo;
 import com.coco.pibackend.Repo.UserRepo;
@@ -23,6 +21,9 @@ public class ProductRatingService {
     private UserRepo  userRepo;
     @Autowired
     private ProductRepo productRepo;
+    @Autowired
+    private ProductCommentRepository  productCommentRepository;
+
 
     public ProductRating saveProductRating(int prdouctid ,ProductRating productRatingRequest) {
         Product product=productRepo.findProductByIdProduct(prdouctid);
@@ -45,22 +46,73 @@ public class ProductRatingService {
         productRating.setProduct(product);
         productRating.setUser(user);
         productRating.setRating(productRatingRequest.getRating());
-        productRating.setComment(productRatingRequest.getComment());
+        //productRating.setComment(productRatingRequest.getComment());
 
         // Enregistrer la notation du produit dans la base de données
         return productRatingRepository.save(productRating);
     }
+    public ProductRating saveProductRating(int productId, int rating) {
+        Product product = productRepo.findProductByIdProduct(productId);
+        if (product == null) {
+            System.out.println("Le produit avec l'ID " + productId + " n'a pas été trouvé.");
+            return null;
+        }
+
+        // Récupérer l'utilisateur authentifié
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return null;
+        }
+
+        // Créer une nouvelle notation du produit avec le rating spécifié
+        ProductRating productRating = new ProductRating();
+        productRating.setProduct(product);
+        productRating.setUser(user);
+        productRating.setRating(rating);
+
+        // Enregistrer la notation du produit dans la base de données
+        return productRatingRepository.save(productRating);
+    }
+    public ProductComment saveProductComment(int productId, String comment) {
+        Product product = productRepo.findProductByIdProduct(productId);
+        if (product == null) {
+            System.out.println("Le produit avec l'ID " + productId + " n'a pas été trouvé.");
+            return null;
+        }
+
+        // Récupérer l'utilisateur authentifié
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username).orElse(null);
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return null;
+        }
+
+        // Créer une nouvelle notation du produit avec le commentaire spécifié
+        ProductComment productComment = new ProductComment();
+        productComment.setProduct(product);
+        productComment.setUser(user);
+        productComment.setComment(comment);
+
+        // Enregistrer la notation du produit dans la base de données
+        return productCommentRepository.save(productComment);
+    }
+
 
     public List<ProductRating> getAllProductRatings() {
         return productRatingRepository.findAll();
     }
 
-    public ProductRating getProductRatingById(Long id) {
-        return productRatingRepository.findById(id).orElse(null);
+    public ProductComment getProductRatingById(Long id) {
+        return productCommentRepository.findById(id).orElse(null);
     }
 
-    public List<ProductRating> getProductRatingByproductId(int id) {
-        return productRatingRepository.getProductRatingByProduct_IdProduct(id);
+    public List<ProductComment> getProductRatingByproductId(int id) {
+        return productCommentRepository.getProductCommentByProduct_IdProduct(id);
     }
 
     public List<String> statistiqueRating(){

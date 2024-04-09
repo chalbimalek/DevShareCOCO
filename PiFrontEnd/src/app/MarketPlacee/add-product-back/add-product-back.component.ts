@@ -29,7 +29,8 @@ isnewProduct=true;
     description:"",
     brand:"",
     imageModels:[],
-    category: Category.ELECTRONICS
+    category: Category.ELECTRONICS,
+    deliveryDays:0
   };
   ngOnInit(): void {
   this.product= this.activatedRouter.snapshot.data['product'];

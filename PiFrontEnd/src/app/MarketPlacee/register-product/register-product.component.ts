@@ -37,7 +37,8 @@ export class RegisterProductComponent  implements OnInit {
     numero:0,
     brand:"",
     imageModels:[],
-    category: Category.ELECTRONICS
+    category: Category.ELECTRONICS,
+    deliveryDays:0
   }
   ngOnInit(): void {
    

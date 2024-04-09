@@ -32,6 +32,7 @@ public class Product implements Serializable {
     private Integer quantity;
     private Double price;
     private String description;
+    private int deliveryDays;
     @Enumerated(EnumType.STRING)
     private Category category;
     @JsonIgnore

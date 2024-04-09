@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class ProductRating {
+public class ProductComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,14 +19,5 @@ public class ProductRating {
     private User user;
     @ManyToOne( cascade = CascadeType.REMOVE)
     private Product product;
-    private int rating;
-  //  private String comment;
-
-    public ProductRating(Product product, User user) {
-        super();
-        this.product=product;
-        this.user=user;
-        }
-
-    // Getters and setters
+    private String comment;
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 @Getter
 @Setter
@@ -23,6 +24,7 @@ public class OrderDetail {
     private Double orderAmount;
     @ManyToMany
     private List<Product> product;
+    private LocalDate deliveryDate; // Champ pour la date de livraison
 
     @ManyToMany
     private List<User> user;

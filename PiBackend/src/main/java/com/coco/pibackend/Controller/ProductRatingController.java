@@ -1,8 +1,12 @@
 package com.coco.pibackend.Controller;
 
+import com.coco.pibackend.Entity.ProductComment;
 import com.coco.pibackend.Entity.ProductRating;
 import com.coco.pibackend.ServiceIMp.ProductRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,17 +29,40 @@ public class ProductRatingController {
     }
 
     @GetMapping("/{id}")
-    public ProductRating getProductRatingById(@PathVariable Long id) {
+    public ProductComment getProductRatingById(@PathVariable Long id) {
         return productRatingService.getProductRatingById(id);
     }
 
     @GetMapping("/product/{productId}")
-    public List<ProductRating> getProductRatingByProductId(@PathVariable int productId) {
+    public List<ProductComment> getProductRatingByProductId(@PathVariable int productId) {
         return productRatingService.getProductRatingByproductId(productId);
     }
 @GetMapping("/statistiqueRating")
     public List<String> statistiqueRating() {
         return productRatingService.statistiqueRating();
     }
+    @PreAuthorize("hasRole('ROLE_MEMBRE')")
 
+    @PostMapping("/rate/{productId}/{rating}")
+    public ResponseEntity<ProductRating> rateProduct(@PathVariable("productId") int productId,
+                                                     @PathVariable("rating") int rating) {
+        ProductRating savedRating = productRatingService.saveProductRating(productId, rating);
+        if (savedRating != null) {
+            return new ResponseEntity<>(savedRating, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_MEMBRE')")
+    @PostMapping("/comment/{productId}/{comment}")
+    public ResponseEntity<ProductComment> commentProduct(@PathVariable("productId") int productId,
+                                                         @PathVariable("comment") String comment) {
+        ProductComment savedComment = productRatingService.saveProductComment(productId, comment);
+        if (savedComment != null) {
+            return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     }

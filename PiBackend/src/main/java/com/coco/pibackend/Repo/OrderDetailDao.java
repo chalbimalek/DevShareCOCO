@@ -6,11 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
 @Repository
 public interface OrderDetailDao extends CrudRepository<OrderDetail, Integer>{
+    List<OrderDetail> findByOrderStatusAndDeliveryDateBefore(String orderStatus, LocalDate date);
 
     public List<OrderDetail> findByUser(User user);
 

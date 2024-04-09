@@ -62,7 +62,13 @@ export class CartComponent implements OnInit {
   });
     }
   
-
+    checkout1(productId: number): void {
+      // Naviguer vers la page de checkout avec l'ID du produit sélectionné
+      this.router.navigate(['/buyProduct', {
+        isSingleProductCheckout: true,
+        id: productId
+      }]);
+    }
 
   checkout(){
     this.router.navigate(['/buyProduct', {

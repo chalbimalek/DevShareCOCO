@@ -125,6 +125,14 @@ public class ProductController {
 
 
     }
+    @GetMapping({"/getProductDetails2/{isSingeProductCheckout}/{productId}"})
+    public List<Product> getProductDetails2(@PathVariable(name="isSingeProductCheckout") boolean isSingeProductCheckout,
+                                           @PathVariable(name= "productId") Integer productId) {
+
+        return productService.getProductDetails2(isSingeProductCheckout, productId);
+
+
+    }
     @GetMapping("/products")
     public List<Product> getProductsByCategory(@RequestParam("category") String category) {
         Category categoryEnum = Category.valueOf(category.toUpperCase());

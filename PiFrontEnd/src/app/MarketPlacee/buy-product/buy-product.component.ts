@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./buy-product.component.css']
 })
 export class BuyProductComponent  implements OnInit {
-
+  
   isSingleProductCheckout : string = "";
   productDetails : Product[]=[];
   orderDetails: OrderDetails={
@@ -20,7 +20,9 @@ export class BuyProductComponent  implements OnInit {
 	  fullAddress: '',
 	  contactNumber : '',
 	  alternateContactNumber : '',
-	  orderProductQuantityList : []
+	  orderProductQuantityList : [],
+    deliveryDate: new Date()
+
   }
   constructor( private activatedRoute: ActivatedRoute,
     private productService : ProductService,
@@ -45,23 +47,76 @@ export class BuyProductComponent  implements OnInit {
   }
   
 
-  public placeOrder(orderForm : NgForm){
-    this.productService.placeOrder(this.orderDetails, this.isSingleProductCheckout).subscribe(
-      (resp) => {
-        console.log(resp);
-        orderForm.reset();
-        console.log("confirmationnnnnnn");
-        Swal.fire('Success!', 'Your order place successfully.  It will be delivered to you with in 4-5 days', 'success');
-
-        this.router.navigate(["/myOrders"])
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-
+  async placeOrder(orderForm: NgForm): Promise<void> {
+    try {
+      // Appeler la fonction pay pour effectuer le paiement
+      await this.pay(this.getCalculatedGrandTotal());
+      
+      // Une fois le paiement effectué avec succès, placer la commande
+      this.productService.placeOrder(this.orderDetails, this.isSingleProductCheckout).subscribe(
+        async (resp) => {
+          console.log(resp);
+          orderForm.reset();
+          console.log("Confirmation");
+          
+          const firstOrderQuantity = this.orderDetails.orderProductQuantityList[0];
+  
+          // Vérifier si firstOrderQuantity est défini et a un 'productId'
+          if (firstOrderQuantity && firstOrderQuantity.productId) {
+            const productId = firstOrderQuantity.productId;
+  
+            try {
+              // Charger les détails du produit depuis le service ou l'API
+              const orderedProduct = await this.productService.getProductById(productId).toPromise();
+  
+              // Vérifier si le produit a été trouvé
+              if (orderedProduct) {
+                const deliveryDays = orderedProduct.deliveryDays;
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + deliveryDays);
+  
+                // Formater la date de livraison au format 'dd/MM/yyyy'
+                const formattedDeliveryDate = deliveryDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  
+                // Afficher un message de succès avec la date de livraison estimée
+                Swal.fire('Success!', `Your order has been placed successfully. It will be delivered to you by ${formattedDeliveryDate}.`, 'success');
+                
+                // Envoyer un email à l'administrateur
+                this.sendEmailToAdmin();
+                alert('Email sent to admin successfully!!');
+                
+                // Naviguer vers la page des commandes de l'utilisateur
+                this.router.navigate(['/myOrders']);
+                
+                // Déclencher la méthode pour marquer les commandes comme livrées
+                this.productService.triggerScheduledMarkOrdersAsDelivered();
+              } else {
+                // Gérer le cas où le produit n'a pas été trouvé
+                Swal.fire('Error', 'Product details not found. Please try again.', 'error');
+              }
+            } catch (error) {
+              console.log('Error fetching product details:', error);
+              // Gérer les erreurs de récupération des détails du produit
+              Swal.fire('Error', 'An error occurred while fetching product details. Please try again.', 'error');
+            }
+          } else {
+            // Gérer le cas où firstOrderQuantity n'est pas valide ou ne possède pas de 'productId'
+            Swal.fire('Error', 'Invalid order details. Please try again.', 'error');
+          }
+        },
+        (err) => {
+          console.log(err);
+          // Gérer les erreurs lors du placement de la commande ici
+          Swal.fire('Error', 'An error occurred while placing your order. Please try again later.', 'error');
+        }
+      );
+    } catch (error) {
+      console.log('Error during payment:', error);
+      // Gérer les erreurs de paiement ici
+      Swal.fire('Error', 'An error occurred during payment. Please try again later.', 'error');
+    }
   }
-
+  
   getQuantityForProduct(productId:any){
     const filterProduct = this.orderDetails.orderProductQuantityList.filter(
       (productQuantity) => productQuantity.productId === productId
@@ -97,7 +152,8 @@ export class BuyProductComponent  implements OnInit {
   handler:any = null;
   payEnabled: boolean = false;
 
-  pay(amount: any) {    
+  pay(amount: any) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {   
  
     var handler = (<any>window).StripeCheckout.configure({
       key: 'pk_test_51HxRkiCumzEESdU2Z1FzfCVAJyiVHyHifo0GeCMAyzHPFme6v6ahYeYbQPpD9BvXbAacO2yFQ8ETlKjo4pkHSHSh00qKzqUVK9',
@@ -106,15 +162,16 @@ export class BuyProductComponent  implements OnInit {
         console.log(token)
         alert('Payment Success!!');
         this.payEnabled = true; // Assurez-vous que this fait référence à l'instance correcte de la classe
-      }
+        resolve(); // Résoudre la promesse lorsque le paiement est effectué avec succès
+        }
+      });
+
+      handler.open({
+        name: 'Demo Site',
+        description: 'Your order description', // Mettez la description de votre commande ici
+        amount: amount * 100 // Convertir le montant en centimes si nécessaire
+      });
     });
- 
-    handler.open({
-      name: 'Demo Site',
-      description: '2 widgets',
-      amount: amount * 100
-    });
- 
   }
  
   loadStripe() {
@@ -139,6 +196,24 @@ export class BuyProductComponent  implements OnInit {
        
       window.document.body.appendChild(s);
     }
+  }
+  ////////////////////
+  sendEmailToAdmin() {
+    const emailRequest = {
+      to: 'mchalbi606@gmail.com', 
+      subject: 'New Order Received', 
+      text: 'A new order has been received. Please review the order details.' 
+    };
+
+    this.productService.sendEmail(emailRequest).subscribe(
+      response => {
+        console.log('Email sent to admin successfully', response);
+      },
+      error => {
+        console.error('Error sending email to admin', error);
+        // Gérez les erreurs d'envoi d'e-mail ici
+      }
+    );
   }
 
 }

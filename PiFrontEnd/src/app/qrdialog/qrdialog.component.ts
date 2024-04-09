@@ -28,9 +28,9 @@ export class QRDialogComponent implements OnInit{
   }
 
   constructQRData(product: any): string {
-    const productWithoutImage = { ...product };
-    delete productWithoutImage.imageModels; 
-    return JSON.stringify(productWithoutImage);
+    const productId = product.idProduct; // Récupérer l'ID du produit
+    const url = `http://localhost:4200/detailback;id=${productId}`; // Construire l'URL avec l'ID du produit
+    return url;
   }
 
   generateQRCode(qrData: string): void {

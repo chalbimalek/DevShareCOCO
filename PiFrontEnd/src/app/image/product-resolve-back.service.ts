@@ -42,7 +42,8 @@ export class ProductResolveBackService implements Resolve<Product>{
       adresse:"",
       numero:0,
       imageModels: [],
-      category: Category.ELECTRONICS
+      category: Category.ELECTRONICS,
+      deliveryDays:0
     };
   }
 }

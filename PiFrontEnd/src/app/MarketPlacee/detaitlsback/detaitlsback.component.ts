@@ -8,6 +8,9 @@ import { ProductRating } from 'src/app/model/ProductRating';
 import { QRDialogComponent } from 'src/app/qrdialog/qrdialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ProductComment } from 'src/app/model/ProductComment';
 
 @Component({
   selector: 'app-detaitlsback',
@@ -32,6 +35,7 @@ addToCart(productId: any) {
 
   selectProductIndex = 0;
   product!: Product;
+  private ratingSubscription!: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private router : Router,
     private productService: ProductService,public dialog: MatDialog) { }
@@ -40,8 +44,17 @@ addToCart(productId: any) {
 
    this.product = this.activatedRoute.snapshot.data['product'];
     this.getproductraitingbyproduct(this.product.idProduct);
-  }
 
+    this.ratingSubscription = this.productService.getRating(this.product.idProduct).subscribe(newRating => {
+      this.rating = newRating;
+    });
+
+
+  }
+  ngOnDestroy(): void {
+    this.ratingSubscription.unsubscribe();
+  }
+  
   changeIndex(index:any){
     this.selectProductIndex=index;
   }
@@ -56,7 +69,7 @@ addToCart(productId: any) {
 
   openQRDialog(): void {
     const dialogRef = this.dialog.open(QRDialogComponent, {
-      width: '300px',
+      width: '200px',
       data: { product: this.product } // Passer l'URL de votre code QR à afficher
     });
 
@@ -90,30 +103,32 @@ addToCart(productId: any) {
   }
   rating: number = 0; // Note de rating actuelle
   comment: string = '';
+  selectedRating: number = 0;
 
-  setRating(rating: number): void {
+ /*setRating(rating: number): void {
     this.rating = rating;
     this.ratingSelected=true;
-  }
+    console.log('Rating selected:', this.rating);
+
+  }*/
 
 
-  productRating: ProductRating[] | null = null; // Initialiser avec une valeur nulle
+  productComment: ProductComment[] | null = null; // Initialiser avec une valeur nulle
 
   getproductraitingbyproduct(id :number) {
     this.productService.getProductRatingByProductId(id).subscribe(
-      (data: ProductRating[]) => {
-        this.productRating = data; // Stockez les données dans la variable productRating
+      (data: ProductComment[]) => {
+        this.productComment = data;
       },
       error => {
         console.log('Une erreur s\'est produite lors de la récupération des notes de rating du produit:', error);
       }
     );
   }
-  
   openCommentDialog(): void {
     const dialogRef = this.dialog.open(CommentDialogComponent, {
       width: '600px', // Définissez la largeur de la boîte de dialogue selon vos besoins
-      data: { productRating: this.productRating } // Transmettez les données des commentaires à afficher
+      data: { productComment: this.productComment } // Transmettez les données des commentaires à afficher
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -124,6 +139,84 @@ addToCart(productId: any) {
 
   ratingSelected: boolean = false;
 
+  /////////////////////////////////
+  async rateProduct(productId: number, rating: number) {
+    try {
+      const response = await this.productService.rateProduct(productId, rating).toPromise();
+      console.log('Rating saved:', response);
+      // Afficher une notification de succès
+      Swal.fire('Success!', 'Rating saved successfully.', 'success');
+      this.selectedRating = this.rating; // Mettre à jour les étoiles sélectionnées après sauvegarde
+
+    } catch (error) {
+      console.error('Error saving rating:', error);
+      // Afficher une notification d'erreur
+      Swal.fire('Error', 'Failed to save rating. Please try again.', 'error');
+    }
+  }
+  async submitRating(productId: number): Promise<void> {
+    if (this.rating === 0) {
+      Swal.fire('Error', 'Please select a rating.', 'error');
+      return;
+    }
+
+    try {
+      await this.rateProduct(productId, this.rating);
+      // Mettre à jour les étoiles sélectionnées après sauvegarde
+      this.selectedRating = this.rating;
+    } catch (error) {
+      console.error('Error saving rating:', error);
+    }
+  }
+  async commentProduct(productId: number, comment: string) {
+    try {
+      const response = await this.productService.commentProduct(productId, comment).toPromise();
+      console.log('Comment saved:', response);
+      // Afficher une notification de succès
+      Swal.fire('Success!', 'Comment saved successfully.', 'success');
+    } catch (error) {
+      console.error('Error saving comment:', error);
+      // Afficher une notification d'erreur
+      Swal.fire('Error', 'Failed to save comment. Please try again.', 'error');
+    }
+  }
+
+ 
+
+  submitComment(productId:number): void {
+    if (this.comment.trim() === '') {
+      Swal.fire('Error', 'Please provide a comment.', 'error');
+      return;
+    }
+
+    // Remplacez par l'ID du produit concerné
+    this.productService.commentProduct(productId, this.comment).subscribe(
+      (response) => {
+        console.log('Comment saved:', response);
+        Swal.fire('Success!', 'Comment saved successfully.', 'success');
+        this.comment = ''; // Réinitialiser le commentaire après avoir sauvegardé
+      },
+      (error) => {
+        console.error('Error saving comment:', error);
+        Swal.fire('Error', 'Failed to save comment. Please try again.', 'error');
+      }
+    );
+  }
+
+  
+  setRating(rating: number): void {
+    // Enregistrement du rating dans le service et mise à jour de l'affichage
+    this.productService.setRating(this.product.idProduct, rating);
+    this.rating = rating;
+    this.ratingSelected = true;
+    console.log('Rating selected:', this.rating);
+  }
+
+  clearRating(): void {
+    // Efface le rating du stockage local et réinitialise l'affichage
+    this.productService.clearRating(this.product.idProduct);
+    this.rating = 0;
+  }
   }
 
 

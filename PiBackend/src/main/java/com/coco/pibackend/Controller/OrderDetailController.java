@@ -25,7 +25,13 @@ public class OrderDetailController {
         orderDetailService.placeOrder(orderInput, isSingleProductCheckout);
 
     }
+    @PreAuthorize("hasRole('ROLE_MEMBRE')")
 
+    @PostMapping("/api/triggerScheduledTask")
+    public ResponseEntity<String> triggerScheduledTask() {
+        orderDetailService.scheduleMarkOrdersAsDelivered();
+        return ResponseEntity.ok("Scheduled task triggered successfully");
+    }
    // @PreAuthorize("hasRole('User')")
    @PreAuthorize("hasRole('ROLE_MEMBRE')")
    @GetMapping({"/getOrderDetails"})
@@ -41,7 +47,6 @@ public class OrderDetailController {
     }
 
     @PreAuthorize("hasRole('ROLE_MEMBRE')")
-
     @GetMapping({"/markOrderAsDelivered/{orderId}"})
     public void markOrderAsDelivered(@PathVariable(name= "orderId")int orderId ){
         orderDetailService.markOrderAsDelivered(orderId);

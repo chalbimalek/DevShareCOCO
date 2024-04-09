@@ -8,6 +8,7 @@ import { Category } from '../model/enumerations/Category';
 import { AuthService } from './auth.service';
 import { ProductRating } from '../model/ProductRating';
 import { CartDetail } from '../model/CartDetail';
+import { ProductComment } from '../model/ProductComment';
 
 
 @Injectable({
@@ -17,7 +18,8 @@ export class ProductService {
 
   private baseUrl = 'http://localhost:8080/api'; // L'URL de base de votre backend
 
-  constructor(private authservice:AuthService, private httpClient: HttpClient) { }
+  constructor(private authservice:AuthService, private httpClient: HttpClient) {
+  }
 
 
 
@@ -75,6 +77,15 @@ export class ProductService {
       }
       return this.httpClient.get<Product[]>("http://localhost:8080/api/getProductDetails/"+isSingeProductCheckout+"/"+productId, { headers });
      }
+     ///////////////
+     public getProductDetails2(isSingeProductCheckout:any,productId:any){
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.get<Product[]>("http://localhost:8080/api/getProductDetails2/"+isSingeProductCheckout+"/"+productId, { headers });
+     }
   
      public placeOrder(orderDetails: OrderDetails, isCartCheckout:any){
       const token = this.authservice.getToken();
@@ -110,7 +121,21 @@ export class ProductService {
       }
       return this.httpClient.delete("http://localhost:8080/api/deleteCartItem/"+cartId, { headers });
      }
-  
+     triggerScheduledMarkOrdersAsDelivered(): void {
+        const token = this.authservice.getToken();
+        let headers = new HttpHeaders();
+        if (token) {
+          headers = headers.set('Authorization', `Bearer ${token}`);
+        }
+      this.httpClient.post<any>("http://localhost:8080/api/api/triggerScheduledMarkOrdersAsDelivered", {},{ headers }).subscribe(
+        (resp) => {
+          console.log('Scheduled task triggered successfully:', resp);
+        },
+        (err) => {
+          console.log('Error triggering scheduled task:', err);
+        }
+      );
+    }
      markOrderAsDelivered(orderId: any): Observable<any> {
       const token = this.authservice.getToken();
       let headers = new HttpHeaders();
@@ -152,8 +177,8 @@ export class ProductService {
       return this.httpClient.post<ProductRating>("http://localhost:8080/api/api/product-ratings/"+productId, productRating, { headers });
     }
     
-    getProductRatingByProductId(productId: number): Observable<ProductRating[]> {
-      return this.httpClient.get<ProductRating[]>("http://localhost:8080/api/api/product-ratings/product/"+productId);
+    getProductRatingByProductId(productId: number): Observable<ProductComment[]> {
+      return this.httpClient.get<ProductComment[]>("http://localhost:8080/api/api/product-ratings/product/"+productId);
     }
 
     statistiqueRating():Observable<string[]>{
@@ -177,5 +202,74 @@ export class ProductService {
       }
       return this.httpClient.get<any>("http://localhost:8080/api/api/removeProductFromCart/"+productId, { headers })
     }
+
+    sendEmail(emailRequest: any): Observable<any> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.post<any>("http://localhost:8080/api/sendEmail", emailRequest, { headers });
+    }
+
+    rateProduct(productId: number, rating: number): Observable<ProductRating> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.post<ProductRating>(`http://localhost:8080/api/api/product-ratings/rate/${productId}/${rating}`, null, { headers });
+    }
+
+    commentProduct(productId: number, comment: string): Observable<ProductComment> {
+      const token = this.authservice.getToken();
+      let headers = new HttpHeaders();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+      return this.httpClient.post<ProductComment>(`http://localhost:8080/api/api/product-ratings/comment/${productId}/${comment}`, null ,{ headers } );
+    }
+
+    private ratingKeyPrefix = 'productRating_';
+  private ratingSubjects: { [productId: number]: BehaviorSubject<number> } = {};
+
+  private getRatingKey(productId: number): string {
+    return this.ratingKeyPrefix + productId;
+  }
+
+  private initRating(productId: number): void {
+    const ratingKey = this.getRatingKey(productId);
+    const storedRating = localStorage.getItem(ratingKey);
+    const initialRating = storedRating ? parseInt(storedRating, 10) : 0;
+    this.ratingSubjects[productId].next(initialRating);
+  }
+
+  setRating(productId: number, rating: number): void {
+    const ratingKey = this.getRatingKey(productId);
+    localStorage.setItem(ratingKey, rating.toString());
+    if (!this.ratingSubjects[productId]) {
+      this.ratingSubjects[productId] = new BehaviorSubject<number>(rating);
+      this.initRating(productId);
+    } else {
+      this.ratingSubjects[productId].next(rating);
+    }
+  }
+
+  getRating(productId: number): Observable<number> {
+    if (!this.ratingSubjects[productId]) {
+      this.ratingSubjects[productId] = new BehaviorSubject<number>(0);
+      this.initRating(productId);
+    }
+    return this.ratingSubjects[productId].asObservable();
+  }
+
+  clearRating(productId: number): void {
+    const ratingKey = this.getRatingKey(productId);
+    localStorage.removeItem(ratingKey);
+    if (this.ratingSubjects[productId]) {
+      this.ratingSubjects[productId].next(0);
+    }
+  }
+
 }
 

@@ -9,10 +9,12 @@ import com.coco.pibackend.Security.JWT.AuthTokenFilter;
 import com.coco.pibackend.dao.ProductDao;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +26,8 @@ public class OrderDetailService {
 
     @Autowired
     private OrderDetailDao orderDetailDao;
-
+    @Autowired
+    private ProductService productService;
     @Autowired
     private ProductDao productDao;
 
@@ -50,12 +53,15 @@ public class OrderDetailService {
 
     public void placeOrder(OrderInput orderInput, boolean isSingleProductCheckout) {
         List<OrderProductQuantity> productQuantityList = orderInput.getOrderProductQuantityList();
-
+        LocalDate today = LocalDate.now();
         for(OrderProductQuantity o: productQuantityList) {
             Product product = productDao.findById(o.getProductId()).get();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User user= userDao.findByUsername(username).get();
+
+            LocalDate deliveryDate = today.plusDays(product.getDeliveryDays());
+
 
             OrderDetail orderDetail = new OrderDetail(
                     orderInput.getFullName(),
@@ -72,7 +78,20 @@ public class OrderDetailService {
                 carts.stream().forEach(x -> cartDao.deleteById(x.getCartId()));
 
             }
+            productService.removeProductFromCart(o.getProductId());
+            orderDetail.setDeliveryDate(deliveryDate);
+
             orderDetailDao.save(orderDetail);
+        }
+    }
+    @Transactional
+    @Scheduled(fixedDelay = 86400000) // Exemple : 24 heures en millisecondes (86400000 ms)
+    public void scheduleMarkOrdersAsDelivered() {
+        // Obtenez la liste des commandes à marquer comme livrées après un certain délai
+        List<OrderDetail> ordersToMarkAsDelivered = orderDetailDao.findByOrderStatusAndDeliveryDateBefore(ORDER_PLACED, LocalDate.now());
+
+        for (OrderDetail order : ordersToMarkAsDelivered) {
+            markOrderAsDelivered(order.getOrderId());
         }
     }
 @Transactional

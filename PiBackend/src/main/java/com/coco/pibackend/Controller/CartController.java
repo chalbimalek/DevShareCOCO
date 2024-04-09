@@ -36,8 +36,6 @@ public class CartController {
 
     }
     @PreAuthorize("hasRole('ROLE_MEMBRE')")
-
-
     @DeleteMapping({"/deleteCartItem/{cartId}"})
     public void deleteCartItem(@PathVariable(name= "cartId") Integer cartId) {
         cartService.deleteCartItem(cartId);

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -151,6 +152,28 @@ public class ProductService {
                     .collect(Collectors.toList());
         }
     }
+    public List<Product> getProductDetails2(boolean isSingleProductCheckout, Integer productId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (isSingleProductCheckout && productId != null && productId != 0) {
+            // Si c'est une vérification unique de produit et productId est valide
+            Product product = productRepo.findById(productId).orElse(null);
+            return product != null ? Collections.singletonList(product) : Collections.emptyList();
+        } else {
+            // Sinon, récupérer tous les produits dans le panier de l'utilisateur
+            List<Cart> carts = cartDao.findByUser(user);
+            List<Product> productList = new ArrayList<>();
+
+            for (Cart cart : carts) {
+                productList.addAll(cart.getProduct());
+            }
+
+            return productList;
+        }
+    }
+
 
     public List<Product> getProductsByCategory(Category category) {
         // Récupérer tous les produits depuis le repository
