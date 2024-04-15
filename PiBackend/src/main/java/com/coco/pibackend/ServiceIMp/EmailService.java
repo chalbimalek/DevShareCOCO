@@ -1,5 +1,6 @@
 package com.coco.pibackend.ServiceIMp;
 
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,16 @@ public class EmailService {
             message.setText(text);
             emailSender.send(message);
         }
+
+    public void sendHtmlEmail(String to, String subject, String htmlBody) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlBody, true); // Définit le contenu HTML du message
+
+        emailSender.send(message);
+    }
   /*  public String sendMail(MultipartFile[] file, String to, String[] cc, String subject, String body) {
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();

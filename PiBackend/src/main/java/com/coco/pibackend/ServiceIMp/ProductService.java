@@ -33,15 +33,23 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
     private final ProductRepo productRepo;
-    private final MediaRepo mediaRepo;
-    private final RefGenerator refGenerator;
+    private final UserRepo userDao;
     private final UserRepo userRepo;
     private final CartDao cartDao;
-
+@Transactional
     public Product addProduit(Product product) {
         product.setCreationDate(new Date());
-        return productRepo.save(product);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDao.findByUsername(username).get();
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return null;
+        }
+        Product  product1=productRepo.save(product);
+        product1.setUser(user);
 
+        return product1;
     }
 
     /*String ref = refGenerator.generateRef();

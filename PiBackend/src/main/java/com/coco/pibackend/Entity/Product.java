@@ -35,6 +35,8 @@ public class Product implements Serializable {
     private int deliveryDays;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @ManyToOne
+    private User user;
     @JsonIgnore
     @ManyToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private List<OrderDetail> orderDetails;
@@ -44,4 +46,7 @@ public class Product implements Serializable {
     @JoinTable(name = "products_image" ,joinColumns = {@JoinColumn(name = "product_id")}
     ,inverseJoinColumns = {@JoinColumn (name = "image_id")})
     private Set<ImageModel> imageModels;
+
+    public Product(String originalFilename, String cvUrl, String prenom) {
+    }
 }

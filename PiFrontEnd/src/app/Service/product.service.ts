@@ -127,7 +127,7 @@ export class ProductService {
         if (token) {
           headers = headers.set('Authorization', `Bearer ${token}`);
         }
-      this.httpClient.post<any>("http://localhost:8080/api/api/triggerScheduledMarkOrdersAsDelivered", {},{ headers }).subscribe(
+      this.httpClient.post<any>("http://localhost:8080/api/api/triggerScheduledTask", {},{ headers }).subscribe(
         (resp) => {
           console.log('Scheduled task triggered successfully:', resp);
         },
@@ -209,7 +209,7 @@ export class ProductService {
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
-      return this.httpClient.post<any>("http://localhost:8080/api/sendEmail", emailRequest, { headers });
+      return this.httpClient.post<any>("http://localhost:8080/api/sendHtmlEmail", emailRequest, { headers });
     }
 
     rateProduct(productId: number, rating: number): Observable<ProductRating> {

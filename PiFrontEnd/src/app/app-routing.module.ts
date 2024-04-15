@@ -34,14 +34,16 @@ import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
 import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
+import { ChattComponent } from './chatt/chatt.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
   //{path:'msg',component:MessageFormComponent},
-  {path:'chat',component:ChatbotComponent},
+  {path:'chat',component:ChattComponent},
 
   {path:'',component:AlltemplatefrontComponent, children:[
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
+  {path:'chat', canActivate: [AuthGuardService], component: ChatbotComponent },
 
   {path:'Carpooling', canActivate: [AuthGuardService], component: RegisterCarpoolingComponent},
   {path:'listCarppoling', canActivate: [AuthGuardService], component: ListCarpoolingComponent},

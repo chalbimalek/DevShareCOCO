@@ -62,6 +62,8 @@ import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-di
 import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
 import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
 import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.component';
+import { IconModule } from '@acpaas-ui/ngx-icon';
+import { ChattComponent } from './chatt/chatt.component';
 
 
 
@@ -113,6 +115,7 @@ import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.c
     ChatbotComponent,
     StatistiqueComponent,
     RatingChartComponent,
+    ChattComponent,
     
   ],
   imports: [
@@ -123,6 +126,7 @@ import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.c
     BrowserAnimationsModule,
     MatFormFieldModule,
     HttpClientModule,
+    IconModule,
     FormsModule,
     MatGridListModule,
     MatTableModule,

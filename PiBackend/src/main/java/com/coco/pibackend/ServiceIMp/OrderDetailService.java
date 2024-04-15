@@ -85,9 +85,8 @@ public class OrderDetailService {
         }
     }
     @Transactional
-    @Scheduled(fixedDelay = 86400000) // Exemple : 24 heures en millisecondes (86400000 ms)
+    @Scheduled(fixedDelay = 86400000)
     public void scheduleMarkOrdersAsDelivered() {
-        // Obtenez la liste des commandes à marquer comme livrées après un certain délai
         List<OrderDetail> ordersToMarkAsDelivered = orderDetailDao.findByOrderStatusAndDeliveryDateBefore(ORDER_PLACED, LocalDate.now());
 
         for (OrderDetail order : ordersToMarkAsDelivered) {

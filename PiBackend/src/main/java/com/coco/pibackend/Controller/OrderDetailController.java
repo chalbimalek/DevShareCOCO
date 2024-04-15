@@ -26,7 +26,6 @@ public class OrderDetailController {
 
     }
     @PreAuthorize("hasRole('ROLE_MEMBRE')")
-
     @PostMapping("/api/triggerScheduledTask")
     public ResponseEntity<String> triggerScheduledTask() {
         orderDetailService.scheduleMarkOrdersAsDelivered();
@@ -50,7 +49,6 @@ public class OrderDetailController {
     @GetMapping({"/markOrderAsDelivered/{orderId}"})
     public void markOrderAsDelivered(@PathVariable(name= "orderId")int orderId ){
         orderDetailService.markOrderAsDelivered(orderId);
-
     }
 
     @GetMapping("/statistics/most-purchased-category")

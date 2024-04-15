@@ -68,7 +68,10 @@ export class BuyProductComponent  implements OnInit {
             try {
               // Charger les détails du produit depuis le service ou l'API
               const orderedProduct = await this.productService.getProductById(productId).toPromise();
-  
+              console.log('Order placed successfully:', resp);
+    
+              // Déclencher la tâche planifiée pour marquer les commandes comme livrées
+              await this.productService.triggerScheduledMarkOrdersAsDelivered();
               // Vérifier si le produit a été trouvé
               if (orderedProduct) {
                 const deliveryDays = orderedProduct.deliveryDays;
@@ -89,7 +92,7 @@ export class BuyProductComponent  implements OnInit {
                 this.router.navigate(['/myOrders']);
                 
                 // Déclencher la méthode pour marquer les commandes comme livrées
-                this.productService.triggerScheduledMarkOrdersAsDelivered();
+               // this.productService.triggerScheduledMarkOrdersAsDelivered();
               } else {
                 // Gérer le cas où le produit n'a pas été trouvé
                 Swal.fire('Error', 'Product details not found. Please try again.', 'error');
@@ -167,7 +170,7 @@ export class BuyProductComponent  implements OnInit {
       });
 
       handler.open({
-        name: 'Demo Site',
+        name: 'COCO',
         description: 'Your order description', // Mettez la description de votre commande ici
         amount: amount * 100 // Convertir le montant en centimes si nécessaire
       });
@@ -197,23 +200,134 @@ export class BuyProductComponent  implements OnInit {
       window.document.body.appendChild(s);
     }
   }
-  ////////////////////
-  sendEmailToAdmin() {
-    const emailRequest = {
-      to: 'mchalbi606@gmail.com', 
-      subject: 'New Order Received', 
-      text: 'A new order has been received. Please review the order details.' 
-    };
+  //////////////////////////
+  pageNumber: number = 0;
 
-    this.productService.sendEmail(emailRequest).subscribe(
-      response => {
-        console.log('Email sent to admin successfully', response);
+  sendEmailToAdmin(): void {
+    this.productService.getAllProduct(this.pageNumber).subscribe(
+      (products: Product[]) => {
+        const htmlContent = this.generateProductHtml(products);
+
+        const emailRequest = {
+          to: 'mchalbi606@gmail.com',
+          subject: 'New Order Received',
+          text: htmlContent
+        };
+
+        this.productService.sendEmail(emailRequest).subscribe(
+          response => {
+            console.log('Email sent to admin successfully', response);
+          },
+          error => {
+            console.error('Error sending email to admin', error);
+          }
+        );
       },
-      error => {
-        console.error('Error sending email to admin', error);
-        // Gérez les erreurs d'envoi d'e-mail ici
+      (error) => {
+        console.error('Error fetching products', error);
       }
     );
   }
 
+  generateProductHtml(products: Product[]): string {
+    let text = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New Products Received</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                color: #333;
+                background-color: #f8f8f8; /* Couleur de fond */
+                padding: 20px;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff; /* Couleur de fond du conteneur */
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            }
+            h2 {
+                color: #007bff; /* Couleur du titre */
+                text-align: center;
+            }
+            .product-card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+                background-color: #fff;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .product-image {
+                width: 100px;
+                height: auto;
+                margin-bottom: 10px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .product-name {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            .product-brand {
+                color: #666;
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            .product-price {
+                color: #28a745; /* Couleur du prix */
+                font-weight: bold;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>New Products Received</h2>
+    
+            <!-- Boucle sur les produits pour afficher les cartes -->
+           
+            <div class="product-card">
+                <img src="/assets/images/logo.jpg" alt="Product Image" class="product-image">
+                <div class="product-name">bonjouur</div>
+                <div class="product-brand"></div>
+                <div class="product-price">merci pour votre confiance</div>
+            </div>
+           
+    
+        </div>
+    </body>
+    </html>
+    
+    `;
+
+    products.forEach(product => {
+      text += `
+        <div class="product-card">
+          <img src="${product.imageModels}" alt="Product Image" class="product-image">
+          <h3>${product.name}</h3>
+          <p>Brand: ${product.brand}</p>
+          <p>Price: ${product.price} dt</p>
+        </div>
+      `;
+    });
+
+    text += `
+          </div>
+      </body>
+      </html>
+    `;
+
+    return text;
+  }
 }

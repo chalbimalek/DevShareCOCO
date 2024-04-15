@@ -11,6 +11,7 @@ import { CommentDialogComponent } from '../comment-dialog/comment-dialog.compone
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductComment } from 'src/app/model/ProductComment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-detaitlsback',
@@ -38,7 +39,8 @@ addToCart(productId: any) {
   private ratingSubscription!: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private router : Router,
-    private productService: ProductService,public dialog: MatDialog) { }
+    private productService: ProductService,public dialog: MatDialog,    private snackbar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
 
@@ -172,8 +174,10 @@ addToCart(productId: any) {
     try {
       const response = await this.productService.commentProduct(productId, comment).toPromise();
       console.log('Comment saved:', response);
-      // Afficher une notification de succès
-      Swal.fire('Success!', 'Comment saved successfully.', 'success');
+      // Afficher une notification de succès.
+      this.snackbar.open('Comment saved successfully..', 'close', { duration: 5000 });
+
+      //Swal.fire('Success!', 'Comment saved successfully.', 'success');
     } catch (error) {
       console.error('Error saving comment:', error);
       // Afficher une notification d'erreur
@@ -193,7 +197,9 @@ addToCart(productId: any) {
     this.productService.commentProduct(productId, this.comment).subscribe(
       (response) => {
         console.log('Comment saved:', response);
-        Swal.fire('Success!', 'Comment saved successfully.', 'success');
+        this.snackbar.open('Comment saved successfully..', 'close', { duration: 5000 });
+
+       // Swal.fire('Success!', 'Comment saved successfully.', 'success');
         this.comment = ''; // Réinitialiser le commentaire après avoir sauvegardé
       },
       (error) => {
