@@ -56,11 +56,35 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { EventsComponent } from './Forum-Event/event/events/events.component';
+import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { PostComponent } from './Forum-Event/post/post/post.component';
+import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
+import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
+import { RatingComponent } from './Forum-Event/rating/rating.component';
+import { RatingService } from './Service/rating.service';
 
 
 
 @NgModule({
   declarations: [
+    AddPostsComponent,
+    SearchPostsComponent,
+    PostComponent,
+    PostdetailComponent,
+    EditPostsComponent,
+    AddPostFileComponent,
+    CustomDatePipe,
+    EventsComponent,
+    EditEventsComponent,
+    DetailEventComponent,
+    AddEventComponent ,
     AppComponent,
     HomeComponent,
     MarketplaceComponent,
@@ -99,6 +123,7 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
     AddCollocationComponent,
     ListCollocationComponent,
     DetailsCollocationComponent,
+    RatingComponent,
     
   ],
   imports: [
@@ -120,9 +145,11 @@ import { DetailsCollocationComponent } from './Collocation/details-collocation/d
     NgxPaginationModule,
     MatDatepickerModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [RatingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

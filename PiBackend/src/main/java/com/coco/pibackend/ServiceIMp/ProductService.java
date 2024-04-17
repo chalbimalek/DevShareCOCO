@@ -10,6 +10,7 @@ import com.coco.pibackend.Repo.ProductRepo;
 import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Security.JWT.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ProductService {
 
 
     private final ProductRepo productRepo;
-    private final MediaRepo mediaRepo;
+
     private final RefGenerator refGenerator;
     private final UserRepo userRepo;
     private final CartDao cartDao;

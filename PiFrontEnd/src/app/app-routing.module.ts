@@ -30,11 +30,36 @@ import { ListCollocationComponent } from './Collocation/list-collocation/list-co
 import { CollocationResolveService } from './Collocation/ImageCollocation/collocation-resolve.service';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+import { PostComponent } from './Forum-Event/post/post/post.component';
+import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
+import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
+import { EventsComponent } from './Forum-Event/event/events/events.component';
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
 
+import { RatingComponent } from './Forum-Event/rating/rating.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
 
   {path:'',component:AlltemplatefrontComponent, children:[
+    { path: 'posts', component: PostComponent},
+    {path: 'addpost', component: AddPostsComponent},
+    { path: 'editPost/:id', component: EditPostsComponent },
+    {path: 'events', component: EventsComponent},
+    {path: 'addEvent', component: AddEventComponent},
+    { path: 'editEvent/:id', component: EditEventsComponent },
+    { path: 'detailEvent/:id', component: DetailEventComponent },
+    { path:'detailPost/:id',component:PostdetailComponent},
+    { path: 'addPostFile/:id', component: AddPostFileComponent },
+    { path: 'post/SearchPosts/:word', component: SearchPostsComponent },
+    {path:'rating',component:RatingComponent},
+    
+    
+  
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
 
   {path:'Carpooling', canActivate: [AuthGuardService], component: RegisterCarpoolingComponent},
@@ -72,6 +97,20 @@ const routes: Routes = [
 
 
 {path:'back' ,component:AlltemplateBackComponent, canActivate: [AuthGuardService], children:[
+  { path: 'posts', component: PostComponent},
+  {path: 'addpost', component: AddPostsComponent},
+  { path: 'editPost/:id', component: EditPostsComponent },
+  {path: 'events', component: EventsComponent},
+  {path: 'addEvent', component: AddEventComponent},
+  { path: 'editEvent/:id', component: EditEventsComponent },
+  { path: 'detailEvent/:id', component: DetailEventComponent },
+  { path:'detailPost/:id',component:PostdetailComponent},
+  { path: 'addPostFile/:id', component: AddPostFileComponent },
+  { path: 'post/SearchPosts/:word', component: SearchPostsComponent },
+  {path:'rating',component:RatingComponent},
+
+
+
   {path:'showback',component:ShowProductDetailsComponent},
   {path:'list',component:ListProduitComponent},
   {path :'addproduitBack', component:AddProductBackComponent,

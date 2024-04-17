@@ -40,7 +40,6 @@ public class User {
     @Column
     private String cin;
     @Column String phone;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -78,16 +77,17 @@ public class User {
     private List<User> followingUsers = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+    @OneToMany( cascade = CascadeType.REMOVE)
     private List<Post> postList;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "likeList")
+    @ManyToMany
     private List<Post> likedPosts = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "likeList")
+    @ManyToMany
     private List<Comment> likedComments = new ArrayList<>();
+
 
     @Override
     public boolean equals(Object o) {
