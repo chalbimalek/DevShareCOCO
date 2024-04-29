@@ -12,6 +12,7 @@ import com.coco.pibackend.Response.JwtResponse;
 import com.coco.pibackend.Response.MessageResponse;
 import com.coco.pibackend.Security.JWT.JwtUtils;
 import com.coco.pibackend.Security.Service.UserDetailsImpl;
+import com.coco.pibackend.ServiceIMp.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,6 +38,8 @@ public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    UserServiceImpl userService;
     @Autowired
     UserRepo userRepository;
 
@@ -116,4 +119,9 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("Inscription réussie. Veuillez vérifier votre email pour activer votre compte."));
 
-    }}
+    }
+    @GetMapping("/getuser/id")
+    public long getUserIdFromUsername(@RequestParam String username){
+        return userService.getUserIdFromUsername(username);
+    }
+}

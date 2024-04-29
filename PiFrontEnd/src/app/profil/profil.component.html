@@ -31,6 +31,9 @@
                 <span><a href="javascript:void(0)">@username</a></span>
               </h3>
             </div>
+            
+            <!-- Bouton ou lien pour représenter l'icône de notification -->
+         
             <div class="dashboard-menu">
               <ul>
                 <li>
@@ -87,12 +90,56 @@
             </div>
           </div>
           <!-- Start Dashboard Sidebar -->
+          <div>
+            <i class="material-icons yellow-icon">star</i>
+            <h3>Your Points :{{ totalCarpoolings }}</h3>
+          </div>
+          
         </div>
+      
+        
         <div class="col-lg-9 col-md-8 col-12">
           <div class="main-content">
             <!-- Start Profile Settings Area -->
             <div class="dashboard-block mt-0 profile-settings-block">
               <h3 class="block-title">Profile Settings</h3>
+                  <!-- notificationss -->
+                  <button (click)="toggleNotifications1()" class="notification-icon">
+                    <!-- Utilisez une classe pour définir la taille et la couleur de l'icône -->
+                    <i class="fas fa-bell notification-icon-inner"></i>
+        <!-- Affichez le nombre total de notifications avec un badge -->
+        <span class="notification-badge">{{ notifications.length }}</span>
+      </button>
+      
+      <!-- Affichage des notifications (s'affiche si showNotifications est vrai) -->
+      <div *ngIf="showNotifications">
+                  <div *ngFor="let notification of notifications">
+                    <div class="notification-item">
+                      <!-- Icône de notification -->
+                      <i class="fas fa-bell notification-icon"></i>
+                      <div *ngIf="notification.userDestiner.username === loggedInUser">
+                        <h5>De :</h5>
+                        <h4>{{ notification.userEnvoyer.username }}</h4>
+                        <p>{{ notification.message }}</p>
+                        <p>{{ notification.timestamp }}</p> 
+                        <h5>Envoyée à :</h5>
+                        <h4>{{ notification.userDestiner.username }}</h4>
+                        <hr>                       
+                        <div *ngIf="!notification.acceptee && !notification.refusee ">
+                          <!-- Boutons pour accepter ou refuser le covoiturage -->
+                          <button (click)="accepterCovoiturage(notification.carpooling.idCarpolling, notification.userEnvoyer.id)" type="button" class="btn btn-success">Accepter le covoiturage</button>
+                          <button (click)="refuserCovoiturage(notification.carpooling.idCarpolling, notification.userEnvoyer.id)" type="button" class="btn btn-danger">Refuser le covoiturage</button>
+                        </div>
+                      </div>
+                      <div *ngIf="notification.acceptee && !notification.refusee">
+                        <!-- Bouton pour annuler l'acceptation du covoiturage -->
+                        <button (click)="annulerAcceptationCovoiturage(notification.carpooling.idCarpolling, notification.userDestiner.id)" type="button" class="btn btn-success">Annuler le covoiturage</button>
+                      </div>
+                    </div>
+                  </div>
+                    <hr>
+                    
+                </div>
               <div class="inner-block">
                 <div class="image">
                   <img src="assets/images/dashboard/user-image.jpg" alt="#" />
@@ -217,6 +264,8 @@
             <!-- End Password Change Area -->
           </div>
         </div>
+                
+
       </div>
     </div>
   </section>
@@ -234,6 +283,7 @@
               <p>We don't send spam so don't worry.</p>
             </div>
           </div>
+         
           <div class="col-lg-6 col-md-6 col-12">
             <div class="form">
               <form

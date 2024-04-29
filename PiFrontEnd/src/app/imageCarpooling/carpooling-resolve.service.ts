@@ -36,12 +36,19 @@ export class CarpoolingResolveService implements Resolve<Carpooling>{
       pointSorite: "",
       price: 0,
       adresse:"",
+      departLatitude:0,
+      departLongitude:0,
       description: "",
       nbrPlaceDisponible: 0,
       gouvernorat:"",
       numero:0,
       imageModels: [],
-      DateSortie:new Date(2024, 2, 19, 12, 0, 0) 
+      DateSorite: new Date(),
+      destinationLatitude: 0,
+      destinationLongitude: 0,
+      title: "",
+      acceptee:true,
+  refusee:true
     };
   }
 }

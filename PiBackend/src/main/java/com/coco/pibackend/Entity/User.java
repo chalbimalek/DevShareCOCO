@@ -44,21 +44,26 @@ public class User {
     private List<OrderDetail> orderDetails;
     @OneToOne
     private Cart cart;
+    @JsonIgnore
+    @OneToMany(mappedBy = "userDestiner")
+    Set<Notification> notifications;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @OneToMany
-    Set<Carpooling>  carpoolings;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user" ,cascade = CascadeType.REMOVE)
+    private Set<Carpooling> annonceCarpoolingSet; // Liste des covoiturages annoncés par cet utilisateur
+
     private Integer followerCount;
     private Integer followingCount;
     private Boolean enabled;
     private Boolean accountVerified;
     private Boolean emailVerified;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date birthDate;
+
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date joinDate;
@@ -75,22 +80,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "follower_id")
     )
     private List<User> followerUsers = new ArrayList<>();
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "followerUsers")
-    private List<User> followingUsers = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
-    private List<Post> postList;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "likeList")
-    private List<Post> likedPosts = new ArrayList<>();
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "likeList")
-    private List<Comment> likedComments = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

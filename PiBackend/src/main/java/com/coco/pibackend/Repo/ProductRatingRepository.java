@@ -10,6 +10,6 @@ public interface ProductRatingRepository extends JpaRepository<ProductRating, Lo
 
 List<ProductRating> getProductRatingByProduct_IdProduct(int id);
 
-@Query("select r.product.category, count(r.rating) as rating from ProductRating r group by r.product.category order by rating")
+@Query("select r.product.category, SUM (r.rating) as rating from ProductRating r group by r.product.category order by rating")
     List<String> statistiqueRating();
 }

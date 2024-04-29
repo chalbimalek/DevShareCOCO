@@ -21,7 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ProdutShowDialogComponent } from './MarketPlacee/produt-show-dialog/produt-show-dialog.component';
 import { AddProductBackComponent } from './MarketPlacee/add-product-back/add-product-back.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DetaitlsbackComponent } from './MarketPlacee/detaitlsback/detaitlsback.component';
 import { MatCardModule } from '@angular/material/card';
 import { VaryingmodalcontentComponent } from './MarketPlacee/varyingmodalcontent/varyingmodalcontent.component';
@@ -64,6 +64,22 @@ import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.com
 import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.component';
 import { IconModule } from '@acpaas-ui/ngx-icon';
 import { ChattComponent } from './chatt/chatt.component';
+import { MapComponent } from './map/map.component';
+import { MapleafletComponent } from './mapleaflet/mapleaflet.component';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
+import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
+import { PostComponent } from './Forum-Event/post/post/post.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
+import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
+import { EventsComponent } from './Forum-Event/event/events/events.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { PopContentComponent } from './pop-content/pop-content.component';
+import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
+import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/notifications-dialog.component';
 
 
 
@@ -116,7 +132,23 @@ import { ChattComponent } from './chatt/chatt.component';
     StatistiqueComponent,
     RatingChartComponent,
     ChattComponent,
-    
+    MapComponent,
+    MapleafletComponent,
+    AddPostsComponent,
+    SearchPostsComponent,
+    PostComponent,
+    PostdetailComponent,
+    EditPostsComponent,
+    AddPostFileComponent,
+    CustomDatePipe,
+    EventsComponent,
+    EditEventsComponent,
+    DetailEventComponent,
+    AddEventComponent,
+    PopContentComponent,
+    PostFrontComponent,
+    NotificationsDialogComponent ,
+     
   ],
   imports: [
     BrowserModule,
@@ -140,7 +172,7 @@ import { ChattComponent } from './chatt/chatt.component';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

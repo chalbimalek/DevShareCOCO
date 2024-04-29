@@ -47,6 +47,5 @@ public class Product implements Serializable {
     ,inverseJoinColumns = {@JoinColumn (name = "image_id")})
     private Set<ImageModel> imageModels;
 
-    public Product(String originalFilename, String cvUrl, String prenom) {
-    }
+
 }

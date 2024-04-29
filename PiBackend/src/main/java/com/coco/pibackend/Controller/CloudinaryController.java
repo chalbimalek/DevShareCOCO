@@ -22,17 +22,6 @@ public class CloudinaryController {
     private final CloudService cloudService;
     private final ProductService productService;
 
-    @PostMapping("/upload")
-    @ResponseBody
-    public ResponseEntity<String> upload(@RequestParam MultipartFile multipartFile ) throws IOException {
-BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-if (bi == null) { return new ResponseEntity<>("Image non valide!", HttpStatus.BAD_REQUEST); }
-Map result = cloudService.upload(multipartFile);
-
-return new ResponseEntity<>("image ajoutée avec succès ! ", HttpStatus.OK); }
-
-
-
 
 
 }

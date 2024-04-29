@@ -32,12 +32,20 @@ export class RegisterCarpoolingComponent  implements OnInit {
       pointSorite: "",
       adresse:"",
       price: 0,
+      DateSorite:new  Date(),
+
       description: "",
+      departLatitude:0,
+      departLongitude:0,
       nbrPlaceDisponible: 0,
       gouvernorat:"",
       numero:0,
       imageModels: [],
-      DateSortie:new Date(2024, 2, 19, 12, 0, 0) 
+      destinationLatitude: 0,
+  destinationLongitude: 0,
+  title: "",
+  acceptee:true,
+  refusee:true
 
   }
   gouvernoratOptions = [
@@ -135,19 +143,25 @@ onGouvernoratChange(event: Event) {
   onSubmit(productForm :NgForm) {
     //const userId = this.authService.getUserIdFromToken();
     const preparedFormData=this.preparedFormData(this.product);
+      // Convertir la valeur du champ de formulaire en un objet Date
+      
+      console.log(this.product.DateSorite);
+    
+          
     this.productService.addProduct(preparedFormData).subscribe(
       (response :Carpooling) => {
-        console.log('carpooling ajouté avec succès');
 
-        productForm.reset;
+        console.log('carpooling ajouté avec succès',response.DateSorite);
+
+        //productForm.reset;
         this.product.imageModels=[];
-        productForm.resetForm();
+        //productForm.resetForm();
       
         // Rediriger vers la liste des produits
-        this.router.navigate(['/listCarppoling']);
+       // this.router.navigate(['/listCarppoling']);
   
         // Afficher une alerte de succès
-        Swal.fire('Success!', 'Produit ajouté avec succès', 'success');
+        Swal.fire('Success!', 'Carpooling ajouté avec succès', 'success');
         // Réinitialiser le formulaire ou rediriger vers une autre page
       },
       (error:HttpErrorResponse) => {
@@ -156,8 +170,8 @@ onGouvernoratChange(event: Event) {
         // Gérer l'erreur
       }
     );
+  
   }
-
   preparedFormData(product :Carpooling):FormData{
     const formData =new FormData();
     formData.append(

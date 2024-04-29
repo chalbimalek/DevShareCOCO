@@ -298,8 +298,8 @@ export class BuyProductComponent  implements OnInit {
             <!-- Boucle sur les produits pour afficher les cartes -->
            
             <div class="product-card">
-                <img src="/assets/images/logo.jpg" alt="Product Image" class="product-image">
-                <div class="product-name">bonjouur</div>
+            <img src="https://cdn.pixabay.com/photo/2021/03/19/13/40/online-6107598_640.png" alt="Produit technologique">
+            <div class="product-name">bonjouur</div>
                 <div class="product-brand"></div>
                 <div class="product-price">merci pour votre confiance</div>
             </div>

@@ -1,8 +1,8 @@
 import { Auser } from "./Auser";
 
-export interface ProductRating{
+    export interface ProductRating{
 
-    rating:number,
-    comment:String,
-    user?:Auser
-}
+        rating:number,
+        comment:String,
+        user?:Auser
+    }

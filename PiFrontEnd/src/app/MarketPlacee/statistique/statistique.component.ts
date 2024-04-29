@@ -86,6 +86,8 @@ fetchMostPurchasedCategory(): void {
   this.productService.getMostPurchasedCategory()
     .subscribe(response => {
       try {
+        console.log(response);
+        
         const data: string[] = response;
         data.forEach(item => {
           const splitData = item.split(',');

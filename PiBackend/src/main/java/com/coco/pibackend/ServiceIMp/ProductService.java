@@ -39,15 +39,15 @@ public class ProductService {
 @Transactional
     public Product addProduit(Product product) {
         product.setCreationDate(new Date());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userDao.findByUsername(username).get();
         if (user == null) {
             System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
             return null;
-        }
+        }*/
         Product  product1=productRepo.save(product);
-        product1.setUser(user);
+
 
         return product1;
     }

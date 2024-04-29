@@ -3,7 +3,7 @@
     <table mat-table [dataSource]="myOrderDetails" class="mat-elevation-z8">
         <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.orderFullOrder}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.orderFullName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Address">
