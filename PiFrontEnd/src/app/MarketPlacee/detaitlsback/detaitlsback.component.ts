@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProductComment } from 'src/app/model/ProductComment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CarppolingServiceService } from 'src/app/Service/carppoling-service.service';
 
 @Component({
   selector: 'app-detaitlsback',
@@ -38,7 +39,7 @@ addToCart(productId: any) {
   product!: Product;
   private ratingSubscription!: Subscription;
 
-  constructor(private activatedRoute: ActivatedRoute, private router : Router,
+  constructor(private CarppolingService:CarppolingServiceService,private activatedRoute: ActivatedRoute, private router : Router,
     private productService: ProductService,public dialog: MatDialog,    private snackbar: MatSnackBar,
   ) { }
 
@@ -50,6 +51,7 @@ addToCart(productId: any) {
     this.ratingSubscription = this.productService.getRating(this.product.idProduct).subscribe(newRating => {
       this.rating = newRating;
     });
+    this.getpoint();
 
 
   }
@@ -222,6 +224,62 @@ addToCart(productId: any) {
     // Efface le rating du stockage local et réinitialise l'affichage
     this.productService.clearRating(this.product.idProduct);
     this.rating = 0;
+  }
+  totalCarpoolings: number = 0;
+
+  getpoint(){
+    this.CarppolingService.calculatePoints().subscribe(
+      (total: number) => {
+        this.totalCarpoolings = total;
+        console.log("your  points :" ,this.totalCarpoolings);
+        this.calculateDiscountForAllProducts();
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+  }
+  calculateDiscountForAllProducts() {
+    // Assurez-vous que totalCarpoolings est défini
+    if (this.totalCarpoolings === null || this.totalCarpoolings === undefined) {
+      console.error("Le nombre total de points n'est pas défini.");
+      return;
+    }
+  
+    // Supposons que vous avez une liste de produits appelée 'products'
+    // Vous pouvez la remplacer par la liste de produits réelle que vous utilisez
+    const products: any[] = [/* liste de produits */];
+  
+    // Parcours de tous les produits pour calculer la réduction
+    products.forEach(product => {
+      // Vérifiez si le produit a un prix défini
+      if (product.price === null || product.price === undefined) {
+        console.error("Le prix du produit n'est pas défini :", product);
+        return;
+      }
+  
+      // Calculer la réduction pour ce produit
+      const discountedPrice = this.calculateDiscount(product.price);
+      console.log("Réduction pour le produit", product.name, ":", discountedPrice);
+      // Vous pouvez affecter le prix réduit au produit si nécessaire
+      // product.discountedPrice = discountedPrice;
+    });
+  }
+  
+  calculateDiscount(originalPrice: number): number {
+    // Supposons que chaque point donne une réduction de 0.1 dt
+    const discountPerPoint = 0.05;
+  
+    // Calculer la réduction totale en fonction du nombre de points obtenus
+    const totalDiscount = this.totalCarpoolings * discountPerPoint;
+  
+    // Assurer que la réduction totale ne dépasse pas le prix original
+    const discountedPrice = originalPrice - totalDiscount;
+      console.log("points   ",this.totalCarpoolings);
+      
+      
+    // Assurer que le prix après réduction est positif
+    return Math.max(discountedPrice, 0);
   }
   }
 

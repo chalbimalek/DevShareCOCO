@@ -14,8 +14,20 @@ import Swal from 'sweetalert2';
 })
 export class NavbarFrontComponent {
 
-  constructor(private dialog :MatDialog ,private authService: AuthService,private router : Router,private productservice:CarppolingServiceService){}
-
+  unsubscribe:boolean=false;
+  message: string | null = null;
+  constructor(private dialog :MatDialog ,private authService: AuthService,private router : Router,private productservice:CarppolingServiceService) { /*this.webSocketService.connectAndSubscribe().then(() => {
+    this.webSocketService.getMessage().subscribe((message:any) => {
+      this.unsubscribe = true;
+      this.message = message;
+      console.log(message);
+      setTimeout(() => {
+        this.message = null;
+        this.unsubscribe = false;
+      }, 13000);
+    });
+  });
+*/}
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -135,4 +147,6 @@ export class NavbarFrontComponent {
             // Gérez l'erreur ici
           });
       }
+
+
 }

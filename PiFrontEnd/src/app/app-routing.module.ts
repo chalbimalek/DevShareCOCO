@@ -73,7 +73,7 @@ const routes: Routes = [
 
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
   {path:'chat', canActivate: [AuthGuardService], component: ChatbotComponent },
-  {path:'map',component:MapleafletComponent},
+  {path:'map',component:MapleafletComponent, canActivate: [AuthGuardService]},
 
   {path:'Carpooling', canActivate: [AuthGuardService], component: RegisterCarpoolingComponent},
   {path:'listCarppoling', canActivate: [AuthGuardService], component: ListCarpoolingComponent},

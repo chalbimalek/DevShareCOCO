@@ -4,7 +4,23 @@
         height: 100%; /* Pour garantir que l'image occupe 100% de la hauteur du conteneur */
         object-fit: cover;
       }
-
+      .discount {
+        color: #e74c3c; /* Couleur du texte de la réduction */
+        font-size: 14px; /* Taille de police */
+        font-weight: bold; /* Poids de la police en gras */
+        margin-right: 5px; 
+        /* Marge en haut pour l'espacement */
+      }
+      .product-info {
+        display: flex; /* Utilisation de flexbox pour aligner les éléments en parallèle */
+        align-items: center; /* Alignement vertical des éléments */
+      }
+      
+      .price {
+        /* Styles pour le prix */
+        margin-right: 100px; /* Ajout d'un espacement entre le prix et la réduction */
+      }
+      
 .pagination {
     margin-top: 40px; /* Ajustez la marge supérieure selon vos besoins pour placer la pagination en dessous de la liste */
   }

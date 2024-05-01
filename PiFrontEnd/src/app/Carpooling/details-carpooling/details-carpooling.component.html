@@ -31,9 +31,14 @@
             <div class="mt-2" class="button-container">
               <button (click)="reserverCovoiturage(product.idCarpolling)" type="button" class="btn btn-success">Reserver</button>
             </div>
+            
           </div>
+
         </mat-card-content>
+        <canvas #qrcode width="200" height="200"></canvas>
+
       </mat-card>
+
     </div>
     <div class="col-lg-3"></div> <!-- Colonne vide pour l'espace -->
   </div>

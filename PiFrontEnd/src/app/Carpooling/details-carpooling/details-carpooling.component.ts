@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CarppolingServiceService } from 'src/app/Service/carppoling-service.service';
 import { Carpooling } from 'src/app/model/carpooling';
 import Swal from 'sweetalert2';
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-details-carpooling',
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./details-carpooling.component.css']
 })
 export class DetailsCarpoolingComponent implements OnInit {
+  @ViewChild('qrcode', { static: false }) qrcode!: ElementRef;
 
   selectProductIndex = 0;
   product!: Carpooling;
@@ -28,7 +30,24 @@ id:any
 
   }
  
-  
+  ngAfterViewInit(): void {
+    const qrData = this.constructQRData(this.product);
+    this.generateQRCode(qrData);
+  }
+
+  constructQRData(product: Carpooling): string {
+    const productId = this.id; // Récupérer l'ID du produit
+    const url = `http://localhost:4200/detailCarp/${productId}`; // Construire l'URL avec l'ID du produit
+    return url;
+  }
+
+  generateQRCode(qrData: string): void {
+    QRCode.toCanvas(this.qrcode.nativeElement, qrData, (error) => {
+      if (error) {
+        console.error('Erreur lors de la génération du code QR:', error);
+      }
+    });
+  }
   
 
   reserverCovoiturage(carpoolingId: number): void {

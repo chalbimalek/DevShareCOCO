@@ -39,9 +39,9 @@ export class ProfilComponent {
     return num < 10 ? `0${num}` : `${num}`;
   }
 ngOnInit(): void {
-  //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-  //Add 'implements OnInit' to the class.
+  
   this.getpoint();
+  
   
   this.notifications = this.trierNotificationsParDate(this.notifications);
 
@@ -165,6 +165,8 @@ getpoint(){
     this.productservice.calculatePoints().subscribe(
       (total: number) => {
         this.totalCarpoolings = total;
+        console.log("your  points :" ,this.totalCarpoolings);
+
       },
       (error: any) => {
         console.log(error);

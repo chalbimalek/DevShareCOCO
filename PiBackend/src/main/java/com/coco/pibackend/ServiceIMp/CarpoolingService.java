@@ -6,6 +6,7 @@ import com.coco.pibackend.Entity.User;
 import com.coco.pibackend.Repo.CarpoolingRepo;
 import com.coco.pibackend.Repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class CarpoolingService {
     private final CarpoolingRepo carpoolingRepo;
     private final UserRepo userDao;
     private final NotificationServiceImpl notificationService;
-
+    private final MessageSendingOperations<String> wsTemplate;
     @Transactional
     public Carpooling saveCarpooling(Carpooling carpooling) {
 
@@ -91,10 +92,13 @@ public class CarpoolingService {
         chercheurs.add(chercheur);
         carpooling.setChercheurs(chercheurs); // Mettre à jour la liste des chercheurs
         carpoolingRepo.save(carpooling);
-        System.out.println("jjjjj " + carpooling.getUser().getId());
+        System.out.println("jjjjj "
+                + carpooling.getUser().getId());
 
         // Envoyer une notification à l'utilisateur annonçant la demande de réservation
         notificationService.envoyerNotification(carpoolingId, "Demande de réservation reçue à ", carpooling.getUser().getId());
+        //wsTemplate.convertAndSend("/topic/notification/" ," Demande de réservation reçue à"+  carpooling.getUser().getId());
+
     }
 
     @Transactional
@@ -248,9 +252,9 @@ public class CarpoolingService {
         }
 
         // Calculer les points en fonction du nombre de covoiturages en semaine
-        if (weekdayCarpoolings >= 5) {
+       /* if (weekdayCarpoolings >= 5) {
             totalPoints += 100;
-        }
+        }*/
         System.out.println("1 " + totalCarpoolings);
         System.out.println("2 " + totalPoints);
 

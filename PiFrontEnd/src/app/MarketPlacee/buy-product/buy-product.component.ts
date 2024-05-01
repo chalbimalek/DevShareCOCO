@@ -5,6 +5,7 @@ import { ProductService } from '../../Service/product.service';
 import { OrderDetails } from '../../model/OrderDetails';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CarppolingServiceService } from 'src/app/Service/carppoling-service.service';
 
 @Component({
   selector: 'app-buy-product',
@@ -24,13 +25,14 @@ export class BuyProductComponent  implements OnInit {
     deliveryDate: new Date()
 
   }
-  constructor( private activatedRoute: ActivatedRoute,
+  constructor(private CarppolingService:CarppolingServiceService, private activatedRoute: ActivatedRoute,
     private productService : ProductService,
     private router: Router) { }
 
     ngOnInit(): void {
       this.productDetails = this.activatedRoute.snapshot.data['productDetails'];
       this.loadStripe();
+      this.getpoint();
       // Using the non-null assertion operator (!)
       this.isSingleProductCheckout = this.activatedRoute.snapshot.paramMap.get("isSingleProductCheckout")!;
   
@@ -330,4 +332,61 @@ export class BuyProductComponent  implements OnInit {
 
     return text;
   }
+
+  totalCarpoolings: number = 0;
+
+getpoint(){
+  this.CarppolingService.calculatePoints().subscribe(
+    (total: number) => {
+      this.totalCarpoolings = total;
+      console.log("your  points :" ,this.totalCarpoolings);
+      this.calculateDiscountForAllProducts();
+    },
+    (error: any) => {
+      console.log(error);
+    }
+  );
+}
+calculateDiscountForAllProducts() {
+  // Assurez-vous que totalCarpoolings est défini
+  if (this.totalCarpoolings === null || this.totalCarpoolings === undefined) {
+    console.error("Le nombre total de points n'est pas défini.");
+    return;
+  }
+
+  // Supposons que vous avez une liste de produits appelée 'products'
+  // Vous pouvez la remplacer par la liste de produits réelle que vous utilisez
+  const products: any[] = [/* liste de produits */];
+
+  // Parcours de tous les produits pour calculer la réduction
+  products.forEach(product => {
+    // Vérifiez si le produit a un prix défini
+    if (product.price === null || product.price === undefined) {
+      console.error("Le prix du produit n'est pas défini :", product);
+      return;
+    }
+
+    // Calculer la réduction pour ce produit
+    const discountedPrice = this.calculateDiscount(product.price);
+    console.log("Réduction pour le produit", product.name, ":", discountedPrice);
+    // Vous pouvez affecter le prix réduit au produit si nécessaire
+    // product.discountedPrice = discountedPrice;
+  });
+}
+
+calculateDiscount(originalPrice: number): number {
+  // Supposons que chaque point donne une réduction de 0.1 dt
+  const discountPerPoint = 0.05;
+
+  // Calculer la réduction totale en fonction du nombre de points obtenus
+  const totalDiscount = this.totalCarpoolings * discountPerPoint;
+
+  // Assurer que la réduction totale ne dépasse pas le prix original
+  const discountedPrice = originalPrice - totalDiscount;
+    console.log("points   ",this.totalCarpoolings);
+    
+    
+  // Assurer que le prix après réduction est positif
+  return Math.max(discountedPrice, 0);
+}
 }

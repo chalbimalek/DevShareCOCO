@@ -84,7 +84,7 @@
                     <tbody class="tbody">
                         <tr *ngFor="let product of productDetails">
                             <td>{{product.name}}</td>
-                            <td>{{product.price}}</td>
+                            <td>{{ calculateDiscount(product.price) }}</td>
                             <td>
                                 <select 
                                 #quantity
@@ -98,7 +98,7 @@
                             </td>
 
                             <td>
-                                {{getCalculatedTotal(product.idProduct, product.price)}}
+                                {{getCalculatedTotal(product.idProduct,calculateDiscount(product.price))}}
                             </td>
                         </tr>
 
