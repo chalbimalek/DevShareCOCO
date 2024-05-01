@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       rememberMe: [false], // Optionnel, selon si vous voulez implémenter cette fonctionnalité
     });
     this.aFormGroup = this.formBuilder.group({
-      recaptcha: ['', Validators.required],
+   //   recaptcha: ['', Validators.required],
     });
   }
   siteKey: string = '6LevP4spAAAAAGORJ4Z3vjGfitgthh0dJjsHyOWE';

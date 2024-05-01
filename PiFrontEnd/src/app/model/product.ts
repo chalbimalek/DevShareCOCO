@@ -10,7 +10,9 @@ export interface Product{
   quantity:number;
   price:number;
   description:string;
+  category:Category
   brand:string;
   imageModels:FileHandle[];
+  deliveryDays: number; // Assurez-vous d'inclure le délai de livraison dans l'interface Product
 
   }

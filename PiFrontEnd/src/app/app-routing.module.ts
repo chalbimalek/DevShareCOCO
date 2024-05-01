@@ -20,32 +20,68 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfilComponent } from './profil/profil.component';
 import { AuthGuardService } from './Service/auth-guard.service';
-import { CartComponent } from './cart/cart.component';
-import { BuyProductComponent } from './buy-product/buy-product.component';
+import { CartComponent } from './MarketPlacee/cart/cart.component';
+import { BuyProductComponent } from './MarketPlacee/buy-product/buy-product.component';
 import { BuyProductResolverService } from './buy-product-resolver.service';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { OrderDetaisComponent } from './order-detais/order-detais.component';
-import { PaymentComponent } from './payment/payment.component';
+import { MyOrdersComponent } from './MarketPlacee/my-orders/my-orders.component';
+import { OrderDetaisComponent } from './MarketPlacee/order-detais/order-detais.component';
+import { PaymentComponent } from './MarketPlacee/payment/payment.component';
 import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
 import { CollocationResolveService } from './Collocation/ImageCollocation/collocation-resolve.service';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+<<<<<<< HEAD
+=======
+import { MessageFormComponent } from './message-form/message-form.component';
+import { QRDialogComponent } from './qrdialog/qrdialog.component';
+import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
+import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
+import { ChattComponent } from './chatt/chatt.component';
+import { MapComponent } from './map/map.component';
+import { MapleafletComponent } from './mapleaflet/mapleaflet.component';
+>>>>>>> developer
 import { PostComponent } from './Forum-Event/post/post/post.component';
 import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
 import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
 import { EventsComponent } from './Forum-Event/event/events/events.component';
+<<<<<<< HEAD
 import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
 import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
 import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
 import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
 import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
 import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+=======
+import { EventFrontComponent } from './Forum-Event/event-front/event-front.component';
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
+import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
+>>>>>>> developer
 
 import { RatingComponent } from './Forum-Event/rating/rating.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
+  //{path:'msg',component:MessageFormComponent},
+  {path:'chat',component:ChattComponent},
+ // {path:'map',component:MapComponent},
+ { path: 'posts', component: PostComponent},
+    {path: 'addpost', component: AddPostsComponent},
+    { path: 'editPost/:id', component: EditPostsComponent },
+    {path: 'events', component: EventsComponent},
+    {path: 'eventsFront', component: EventFrontComponent},
 
+    {path: 'addEvent', component: AddEventComponent},
+    { path: 'editEvent/:id', component: EditEventsComponent },
+    { path: 'detailEvent/:id', component: DetailEventComponent },
+
+    { path:'detailPost/:id',component:PostdetailComponent},
+    { path: 'addPostFile/:id', component: AddPostFileComponent },
   {path:'',component:AlltemplatefrontComponent, children:[
+<<<<<<< HEAD
     { path: 'posts', component: PostComponent},
     {path: 'addpost', component: AddPostsComponent},
     { path: 'editPost/:id', component: EditPostsComponent },
@@ -60,11 +96,18 @@ const routes: Routes = [
     
     
   
+=======
+   
+    { path: 'postFront', component: PostFrontComponent},
+
+>>>>>>> developer
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
+  {path:'chat', canActivate: [AuthGuardService], component: ChatbotComponent },
+  {path:'map',component:MapleafletComponent, canActivate: [AuthGuardService]},
 
   {path:'Carpooling', canActivate: [AuthGuardService], component: RegisterCarpoolingComponent},
   {path:'listCarppoling', canActivate: [AuthGuardService], component: ListCarpoolingComponent},
-  {path: 'detailCarp',  canActivate: [AuthGuardService],component: DetailsCarpoolingComponent ,resolve: { product: CarpoolingResolveService }},
+  {path: 'detailCarp/:id',  canActivate: [AuthGuardService],component: DetailsCarpoolingComponent ,resolve: { product: CarpoolingResolveService }},
   {
     path: 'login',
     component: LoginComponent,
@@ -76,19 +119,21 @@ const routes: Routes = [
     component: ProfilComponent,
    
   },
+
   {path:'listCollocation',  canActivate: [AuthGuardService],component: ListCollocationComponent},
   {path:'detailsColl',  canActivate: [AuthGuardService],component: DetailsCollocationComponent,resolve: { product: CollocationResolveService }},
   {path:'addCollocation',  canActivate: [AuthGuardService],component: AddCollocationComponent},
-
   {path:'marketplace',  canActivate: [AuthGuardService],component: MarketplaceComponent},
-  {path:'cart',component: CartComponent},
-{path:'buyProduct',component:BuyProductComponent,  resolve: {
+  {path:'cart',  canActivate: [AuthGuardService],component: CartComponent},
+{path:'buyProduct',  canActivate: [AuthGuardService],component:BuyProductComponent,  resolve: {
   productDetails: BuyProductResolverService} },
-  { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService], data:{roles:['User']} },
+  { path: 'myOrders', component: MyOrdersComponent ,  canActivate:[AuthGuardService] },
 {path:'paiment',component:PaymentComponent ,  canActivate:[AuthGuardService]},
   {path:'registerproduct', component: RegisterProductComponent},
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
+  {path:'qrcode',component:QRDialogComponent},
+  {path:'chat',component:ChatbotComponent},
 
 ]},
   
@@ -123,7 +168,7 @@ const routes: Routes = [
 
 {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
 
-
+{path:'stat',component:StatistiqueComponent},
 
 ]
 

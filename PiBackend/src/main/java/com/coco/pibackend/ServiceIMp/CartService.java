@@ -8,15 +8,23 @@ import com.coco.pibackend.Repo.CartDao;
 import com.coco.pibackend.Repo.ProductRepo;
 import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Security.JWT.AuthTokenFilter;
+import com.coco.pibackend.Service.CartServiceInterface;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
+public class CartService implements CartServiceInterface {
 
 
     private final CartDao cartDao;
@@ -26,57 +34,48 @@ public class CartService {
 
 
     private final UserRepo userDao;
-
+@Override
     public void deleteCartItem(Integer cartId) {
         cartDao.deleteById(cartId);
     }
-
+    @Override
     public Cart addToCart(Integer productId) {
-     /*   Product product = productDao.findById(productId).orElse(null);
+        Product product = productDao.findById(productId).orElse(null);
         if (product == null) {
             System.out.println("Le produit avec l'ID " + productId + " n'a pas été trouvé.");
-        }
-
-        String username = AuthTokenFilter.CURRENT_USER;
-        User user = null;
-        System.out.println(username +"useernamme ");
-        if (StringUtils.hasText(username)) {
-            user = userDao.findByUsername(username).orElse(null);
-            if (user == null) {
-                System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
-            }
-        } else {
-            System.out.println("Le nom d'utilisateur est nul ou vide.");
-        }
-
-        if (product != null && user != null) {
-            // Logique pour ajouter le produit au panier
-            List<Cart> cartList = cartDao.findByUser(user);
-            List<Cart> filteredList = cartList.stream().filter(x -> x.getProduct().getIdProduct() == productId).collect(Collectors.toList());
-
-            if (filteredList.isEmpty()) {
-                Cart cart = new Cart(product, user);
-                return cartDao.save(cart);
-            } else {
-                return null; // Ou gérer le cas où le produit est déjà dans le panier
-            }
-        } else {
-            System.out.println("Impossible d'ajouter le produit au panier car le produit ou l'utilisateur est null.");
-
-            // Ajoutez des messages de débogage pour vérifier la récupération de l'utilisateur
-            if (product == null) {
-                System.out.println("Le produit est null.");
-            }
-            if (user == null) {
-                System.out.println("L'utilisateur est null.");
-            }
-
             return null;
-        }}*/
-        Product product = productDao.findById(productId).get();
+        }
 
-        String username = AuthTokenFilter.CURRENT_USER;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDao.findByUsername(username).orElse(null);
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return null;
+        }
 
+        // Récupérer le panier de l'utilisateur s'il existe déjà
+        List<Cart> cartList = cartDao.findByUser(user);
+        Cart userCart = cartList.isEmpty() ? new Cart() : cartList.get(0); // S'il n'y a pas de panier, créer un nouveau
+        if (userCart.getProduct() == null) {
+            userCart.setProduct(new ArrayList<>());
+        }
+
+        // Ajouter le produit au panier de l'utilisateur
+        userCart.getProduct().add(product);
+
+        // Mettre à jour l'utilisateur associé au panier
+        userCart.setUser(user);
+
+        // Enregistrer le panier dans la base de données
+        return cartDao.save(userCart);
+        }
+
+
+     /*   Product product = productDao.findById(productId).get();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         User user = null;
 
         if (username != null) {
@@ -85,35 +84,58 @@ public class CartService {
         }
 
         List<Cart> cartList = cartDao.findByUser(user);
-        List<Cart> filteredList = cartList.stream().filter(x -> x.getProduct().getIdProduct() == productId).collect(Collectors.toList());
+        //List<Cart> filteredList = cartList.stream().filter(x -> x.getProduct().getIdProduct() == productId).collect(Collectors.toList());
 
-        if (filteredList.size() > 0) {
+       /* if (filteredList.size() > 0) {
             return null;
-        }
+        }*/
 
-
+/*
         if (product != null && user != null) {
             Cart cart = new Cart(product, user);
             return cartDao.save(cart);
         }
         return null;
-    }
+   */
 
 
 
 
 
-    public List<Cart> getCartDetails(){
-        String username = AuthTokenFilter.CURRENT_USER;
+
+    @Override
+    public List<Product> getCartDetails(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         User user = userDao.findByUsername(username).get();
-        return cartDao.findByUser(user);
 
+        if (user != null) {
+            List<Cart> cartList = cartDao.findByUser(user);
+
+            // Mapper les produits de chaque panier dans une seule liste
+            List<Product> productsInCart = cartList.stream()
+                    .flatMap(cart -> cart.getProduct().stream())
+                    .distinct() // Supprimer les doublons
+                    .collect(Collectors.toList());
+
+            return productsInCart;
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas trouvé
+            return Collections.emptyList(); // Retourner une liste vide
+        }
     }
+
+
+
 public User getuserfromusername(){
     User user = null;
-    String username= AuthTokenFilter.CURRENT_USER;
-    user = userDao.findById(username).orElse(null);
-return user;
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+    user = userDao.findByUsername(username).orElse(null);
+
+    System.out.println("Current User: " + user);
+
+    return user;
 }
 
 

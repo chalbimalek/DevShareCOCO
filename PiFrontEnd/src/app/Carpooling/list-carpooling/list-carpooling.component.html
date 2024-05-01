@@ -13,7 +13,8 @@
 
     <!-- Start Header Area -->
     <!-- End Header Area -->
-
+  
+      
     <!-- Start Breadcrumbs -->
     <div class="breadcrumbs">
         <div class="container">
@@ -42,12 +43,17 @@
                     <div class="category-sidebar">
                         <!-- Start Single Widget -->
                         <div class="single-widget search">
-                            <h3>Search By Name</h3>
+                            <h3>Search By Destination</h3>
                         
                                 <input class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
                              [(ngModel)]="searchTerm" type="search" placeholder="Search Here...">
                            
                         </div>
+                       
+                        
+                          
+                          
+                          
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                        
@@ -175,12 +181,14 @@
                                                 <!-- Start Single Item -->
                                                 <div class="single-item-grid" >
                                                     <div class="image" (click)="goToProduct(a.idCarpolling)">
-                                                        <img [src]="a.imageModels[0].url" alt="#" class="product-image image-size" >
-                                                        <ng-container *ngIf=" a.imageModels.length > 1" >
+                                                        <img src="https://cdn.pixabay.com/photo/2021/09/07/11/53/car-6603726_640.jpg" alt="Image de voiture" class="product-image image-size">
+
+                                                       <!--  <img [src]="a.imageModels[0].url" alt="#" class="product-image image-size" >
+                                                       <ng-container *ngIf=" a.imageModels.length > 1" >
                                                             <div class="plus-icon">
                                                               +
                                                             </div>
-                                                          </ng-container>
+                                                          </ng-container>-->
                                                         <i class=" cross-badge lni lni-bolt"></i>
                                                         <span class="flat-badge sale">Sale</span>
                                                     </div>
@@ -194,7 +202,8 @@
                                                         <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
                                                                 </i>{{a.pointSorite}}</a></p>
                                                                 <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
-                                                                </i>{{a.pointArrivee}} date :{{a.DateSortie | date:'HH:mm'}}</a></p>
+                                                                </i>{{a.pointArrivee}} </a></p>
+                                                                <h3>Date de sortie :{{a.DateSorite }}</h3>
                                                         <ul class="info"  >
                                                             <li class="price">Prix : {{a.price}} dt</li>
                                                             <li class="like"><a href="javascript:void(0)"><i
@@ -214,31 +223,7 @@
                                                
                                                 <!-- End Single Item -->
                                             </div>
-                                            <div class="col-lg-4 col-md-6 col-12">
-                                                <!-- Start Single Item -->
-                                                <div class="single-item-grid">
-                                                    <div class="image">
-                                                        <a  href="item-details.html"><img src="assets/images/items-tab/item-2.jpg" alt="#" style="color: blueviolet;"></a>
-                                                        <i class=" cross-badge lni lni-bolt"></i>
-                                                        <span class="flat-badge sale">Sale</span>
-                                                    </div>
-                                                    <div class="content">
-                                                        <a href="javascript:void(0)" class="tag">Others</a>
-                                                        <h3 class="title">
-                                                            <a href="item-details.html">Travel Kit</a>
-                                                        </h3>
-                                                        <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
-                                                                </i>San Francisco</a></p>
-                                                        <ul class="info">
-                                                            <li class="price">$580.00</li>
-                                                            <li class="like"><a href="javascript:void(0)"><i
-                                                                        class="lni lni-heart"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- End Single Item -->
-                                            </div>
+                                            
                                         </div>
                                     
                                         <div class="row justify-content-center mt-3">

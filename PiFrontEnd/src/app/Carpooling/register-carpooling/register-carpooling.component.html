@@ -108,18 +108,7 @@
                                             
                                             </div>
                                             </div>
-                                            <div class="row">
-                                            <div class="form-outline mb-4">
-                                            <label class="form-label" for="form3Example82"> Description</label>
-                                            <textarea class="form-control" id="form3Example82" name="description"  [(ngModel)]="product.description" required minlength="10" maxlength="50" #description="ngModel"></textarea>
-                                            <div *ngIf="description.invalid && (description.dirty || description.touched)" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
-                                              <div *ngIf="description.errors && description.errors['required']">Description is required.</div>
-                                              <div *ngIf="description.errors && description.errors['minlength']">Description must be at least 10 characters long.</div>
-                                              <div *ngIf="description.errors && description.errors['maxlength']">Description cannot exceed 50 characters.</div>
-                                            </div>
-                                            
-                                            </div>
-                                            </div>
+                                         
                                             
                                             <div class="form-outline mb-4">
                                             <label class="form-label" for="form3Example1n">pointArrivee</label>
@@ -143,13 +132,11 @@
 
                                             <div class="form-outline mb-4">
                                                 <label class="form-label" for="form3Example1n">DateSortie</label>
-                                                <input class="form-control" type="date" id="form3Example1n" name="DateSortie"  [(ngModel)]="product.DateSortie" required minlength="2" maxlength="20" #DateSortie="ngModel">
-                                                <div *ngIf="DateSortie.invalid && (DateSortie.dirty || DateSortie.touched)" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
-                                                  <div *ngIf="DateSortie.errors && DateSortie.errors['required']">DateSortie is required.</div>
+                                                <input class="form-control" type="datetime-local" id="form3Example1n" name="DateSortie"  [(ngModel)]="product.DateSorite" required  #DateSortie="ngModel">
                                                   
                                                 </div>
-                                            </div>
-
+                                            
+                                       
                                             <div class="form-outline mb-4">
                                                 <label class="form-label" for="form3Example1n">Gouvernorat</label>
                                                 <select class="form-select" id="form3Example1n" name="gouvernorat" [(ngModel)]="product.gouvernorat" required #gouvernorat="ngModel"  (change)="onGouvernoratChange($event)">

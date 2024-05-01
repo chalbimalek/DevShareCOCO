@@ -1,10 +1,8 @@
 package com.coco.pibackend.ServiceIMp;
 
 
-import com.coco.pibackend.Entity.Comment;
-import com.coco.pibackend.Entity.Notification;
-import com.coco.pibackend.Entity.Post;
-import com.coco.pibackend.Entity.User;
+import com.coco.pibackend.Entity.*;
+import com.coco.pibackend.Repo.CarpoolingRepo;
 import com.coco.pibackend.Repo.NotificationRepository;
 import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Security.JWT.AuthTokenFilter;
@@ -12,16 +10,117 @@ import com.coco.pibackend.Service.NotificationService;
 import com.coco.pibackend.Service.UserService;
 import com.coco.pibackend.execption.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImpl implements NotificationService {
+public class NotificationServiceImpl  {
+    @Autowired
+    private UserRepo userDao;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
+    private CarpoolingRepo carpoolingRepo;
+    public Notification envoyerNotification(int carpoolingid, String message,long userId) {
+        Carpooling carpooling=carpoolingRepo.findById(carpoolingid).orElse(null);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDao.findByUsername(username).orElse(null);
+        if (user == null) {
+             System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+        }
+
+       // User user1=carpooling.getUser();
+        LocalDateTime dateTime=LocalDateTime.now();
+        Notification notification = new Notification();
+        notification.setMessage(message);
+        notification.setTimestamp(dateTime);
+        notification.setUserEnvoyer(user);
+        notification.setCarpooling(carpooling);
+        notification.setUserDestiner(userDao.findById(userId).orElse(null));
+        //notification.setAcceptee(true);
+
+
+        // Ici, vous pouvez implémenter le code pour envoyer réellement la notification
+        // par e-mail, SMS, notifications push, etc.
+        // Exemple de code d'envoi de notification par console (à des fins de démonstration) :
+        System.out.println("Notification envoyée à " + notification.getUserDestiner().getUsername() + ": " + message);
+        return notificationRepository.save(notification);
+
+    }
+
+    public List<Notification> getNotificationsForUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDao.findByUsername(username).orElse(null);
+
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return Collections.emptyList(); // Retourner une liste vide si l'utilisateur n'est pas trouvé
+        }
+        List<Notification> notifications=new ArrayList<>();
+       // List<Notification> notifications1=notificationRepository.findByUserEnvoyer(user);
+        Set<Notification> notifications1=user.getNotifications();
+        System.out.println("liste  "+notifications1);
+            // Récupérer tous les covoiturages annoncés par l'utilisateur connecté
+        List<Carpooling> userCarpoolings = carpoolingRepo.findByUser(user);
+        //List<Carpooling> carpoolingList=carpoolingRepo.findBy
+        for (Notification notification : notifications1) {
+            System.out.println("notification "+notification.getMessage());
+            if (notification.getUserDestiner().getId().equals(user.getId())) {
+                System.out.println("destinee "+notification.getUserDestiner().getId()+"userlogee "+user.getId());
+                notifications1.add(notification);
+            }}
+
+        // Récupérer les notifications associées aux covoiturages réservés par les chercheurs
+
+       /* for (Carpooling carpooling : userCarpoolings) {
+            System.out.println("id "+ carpooling.getIdCarpolling());
+            System.out.println("chercheurs  "+carpooling.getChercheurs());
+           /* if (carpooling.getChercheurs().contains(user)){
+                }
+
+            System.out.println("nom voituree " + carpooling.getName() + "  price  " + carpooling.getPrice());
+            // Récupérer les chercheurs ayant réservé ce covoiturage
+            Set<Notification> carpoolingNotifications = carpooling.getNotifications();
+
+
+                // Récupérer les notifications liées à ce covoiturage et à ces chercheurs
+
+                // Ajouter les notifications à la liste principale
+                notifications.addAll(carpoolingNotifications);*/
+                notifications.addAll(notifications1);
+        System.out.println(notifications1);
+
+
+        return notifications ;
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     private final NotificationRepository notificationRepository;
     private final UserService userService;
     private final UserRepo userRepo;
@@ -65,8 +164,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void removeNotification(User receiver, Post owningPost, String type) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         Notification targetNotification = getNotificationByReceiverAndOwningPostAndType(receiver, owningPost, type);
         if (targetNotification.getSender() != null && targetNotification.getSender().equals(authUser)) {
             targetNotification.setSender(null);
@@ -77,8 +176,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotificationsForAuthUserPaginate(Integer page, Integer size) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         return notificationRepository.findNotificationsByReceiver(
                 authUser,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "dateUpdated"))
@@ -87,8 +186,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void markAllSeen() {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         notificationRepository.findNotificationsByReceiverAndIsSeenIsFalse(authUser)
                 .forEach(notification -> {
                     if (notification.getReceiver().equals(authUser)) {
@@ -101,8 +200,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void markAllRead() {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepo.findByUsername(username).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();        User authUser = userRepo.findByUsername(username).get();
         notificationRepository.findNotificationsByReceiverAndIsReadIsFalse(authUser)
                 .forEach(notification -> {
                     if (notification.getReceiver().equals(authUser)) {
@@ -128,5 +227,5 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void deleteNotificationByOwningComment(Comment owningComment) {
         notificationRepository.deleteNotificationByOwningComment(owningComment);
-    }
-}
+    }*/
+

@@ -1,16 +1,24 @@
 package com.coco.pibackend.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+@Getter
+@Setter
+@AllArgsConstructor
 @Entity
 @Table
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer cartId;
-    @OneToOne
-    private Product product;
+    @ManyToMany
+    private List<Product> product;
     @OneToOne
     private User user;
 
@@ -22,11 +30,12 @@ public class Cart {
     }
 
 
-    public Cart(Product product, User user) {
+
+  /*  public Cart(Product product, User user) {
         super();
         this.product = product;
         this.user = user;
-    }
+    }*/
 
 
     public Integer getCartId() {
@@ -35,12 +44,7 @@ public class Cart {
     public void setCartId(Integer cartId) {
         this.cartId = cartId;
     }
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+
     public User getUser() {
         return user;
     }

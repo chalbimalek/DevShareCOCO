@@ -10,4 +10,9 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "SELECT * FROM Post p WHERE LOWER(p.topic) LIKE LOWER(CONCAT('%', :word, '%'))", nativeQuery = true)
     List<Post> searchByTitle(@Param("word") String word);
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> developer

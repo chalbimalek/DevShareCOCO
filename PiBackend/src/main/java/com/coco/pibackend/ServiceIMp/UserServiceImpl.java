@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void Delete(long id) {
-        userRepository.deleteById(String.valueOf(id));
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -48,42 +48,19 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(String userId) {
+    public User getUserById(long userId) {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
-    public void followUser(String userId) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepository.findByUsername(username).get();
-
-        if (!authUser.getId().equals(userId)) {
-            User userToFollow = getUserById(userId);
-            authUser.getFollowingUsers().add(userToFollow);
-            authUser.setFollowingCount(authUser.getFollowingCount() + 1);
-            userToFollow.getFollowerUsers().add(authUser);
-            userToFollow.setFollowerCount(userToFollow.getFollowerCount() + 1);
-            userRepository.save(userToFollow);
-            userRepository.save(authUser);
+    public long getUserIdFromUsername(String username) {
+        User user = userRepository.findIdByUsername(username);
+        if (user != null) {
+            return user.getId();
         } else {
-            throw new InvalidOperationException();
+            // Handle case when user is not found
+            return -1; // Or throw an exception, depending on your requirements
         }
     }
 
-    public void unfollowUser(String userId) {
-        String username = AuthTokenFilter.CURRENT_USER;
-        User authUser = userRepository.findByUsername(username).get();
-
-        if (!authUser.getId().equals(userId)) {
-            User userToUnfollow = getUserById(userId);
-            authUser.getFollowingUsers().remove(userToUnfollow);
-            authUser.setFollowingCount(authUser.getFollowingCount() - 1);
-            userToUnfollow.getFollowerUsers().remove(authUser);
-            userToUnfollow.setFollowerCount(userToUnfollow.getFollowerCount() - 1);
-            userRepository.save(userToUnfollow);
-            userRepository.save(authUser);
-        } else {
-            throw new InvalidOperationException();
-        }
-    }
 
    /* public List<UserResponse> getUserSearchResult(String key, Integer page, Integer size) {
         if (key.length() < 3) throw new InvalidOperationException();
@@ -95,23 +72,11 @@ public class UserServiceImpl implements UserService {
     }
 */
 
-    public List<User> getLikesByPostPaginate(Post post, Integer page, Integer size) {
-        return userRepository.findUsersByLikedPosts(
-                post,
-                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "firstName", "lastName"))
-        );
-    }
 
-
-    public List<User> getLikesByCommentPaginate(Comment comment, Integer page, Integer size) {
-        return userRepository.findUsersByLikedComments(
-                comment,
-                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "firstName", "lastName"))
-        );
-    }
 
     private UserResponse userToUserResponse(User user) {
-        String username = AuthTokenFilter.CURRENT_USER;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         return UserResponse.builder()
                 .user(user)
                 .followedByAuthUser(user.getFollowerUsers().contains(username))

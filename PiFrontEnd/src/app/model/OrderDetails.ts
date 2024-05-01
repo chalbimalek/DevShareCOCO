@@ -7,4 +7,5 @@ export interface OrderDetails {
 	  contactNumber : String;
 	  alternateContactNumber : String;
 	  orderProductQuantityList : OrderQuantity[];
+	  deliveryDate: Date;
 }

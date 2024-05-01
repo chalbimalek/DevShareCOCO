@@ -6,7 +6,15 @@ import com.coco.pibackend.Entity.Event;
 import java.util.List;
 import java.util.Optional;
 
+
+import com.coco.pibackend.Entity.Event;
+
+import java.util.List;
+import java.util.Optional;
+
 public interface IEventservice {
+
+
     Event ajouterEvents(Event event);
 
 
@@ -24,4 +32,3 @@ public interface IEventservice {
 
     List<Event> searchEventAdvanced(Event event);
 }
-

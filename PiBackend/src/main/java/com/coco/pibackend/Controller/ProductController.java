@@ -3,9 +3,17 @@ package com.coco.pibackend.Controller;
 
 import com.coco.pibackend.Entity.ImageModel;
 import com.coco.pibackend.Entity.Product;
+import com.coco.pibackend.Entity.User;
+import com.coco.pibackend.Enum.Category;
+import com.coco.pibackend.Repo.CartDao;
+import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.ServiceIMp.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +31,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final UserRepo userDao;
 //@PreAutherize
     @PostMapping(value = {"/addd"},consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Product addProduit(@RequestPart("product") Product product, @RequestPart("imageFile") MultipartFile[] file){
@@ -51,6 +60,17 @@ public class ProductController {
         }
         return imageModels;
     }
+    public void saveImageToFileSystem(MultipartFile file, String fileName) throws IOException {
+        String uploadDir = "C:\\xampp\\htdocs\\Product\\"; // Chemin vers le dossier de destination
+
+        // Créer le dossier s'il n'existe pas déjà
+        Path uploadPath = Paths.get(uploadDir);
+        Files.createDirectories(uploadPath);
+
+        // Écrire le fichier sur le système de fichiers
+        Path filePath = uploadPath.resolve(fileName);
+        Files.write(filePath, file.getBytes());
+    }
     /* Set<ImageModel> imageModels = new HashSet<>();
         for (MultipartFile file : multipartFiles) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -77,17 +97,7 @@ public class ProductController {
         Path filePath = uploadPath.resolve(fileName);
         Files.write(filePath, file.getBytes());
     }*/
-    public void saveImageToFileSystem(MultipartFile file, String fileName) throws IOException {
-        String uploadDir = "C:\\xampp\\htdocs\\Product\\"; // Chemin vers le dossier de destination
 
-        // Créer le dossier s'il n'existe pas déjà
-        Path uploadPath = Paths.get(uploadDir);
-        Files.createDirectories(uploadPath);
-
-        // Écrire le fichier sur le système de fichiers
-        Path filePath = uploadPath.resolve(fileName);
-        Files.write(filePath, file.getBytes());
-    }
     @GetMapping("/{pid}")
     public Product getProductById(@PathVariable int pid ){
         return productService.getProductById(pid);
@@ -102,7 +112,7 @@ public class ProductController {
     }*/
     @DeleteMapping("/delete/{id}")
   public void deleteproduit(@PathVariable("id") int id) {
-        productService.deleteproduit(id);
+        productService.deleteProduct(id);
     }
 
 
@@ -115,4 +125,20 @@ public class ProductController {
 
 
     }
-  }
+    @GetMapping({"/getProductDetails2/{isSingeProductCheckout}/{productId}"})
+    public List<Product> getProductDetails2(@PathVariable(name="isSingeProductCheckout") boolean isSingeProductCheckout,
+                                           @PathVariable(name= "productId") Integer productId) {
+
+        return productService.getProductDetails2(isSingeProductCheckout, productId);
+
+
+    }
+    @GetMapping("/products")
+    public List<Product> getProductsByCategory(@RequestParam("category") String category) {
+        Category categoryEnum = Category.valueOf(category.toUpperCase());
+
+        return productService.getProductsByCategory(categoryEnum);
+    }
+
+
+}

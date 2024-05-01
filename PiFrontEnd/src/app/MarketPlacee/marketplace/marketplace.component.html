@@ -20,13 +20,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 col-12">
                     <div class="breadcrumbs-content">
-                        <h1 class="page-title">Category</h1>
+                        <h1 class="page-title">market place</h1>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
                     <ul class="breadcrumb-nav">
                         <li><a href="index.html">Home</a></li>
-                        <li>category</li>
+                        <li>market place</li>
                     </ul>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <div class="category-sidebar">
                         <!-- Start Single Widget -->
                         <div class="single-widget search">
-                            <h3>Search Ads</h3>
+                            <h3>Search by Name</h3>
                         
                                 <input class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
                              [(ngModel)]="searchTerm" type="search" placeholder="Search Here...">
@@ -51,31 +51,26 @@
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                         <div class="single-widget">
+                            
+
                             <h3>All Categories</h3>
                             <ul class="list">
                                 <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-dinner"></i> Hotel & Travels<span>15</span></a>
+                                    <a href="javascript:void(0)"  (click)="showAllProducts()" 
+                                    [ngClass]="{'selected-button': isSelected('all')}">
+                                      <i class="lni lni-list"></i> All Products
+                                    </a>
+                                  </li>
+                                <li *ngFor="let category of categories">
+                                    <a href="javascript:void(0)" 
+                                    (click)="loadProductsByCategory(category.name)"  
+                                    [ngClass]="{'selected-button': isSelected(category)}">
+                                    <i class="{{ category.iconClass }}"></i> {{ category.name }}
+                                 </a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-control-panel"></i> Services <span>20</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-bullhorn"></i> Marketing <span>55</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-home"></i> Real Estate<span>35</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-bolt"></i> Electronics <span>60</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-tshirt"></i> Dress & Clothing <span>55</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><i class="lni lni-diamond-alt"></i> Jewelry & Accessories
-                                        <span>45</span></a>
-                                </li>
-                            </ul>
+                               
+                              </ul>
+                            
                         </div>
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
@@ -173,9 +168,16 @@
                                                         <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
                                                                 </i>{{a.adresse}}</a></p>
                                                         <ul class="info" >
-                                                            <li class="price">{{a.price}}</li>
-                                                            <li class="like"><a href="javascript:void(0)"><i
-                                                                        class="lni lni-heart"></i></a>
+                                                            <ul class="product-info">
+                                                                <li class="price">{{ a.price }} dt</li>
+                                                                <li class="discount">
+                                                                  - {{ calculateDiscount(a.price) }} dt
+                                                                </li>
+                                                              </ul>
+                                                              
+
+                                                           <li class="like"><a href="javascript:void(0)"><i
+                                                             class="lni lni-heart"></i></a>
                                                             </li>
                                                         </ul>
                                                    
@@ -210,12 +212,20 @@
                                                 <!-- End Single Item -->
                                             </div>
                                         </div>
-                                    
-                                        <div class="row justify-content-center mt-3">
-                                            <pagination-controls class="pagination" (pageChange)="p=$event"></pagination-controls>
-                                          </div>
-                                <hr>
 
+                                <hr>
+                                <script>
+                                    window.embeddedChatbotConfig = {
+                                      chatbotId: "c4_fFbFsL-cYs9-NvhrVk",
+                                      domain: "www.chatbase.co",
+                                    };
+                                  </script>
+                                  <script
+                                    src="https://www.chatbase.co/embed.min.js"
+                                    chatbotId="c4_fFbFsL-cYs9-NvhrVk"
+                                    domain="www.chatbase.co"
+                                    defer></script>
+                                
                                         <div class="row">
                                             <div class="col-12">
                                                 <!-- Pagination 
@@ -232,6 +242,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row justify-content-center mt-3">
+                                        <pagination-controls class="pagination" (pageChange)="p=$event"></pagination-controls>
+                                      </div>
+                            <hr>
                                     <div class="tab-pane fade" id="nav-list" role="tabpanel"
                                         aria-labelledby="nav-list-tab">
                                         <div class="row">

@@ -7,6 +7,8 @@ import { CarppolingServiceService } from 'src/app/Service/carppoling-service.ser
 import { CarpoolingProcessingService } from 'src/app/imageCarpooling/carpooling-processing.service';
 import { Carpooling } from 'src/app/model/carpooling';
 import { DatePipe } from '@angular/common';
+import { notification } from 'src/app/model/Notification';
+import { AuthService } from 'src/app/Service/auth.service';
 
 @Component({
   selector: 'app-list-carpooling',
@@ -18,11 +20,25 @@ export class ListCarpoolingComponent implements OnInit {
     searchTerm: string='' ;
     public productDetails: Carpooling[] = [];
 
-    constructor(private router : Router,private productservice:CarppolingServiceService,private sanitizer:DomSanitizer,private imageProcessingService:CarpoolingProcessingService){}
+    constructor(private authService: AuthService,private router : Router,private productservice:CarppolingServiceService,private sanitizer:DomSanitizer,private imageProcessingService:CarpoolingProcessingService){}
     ngOnInit(): void {
-      this.getAllProduct();
+      //this.getAllCarpooling();
+      this.getAllCarpooling1();
+
     }
-    public getAllProduct(){
+
+    public getAllCarpooling1(){
+      this.productservice.getAllProduct(this.pageNumber).
+      subscribe(
+        (resp:Carpooling[])=>{
+        console.log(resp);
+        this.productDetails=resp;
+      },(error:HttpErrorResponse )=>{
+        console.log(error);
+      }
+      );
+    }
+    public getAllCarpooling(){
       this.productservice.getAllProduct(this.pageNumber).
       pipe(
        map((products: Carpooling[],i) => products.map((product: Carpooling) => this.imageProcessingService.createImages(product)))
@@ -39,14 +55,20 @@ export class ListCarpoolingComponent implements OnInit {
     }
     get filteredProducts() {
       return this.productDetails.filter(product => {
-        // Filtrer les produits en fonction du terme de recherche
-        return product.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+        // Vérifier si product et product.name ne sont pas null avant d'accéder à la propriété name
+        if (product && product.pointArrivee) {
+          // Filtrer les produits en fonction du terme de recherche
+          return product.pointArrivee.toLowerCase().includes(this.searchTerm.toLowerCase());
+        }
+        return false;
       });
     }
+    
   
-    goToProduct(id:any){
-      this.router.navigate(['/detailCarp',{id:id}]);
+    goToProduct(id: any) {
+      this.router.navigate(['/detailCarp', id]); // Utilisez /:id pour définir le paramètre d'ID dans l'URL
     }
+    
   
     formData: FormData = new FormData();
   
@@ -88,7 +110,7 @@ export class ListCarpoolingComponent implements OnInit {
     setpage(i:any,event:any){
        event.preventDefault();
        this.pageNumber=i;
-       this.getAllProduct();
+       this.getAllCarpooling();
     }
    
     updatePriceRange(event: Event) {
@@ -160,7 +182,7 @@ isSelected(gouv: string): boolean {
 showAllProducts(){
   this.selectedGouvernorat = 'all'; // Définir 'all' comme sélectionné
 
-  this.getAllProduct();
+  this.getAllCarpooling();
 }
 formatDate(date: Date): string {
   if (date && !isNaN(date.getTime())) {
@@ -177,4 +199,5 @@ formatDate(date: Date): string {
     return 'Date invalide';
   }
 }
+
 }

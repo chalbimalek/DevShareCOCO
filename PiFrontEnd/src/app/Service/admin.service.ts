@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +22,13 @@ export class AdminService {
       role,
     });
   }
+  private data$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+
+public getData(): Observable<any> { 
+  return this.data$.asObservable();
+ } 
+  
+  public setData(data: any): void { 
+  this.data$.next(data);
+     }
 }

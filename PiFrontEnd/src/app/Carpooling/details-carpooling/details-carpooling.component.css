@@ -5,6 +5,10 @@
 .image-container{
     height: 450px;
 }
+.img {
+  width: 800px;
+}
+
 .product-card {
     padding: 20px;
     margin-bottom: 20px;

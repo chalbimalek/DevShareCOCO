@@ -1,3 +1,4 @@
+import { Auser } from "./Auser";
 import { FileHandle } from "./file_handle.model";
 
 export interface Carpooling{
@@ -5,14 +6,23 @@ export interface Carpooling{
     pointArrivee:string;
     gouvernorat:string;
     adresse:string;
+    DateSorite:Date| null;
+
   numero:number;
   name:string;
   pointSorite:string;
+  user?:Auser
+  departLatitude:number,
+  departLongitude:number,
   price:number;
   description:string;
   nbrPlaceDisponible:number;
-  DateSortie:Date;
   imageModels:FileHandle[];
+  destinationLatitude: number;
+  destinationLongitude: number;
+  title: string;
 
+  acceptee:boolean
+  refusee:boolean
 
   }

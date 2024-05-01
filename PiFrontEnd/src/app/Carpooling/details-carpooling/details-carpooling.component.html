@@ -1,55 +1,45 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-6">
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-lg-5"> <!-- Colonne pour l'image de la voiture -->
+      <img src="https://cdn.pixabay.com/photo/2021/09/07/11/53/car-6603726_640.jpg" alt="Image de voiture" class="img-fluid img">
+    </div>
+    <div class="col-lg-4"> <!-- Colonne pour les détails du produit -->
+      <mat-card class="product-card">
+        <mat-card-content>
+          <div *ngIf="product">
 
-            <div class="card image-container p-3">
-                <img [src]="product.imageModels[selectProductIndex].url"  style="width: 80%; height: 100%; margin: auto;" alt="">
+            <div class="mt-3">
+              <h2>{{product.name}}</h2>
             </div>
-            <div class="mt-2">
-                <mat-grid-list cols="3" gutterSize="10" rowHeight="1:1">
-                    <mat-grid-tile *ngFor="let file of product.imageModels; let i = index" (click)="changeIndex(i)" style="border: 1px solid lightgrey; cursor: pointer;" 
-                    >
-                        <img [src]="file.url" style="height: 150px;" alt="">                    
-                    </mat-grid-tile>
-                </mat-grid-list>
+            <div class="mt-3">
+              
+              <h2> Point de Sorite: {{product.pointSorite}}</h2>
+            </div>
 
+            <div class="mt-3">
+              <h1 style="color: blueviolet;">Rs:   {{product.price}} dt</h1> &nbsp;
+            </div>
+            <p class="location">
+              <i class="lni lni-map-marker"></i> <a href="javascript:void(0)"><h2> Destination : {{product.pointArrivee}}</h2> </a>
+            </p>
+            <h3 class="title">
+              <p><b> Date : </b>{{ product.DateSorite }}</p>
+            </h3>
+            <hr>
+            <button mat-raised-button color="accent">Call me : Num +216 {{product.numero}}</button>
+            <hr>
+            <div class="mt-2" class="button-container">
+              <button (click)="reserverCovoiturage(product.idCarpolling)" type="button" class="btn btn-success">Reserver</button>
             </div>
             
+          </div>
 
-        </div>
-        <div class="col-6">
-  <mat-card class="product-card">
-    <mat-card-content>
+        </mat-card-content>
+        <canvas #qrcode width="200" height="200"></canvas>
 
-      <div class="mt-3">
-        <h2>{{product.name}}</h2>
-      </div>
-      <div class="mt-3">
-        <h4>arrive  :{{product.pointArrivee}}</h4>
-      </div>
-      <div class="mt-3">
-        Description: <br>
-        {{product.description}}
-      </div>
+      </mat-card>
 
-      <div class="mt-3">
-        <b style="color: blueviolet;">Rs. {{product.price}} dt</b> &nbsp;
-      </div>
-      <p class="location">
-        <i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{product.adresse}} </a>
-      </p>
-      <h3 class="title">
-        <p> date :{{ product.DateSortie | date: 'dd/MM/yyyy ' }}</p>
-    </h3>
-      <hr>
-      <button mat-raised-button color="accent">Call me : Num +216 {{product.numero}}</button>
-      <hr>
-      <div class="mt-2" class="button-container">
-        <button type="button"  class="btn btn-success" >Reserver</button>
-     </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-
-
+    </div>
+    <div class="col-lg-3"></div> <!-- Colonne vide pour l'espace -->
+  </div>
 </div>
