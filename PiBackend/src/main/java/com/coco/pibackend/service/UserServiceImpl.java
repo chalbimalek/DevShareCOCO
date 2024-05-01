@@ -6,6 +6,7 @@ import com.coco.pibackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-
+private final FileStorageService fileStorageService;
     private final UserRepository userRepository;
 
     @Override
@@ -36,4 +37,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getList() {
         return userRepository.findAll();
     }
+
+
 }
