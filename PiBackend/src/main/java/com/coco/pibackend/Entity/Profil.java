@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class Profil implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstname ;
     private String Last_name;
     private LocalDate Birthday;

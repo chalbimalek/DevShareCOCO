@@ -1,5 +1,6 @@
 package com.coco.pibackend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,15 +28,22 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<MarketPlace> marketPlaces;
     @OneToMany(mappedBy = "user")
-    Set<AnnonceCollocation>annonceCollocations;
+    @JsonIgnore
+    private Set<AnnonceCollocation>annonceCollocations;
     @OneToMany(mappedBy = "user")
     private Set<Blog>blogs;
-    @OneToOne(mappedBy = "user")
-    private Profil profil;
+
     @OneToMany(mappedBy = "user")
     private Set<Events> events;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Claims> claims;
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private List<RendezVous> myrendez;
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    private List<RendezVous> hisrendez;
 
 
 }

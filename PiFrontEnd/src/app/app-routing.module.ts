@@ -11,14 +11,23 @@ import { ProductResolveBackService } from './image/product-resolve-back.service'
 import { DetaitlsbackComponent } from './MarketPlacee/detaitlsback/detaitlsback.component';
 import { VaryingmodalcontentComponent } from './MarketPlacee/varyingmodalcontent/varyingmodalcontent.component';
 import { AlltemplateBackComponent } from './BackOffice/alltemplate-back/alltemplate-back.component';
-
+import { AnnonceCollocationComponent } from './annonce-collocation/annonce-collocation.component'; // Importez NgxPaginationModule depuis ngx-pagination
+import { AnnoanceAdminComponent } from './BackOffice/annoance-admin/annoance-admin.component';
+import { AddCollocationComponent } from './add-collocation/add-collocation.component';
+import { DetailsannoanceComponent } from './detailsannoance/detailsannoance.component';
+import { EditAnnoanceComponent } from './edit-annoance/edit-annoance.component';
+import { MesRendezVousComponent } from './mes-rendez-vous/mes-rendez-vous.component';
 const routes: Routes = [
   {path:'', component: HomeComponent},
   {path:'marketplace', component: MarketplaceComponent},
   {path:'registerproduct', component: RegisterProductComponent},
   {path: 'detail', component: ProductDetailsComponent ,resolve: { product: ProductResolveBackService }},
   {path: 'detailback', component: DetaitlsbackComponent ,resolve: { product: ProductResolveBackService }},
-
+  {path:'AnnonceCollocation', component: AnnonceCollocationComponent},
+  {path:'AddAnnonceCollocation', component: AddCollocationComponent},
+  {path:'DetailsAnnaonce/:id', component: DetailsannoanceComponent},
+  {path:'EditAnnaonce/:id', component: EditAnnoanceComponent},
+  {path:'RendezVous', component: MesRendezVousComponent},
   {path:'show', component:ShowProductDetailsComponent},
   {path :'addproduitBack', component:AddProductBackComponent,
 
@@ -29,10 +38,12 @@ const routes: Routes = [
 {path:'varying' ,component:VaryingmodalcontentComponent},
 
 {path:'back' ,component:AlltemplateBackComponent,children:[
-  {path:'',component:ShowProductDetailsComponent}
+  {path:'',component:ShowProductDetailsComponent},
+  
 ]
 
-}
+},
+{path:'AnnoanceAdmin',component:AnnoanceAdminComponent},
 ];
 
 @NgModule({
