@@ -21,12 +21,15 @@ public class AnnonceCollocation  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_anno_colo;
-    private String location;
+    private boolean status;
+    private String Addresse;
+    private String ville;
+    private String pays;
     private Date date_disponiblite;
     private int nbrChambre;
     private String meuble;
     private String photos;
-    private String cautionnement;
+    private float cautionnement;
     private String sexe;
     @Enumerated(EnumType.STRING)
     private Type_logement typeLogement;
