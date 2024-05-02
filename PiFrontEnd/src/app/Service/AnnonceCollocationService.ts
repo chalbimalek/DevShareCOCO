@@ -6,7 +6,7 @@ import {Observable, catchError} from "rxjs";
     providedIn: 'root',
   })
   export class AnnonceCollocationService {
-    
+
     constructor(private httpClient: HttpClient){}
       getAnnonceCollocations(page: number, size: number): Observable<AnnonceCollocation[]> {
         return this.httpClient.get<AnnonceCollocation[]>(`http://localhost:8081/api/collcation/Paggination/${page}/${size}`);
@@ -26,5 +26,9 @@ import {Observable, catchError} from "rxjs";
 
       Delete(id: number) {
         return this.httpClient.delete(`http://localhost:8081/api/collcation/${id}`);
+      }
+
+      getOneAnnonceCollocation(id:number): Observable<AnnonceCollocation> {
+        return this.httpClient.get<AnnonceCollocation>(`http://localhost:8081/api/collcation/${id}`);
       }
   }

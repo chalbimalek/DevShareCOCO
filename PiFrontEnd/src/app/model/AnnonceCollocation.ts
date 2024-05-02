@@ -18,6 +18,7 @@ export class AnnonceCollocation{
     description!: string;
     montantContrubition!:number;
     nbrPersonne!:number;
+    url!:string;
     user!:user;
     Isityours!: boolean;
 }

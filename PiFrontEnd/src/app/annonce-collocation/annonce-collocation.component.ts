@@ -5,29 +5,28 @@ import {AnnonceCollocationService} from "../Service/AnnonceCollocationService";
 import { MatDialog } from '@angular/material/dialog';
 import { AddCollocationComponent } from '../add-collocation/add-collocation.component';
 import { EditAnnoanceComponent } from '../edit-annoance/edit-annoance.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-annonce-collocation',
   templateUrl: './annonce-collocation.component.html',
   styleUrls: ['./annonce-collocation.component.css']
 })
 export class AnnonceCollocationComponent {
-  constructor(private AnnonceCollocationService: AnnonceCollocationService,private dialogRef : MatDialog){}
+  constructor(private AnnonceCollocationService: AnnonceCollocationService,private dialogRef : MatDialog,private router: Router){}
   AllAnnonceCollocations: AnnonceCollocation[] = [];
   AnnonceCollocation=new AnnonceCollocation();
   user = new user();
   currentPage = 0;
-  totalItems = 0; 
+  totalItems = 0;
   pageSize = 6;
   selectedFile!: File;
  selctedcollocation=new AnnonceCollocation();
  select:boolean=false;
  showcontact: boolean = false;
  message: string = '';
-  
+
   openaddPopup(){
-    this.dialogRef.open(AddCollocationComponent, {
-      panelClass: 'my-custom-dialog-class'
-    });
+   this.router.navigate(['/AddAnnonceCollocation']);
   }
   showContactForm() {
     this.showcontact =!this.showcontact;
@@ -37,10 +36,10 @@ export class AnnonceCollocationComponent {
     this.getAllAnnonceCollocations();
   }
   getAllAnnonceCollocations(): void {
-   
+
     this.AnnonceCollocationService.getAnnonceCollocations(this.currentPage, this.pageSize)
-      .subscribe((data: any) => { 
-        this.AllAnnonceCollocations = data.content; 
+      .subscribe((data: any) => {
+        this.AllAnnonceCollocations = data.content;
         this.totalItems = data.totalPages;
         for(let i=0;i<this.AllAnnonceCollocations.length;i++){
           this.AllAnnonceCollocations[i].Isityours=false;
@@ -55,9 +54,14 @@ export class AnnonceCollocationComponent {
     this.getAllAnnonceCollocations();
   }
   ShowSelect(annoance:AnnonceCollocation){
-    this.selctedcollocation=annoance;
-    this.select=true;
-    console.log(this.selctedcollocation)
+    this.router.navigate(['/DetailsAnnaonce',annoance.id_anno_colo]);
+  }
+  ShoweditDelte(annoance:AnnonceCollocation){
+    if(annoance.Isityours){
+      this.select=true;
+      this.selctedcollocation=annoance;
+    }
+
   }
  CloseSelect(){
   this.selctedcollocation=new AnnonceCollocation();
@@ -84,7 +88,7 @@ export class AnnonceCollocationComponent {
   });
  }
  search(event: any): void {
-  const query = event.target.value; 
+  const query = event.target.value;
   if (!query) {
     this.getAllAnnonceCollocations();
     return;
@@ -102,11 +106,11 @@ export class AnnonceCollocationComponent {
     ann.ville.toLowerCase().includes(query.toLowerCase()) ||
     ann.pays.toLowerCase().includes(query.toLowerCase()) ||
     ann.sexe.toLowerCase().includes(query.toLowerCase()) ||
-    ann.meuble.toLowerCase().includes(query.toLowerCase()) 
+    ann.meuble.toLowerCase().includes(query.toLowerCase())
   );
 }
 Gotoedit(Annoance:AnnonceCollocation){
   this.select=false;
-  this.dialogRef.open(EditAnnoanceComponent,{data:{Annoance},panelClass: 'my-custom-dialog-class'});
+  this.router.navigate(['/EditAnnaonce',Annoance.id_anno_colo]);
 }
 }

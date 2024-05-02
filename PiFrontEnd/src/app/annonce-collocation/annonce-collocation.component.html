@@ -14,7 +14,7 @@
                     </div>
                     <!-- End Single Widget -->
                     <!-- Start Single Widget -->
-                    
+
                     <!-- End Single Widget -->
                     <!-- Start Single Widget -->
                     <div class="single-widget banner">
@@ -35,7 +35,7 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <h3 class="title">Showing {{currentPage+1}} of {{totalItems}} page ads found</h3>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="tab-content" id="nav-tabContent">
@@ -44,7 +44,7 @@
                                     <div class="row" >
                                         <div class="col-lg-4 col-md-6 col-12" *ngFor="let cooloocation of AllAnnonceCollocations">
                                             <!-- Start Single Item -->
-                                            <div class="single-item-grid">
+                                            <div class="single-item-grid" (click)="ShoweditDelte(cooloocation)">
                                                 <div class="image">
                                                     <a href="/AnnonceCollocation"><img src="{{cooloocation.photos}}" alt="#"></a>
                                                     <i class=" cross-badge lni lni-bolt"></i>
@@ -75,7 +75,7 @@
                                                         <li><button class="pagination-button" [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)"><i class="lni lni-arrow-left"></i>Previous</button></li>
                                                         <li class="active"><button class="pagination-button current-page" >Page {{currentPage+1}}</button></li>
                                                         <li><button class="pagination-button"  [disabled]="currentPage === totalItems - 1" (click)="onPageChange(currentPage + 1)">Next <i class="lni lni-arrow-right"></i></button></li>
-                                                        
+
                                                     </ul>
                                                 </div>
                                                 <!--/ End Pagination -->
@@ -112,21 +112,9 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-6 content">
-                    <p class="tag"><span style="font-weight: bold;"> Date :</span> {{selctedcollocation.date_disponiblite |date}}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">Deposite :</span> {{selctedcollocation.cautionnement}}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">For :</span> {{selctedcollocation.typeAnnonCollocation}}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">Gender :</span> {{selctedcollocation.sexe}}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">Bedrooms :</span> {{selctedcollocation.nbrChambre}}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">Nbr of people :</span> {{selctedcollocation.nbrChambre}}</p><br>
-                    <p class="tag">{{ selctedcollocation.status ? 'Available' : 'Rented' }}</p><br>
-                    <p class="tag"><span style="font-weight: bold;">Furniture :</span> {{selctedcollocation.meuble}}</p>
-                </div>
-                <div class="col-6 button-container">
-                    <br><br><br>
-                    <button class="pagination-button show-button" *ngIf="!selctedcollocation.Isityours && selctedcollocation.status" (click)="showContactForm()">{{ showcontact ? 'Cancel' : 'Contact' }}</button>
+                <div class="">
                     <button class="pagination-button show-button" *ngIf="selctedcollocation.Isityours " (click)="Gotoedit(selctedcollocation)">Edit</button>
-                    <button class="pagination-button show-button" *ngIf="selctedcollocation.Isityours" (click)="OnDelete(selctedcollocation.id_anno_colo)">Delete</button>
+                    <button style="margin-left: 10px;" class="pagination-button show-button" *ngIf="selctedcollocation.Isityours" (click)="OnDelete(selctedcollocation.id_anno_colo)">Delete</button>
                     <div *ngIf="showcontact">
                         <textarea [(ngModel)]="message" class="form-control"></textarea>
                         <button  (click)="OnContact()" class="pagination-button show-button">Submit</button>

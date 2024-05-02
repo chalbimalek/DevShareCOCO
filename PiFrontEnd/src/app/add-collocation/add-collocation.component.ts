@@ -9,13 +9,14 @@ import {Observable,finalize} from "rxjs";
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import {AnnonceCollocationService} from "../Service/AnnonceCollocationService";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-collocation',
   templateUrl: './add-collocation.component.html',
   styleUrls: ['./add-collocation.component.css']
 })
 export class AddCollocationComponent {
-  constructor(private AnnonceCollocationService: AnnonceCollocationService,private formBuilder: FormBuilder,private storage: AngularFireStorage, private httpClient: HttpClient){}
+  constructor(private AnnonceCollocationService: AnnonceCollocationService,private router: Router,private formBuilder: FormBuilder,private storage: AngularFireStorage, private httpClient: HttpClient){}
   AnnonceCollocation=new AnnonceCollocation();
   user = new user();
   newCollocationFormGroup!: FormGroup;
@@ -30,7 +31,7 @@ export class AddCollocationComponent {
    isLoading: boolean = false;
    ngOnInit(): void {
     this.initializeForm();
-    this.user.id_user=1;
+    this.user.id_user=2;
   }
    ngAfterViewInit(): void {
     this.initMap();
@@ -74,7 +75,7 @@ export class AddCollocationComponent {
         )
         .subscribe(url => {
           if (url) {
-           
+
           }
         });
     }
@@ -95,27 +96,7 @@ export class AddCollocationComponent {
       const { lat, lng } = event.latlng;
       this.getAddressFromCoordinates(lat, lng);
     });
-    const LocateControl = L.Control.extend({
-      options: {
-        position: 'topleft',
-      },
-  
-      onAdd: () => {
-        const button = L.DomUtil.create('button', 'custom-locate-button');
-        button.innerHTML = 'Locate Me';
-        button.addEventListener('click', () => this.locateUser());
-        return button;
-      },
-    });
-  
-    const locateControl = new LocateControl();
-    locateControl.addTo(this.map);
   }
-  
-  locateUser(): void {
-    this.map.locate({ setView: true, maxZoom: 16 });
-  }
-
   getAddressFromCoordinates(latitude: number, longitude: number) {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
 
@@ -155,11 +136,10 @@ export class AddCollocationComponent {
     this.AnnonceCollocation.user=this.user;
     this.isLoading=true;
     this.AnnonceCollocationService.addAnnonceCollocation(this.AnnonceCollocation).subscribe(us =>{
-     
+
      if(us){
       this.isLoading=false;
-       console.log(us)
-       location.reload();
+      this.router.navigate(['/AnnonceCollocation']);
      }
    },(error =>{
        console.log(error)
@@ -168,6 +148,9 @@ export class AddCollocationComponent {
    }else{
     console.log(this.newCollocationFormGroup.errors)
    }
-    
+
    }
+   onUploadClick() {
+    document.getElementById('fileimage')?.click();
+  }
 }

@@ -1,0 +1,94 @@
+<app-headerfront></app-headerfront>
+<section class="category-page section">
+    <div class="col-lg-12 col-md-12 col-12" style="padding-top: 5%; padding-left: 14%; padding-right: 14%;">
+        <div class="main-content">
+            <div class="dashboard-block mt-0">
+                <h3 class="block-title">Appointments</h3>
+                <!-- Start Invoice Items Area -->
+                <div class="invoice-items default-list-style">
+                    <!-- Start List Title -->
+                    <div class="default-list-title">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <p>Client name</p>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <p>Announce</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>date</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>Status</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12 align-right">
+                                <p>Action</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="RendezVousOwner&&RendezVousOwner.length>0">
+                        <div *ngFor="let item of RendezVousOwner">
+                            <div class="single-list">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                        <p>{{item.client.username}}
+
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-4 col-12">
+                                        <p>{{item.annonceCollocation.description}}
+
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <p>{{item.date |date}}</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <p *ngIf="item.IsitPassed" class="unpaid">Past appointment</p>
+                                        <p *ngIf="!item.IsitPassed" class="paid">Waitting</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 align-right" *ngIf="!item.IsitPassed">
+                                        <ul class="action-btn">
+                                            <li (click)="OnAccapete(item.id)"><a href="javascript:void(0)"><i class="lni lni-checkmark"></i></a></li>
+                                            <li (click)="onRefuse(item.id)"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 align-right" *ngIf="item.IsitPassed">
+                                        <ul class="action-btn">
+                                            <li (click)="remove(item.id)"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="RendezVousOwner&&RendezVousOwner.length==0">
+
+                            <div class="single-list">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-12 col-md-4 col-12">
+                                        <p>You dont have appointments
+
+                                        </p>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-12" style="padding-top: 2%; padding-left: 14%; padding-right: 14%;">
+        <div class="main-content">
+            <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+
+    </div>
+    <div *ngIf="showDescription">
+        <p style="color: #5831e1; padding-left: 40%; padding-top: 3%;">{{ currentDescription }}</p>
+</div>
+</section>
+
+<app-footerfront></app-footerfront>
