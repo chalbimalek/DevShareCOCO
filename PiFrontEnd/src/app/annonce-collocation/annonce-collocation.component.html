@@ -1,0 +1,139 @@
+<app-headerfront></app-headerfront>
+<section class="category-page section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12">
+                <div class="category-sidebar">
+                    <!-- Start Single Widget -->
+                    <div class="single-widget search">
+                        <h3>Search Ads</h3>
+                        <form action="#">
+                            <input type="text" placeholder="Search Here..." (keyup)="search($event)">
+                            <button type="submit"><i class="lni lni-search-alt"></i></button>
+                        </form>
+                    </div>
+                    <!-- End Single Widget -->
+                    <!-- Start Single Widget -->
+                    
+                    <!-- End Single Widget -->
+                    <!-- Start Single Widget -->
+                    <div class="single-widget banner">
+                        <h3>Advertisement</h3>
+                        <a href="javascript:void(0)">
+                            <img src="assets/images/banner/Wellcome.png" alt="#">
+                        </a>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12">
+                <div class="category-grid-list">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="category-grid-topbar">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <h3 class="title">Showing {{currentPage+1}} of {{totalItems}} page ads found</h3>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-grid" role="tabpanel"
+                                    aria-labelledby="nav-grid-tab">
+                                    <div class="row" >
+                                        <div class="col-lg-4 col-md-6 col-12" *ngFor="let cooloocation of AllAnnonceCollocations">
+                                            <!-- Start Single Item -->
+                                            <div class="single-item-grid">
+                                                <div class="image">
+                                                    <a href="/AnnonceCollocation"><img src="{{cooloocation.photos}}" alt="#"></a>
+                                                    <i class=" cross-badge lni lni-bolt"></i>
+                                                    <span class="flat-badge sale">Rent</span>
+                                                </div>
+                                                <div class="content">
+                                                    <a href="javascript:void(0)" class="tag">{{cooloocation.typeLogement}}</a>
+                                                    <h3 class="title">
+                                                        <a href="javascript:void(0)">{{cooloocation.description}}</a>
+                                                    </h3>
+                                                    <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
+                                                            </i>{{cooloocation.pays}}//{{cooloocation.ville}}//{{cooloocation.addresse}}</a></p>
+                                                    <ul class="info">
+                                                        <li class="price">{{cooloocation.montantContrubition}}</li>
+                                                        <li class="like"><a href="javascript:void(0)" (click)="ShowSelect(cooloocation)"><i
+                                                                    class="lni lni-eye"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- End Single Item -->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Pagination -->
+                                                <div class="pagination left">
+                                                    <ul class="pagination-list">
+                                                        <li><button class="pagination-button" [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)"><i class="lni lni-arrow-left"></i>Previous</button></li>
+                                                        <li class="active"><button class="pagination-button current-page" >Page {{currentPage+1}}</button></li>
+                                                        <li><button class="pagination-button"  [disabled]="currentPage === totalItems - 1" (click)="onPageChange(currentPage + 1)">Next <i class="lni lni-arrow-right"></i></button></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                                <!--/ End Pagination -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="items-grid section custom-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="text-align: center;">
+                <button class="btn btn-primary" (click)="openaddPopup()"> Add</button>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="view-popup" *ngIf="select">
+    <div class="view-popup-content">
+        <div style="text-align: center;">
+            <a class="closedialog" (click)="CloseSelect()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+              </a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-6 content">
+                    <p class="tag"><span style="font-weight: bold;"> Date :</span> {{selctedcollocation.date_disponiblite |date}}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">Deposite :</span> {{selctedcollocation.cautionnement}}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">For :</span> {{selctedcollocation.typeAnnonCollocation}}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">Gender :</span> {{selctedcollocation.sexe}}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">Bedrooms :</span> {{selctedcollocation.nbrChambre}}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">Nbr of people :</span> {{selctedcollocation.nbrChambre}}</p><br>
+                    <p class="tag">{{ selctedcollocation.status ? 'Available' : 'Rented' }}</p><br>
+                    <p class="tag"><span style="font-weight: bold;">Furniture :</span> {{selctedcollocation.meuble}}</p>
+                </div>
+                <div class="col-6 button-container">
+                    <br><br><br>
+                    <button class="pagination-button show-button" *ngIf="!selctedcollocation.Isityours && selctedcollocation.status" (click)="showContactForm()">{{ showcontact ? 'Cancel' : 'Contact' }}</button>
+                    <button class="pagination-button show-button" *ngIf="selctedcollocation.Isityours " (click)="Gotoedit(selctedcollocation)">Edit</button>
+                    <button class="pagination-button show-button" *ngIf="selctedcollocation.Isityours" (click)="OnDelete(selctedcollocation.id_anno_colo)">Delete</button>
+                    <div *ngIf="showcontact">
+                        <textarea [(ngModel)]="message" class="form-control"></textarea>
+                        <button  (click)="OnContact()" class="pagination-button show-button">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footerfront></app-footerfront>

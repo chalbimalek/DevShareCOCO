@@ -19,9 +19,9 @@ import com.twilio.type.PhoneNumber;
 @Service
 @RequiredArgsConstructor
 public class AnnoncecollocationImpl implements AnnonceCollocationService {
-   // private final String ACCOUNT_SID = "ACe3aa4b575988dc66fc0f0d64843152c9";
-   // private final String AUTH_TOKEN = "d9e44bb5ceffd39dedd2d8d36b00a2a8";
-   // private final String TWILIO_PHONE_NUMBER = "+12513134381";
+    private final String ACCOUNT_SID = "ACe3aa4b575988dc66fc0f0d64843152c9";
+    private final String AUTH_TOKEN = "d9e44bb5ceffd39dedd2d8d36b00a2a8";
+    private final String TWILIO_PHONE_NUMBER = "+12513134381";
     private final JavaMailSender javaMailSender;
     private final AnnonceCollocationRepository annonceCollocationRepository;
     private  final UserRepository userRepository;

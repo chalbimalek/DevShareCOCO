@@ -1,0 +1,36 @@
+.pagination {
+    margin-top: 20px;
+    margin-left: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .pagination button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .pagination button:disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
+  }
+  .search-container {
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    margin-left: 200px;
+    width: 60%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }

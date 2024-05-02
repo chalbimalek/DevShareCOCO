@@ -1,0 +1,111 @@
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form [formGroup]="newCollocationFormGroup" (ngSubmit)="OnSubmitAdd()">
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" class="form-control" formControlName="description" required></textarea>
+                  <div *ngIf="newCollocationFormGroup.get('description')!.errors" class="text-danger">Description is required</div>
+                </div>
+              
+                <div class="form-group">
+                  <label for="type_annon_collocation">Accommodation Announcement Type</label>
+                  <select id="type_annon_collocation" class="form-control" formControlName="type_annon_collocation" >
+                    <option value="">Select Type</option>
+                    <option *ngFor="let type of annon_collocationTypes" [value]="type">{{ type }}</option>
+                  </select>
+                  <div *ngIf="newCollocationFormGroup.get('type_annon_collocation')!.errors" class="text-danger">Accommodation Announcement is required</div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="type_logement">housing Type</label>
+                    <select id="type_logement" class="form-control" formControlName="type_logement" >
+                      <option value="">Select Type</option>
+                      <option *ngFor="let type of logementTypes" [value]="type">{{ type }}</option>
+                    </select>
+                    <div *ngIf="newCollocationFormGroup.get('type_logement')!.errors" class="text-danger">housing type is required</div>
+                  </div>
+                  
+    
+                  <div class="form-group">
+                    <label for="montantContrubition">Amount Contribution</label>
+                    <input type="text" id="montantContrubition" class="form-control" formControlName="montantContrubition" required>
+                    <div *ngIf="newCollocationFormGroup.get('montantContrubition')!.errors" class="text-danger">Amount Contribution is required and must be numeric</div>
+                  </div>
+    
+    
+                  <div class="form-group">
+                    <label for="sexe">For :</label>
+                    <select id="sexe" class="form-control" formControlName="sexe" >
+                      <option value="">Select Type</option>
+                      <option value="Men">Men</option>
+                      <option value="Women">Women</option>
+                    </select>
+                    <div *ngIf="newCollocationFormGroup.get('sexe')!.errors" class="text-danger">Gender  is required</div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="cautionnement">security deposit</label>
+                    <input type="text" id="cautionnement" class="form-control" formControlName="cautionnement" required>
+                    <div *ngIf="newCollocationFormGroup.get('cautionnement')!.errors" class="text-danger">security deposit is required and must be numeric</div>
+                  </div>
+                 
+                  <div class="form-group">
+                    <label for="meuble">Furniture</label>
+                    <input type="text" id="meuble" class="form-control" formControlName="meuble" required>
+                    <div *ngIf="newCollocationFormGroup.get('meuble')!.errors" class="text-danger">Furniture is required</div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="nbrChambre">Rooms Number</label>
+                    <input type="text" id="nbrChambre" class="form-control" formControlName="nbrChambre" required>
+                    <div *ngIf="newCollocationFormGroup.get('nbrChambre')!.errors" class="text-danger">Rooms Number is required and must be numeric</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="nbrPersonne">Number Of peopole</label>
+                    <input type="text" id="nbrPersonne" class="form-control" formControlName="nbrPersonne" required>
+                    <div *ngIf="newCollocationFormGroup.get('nbrPersonne')!.errors" class="text-danger">Number Of peopole is required and must be numeric</div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="addresse">Address</label>
+                    <input type="text" id="addresse" class="form-control" formControlName="addresse" readonly>
+                    <div *ngIf="newCollocationFormGroup.get('addresse')!.errors" class="text-danger">Address is required</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ville">City</label>
+                    <input type="text" id="ville" class="form-control" formControlName="ville" readonly>
+                    <div *ngIf="newCollocationFormGroup.get('ville')!.errors" class="text-danger">City is required</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="pays">Country</label>
+                    <input type="text" id="pays" class="form-control" formControlName="pays" readonly>
+                    <div *ngIf="newCollocationFormGroup.get('pays')!.errors" class="text-danger">Country is required</div>
+                  </div>
+                  <div class="custom-file-upload">
+                    <input type="file"
+                    id="file"
+                    #userPhoto
+                    (change)="onFileSelected($event)"
+                    name="image"
+                    autocomplete="off"
+                    />
+                  </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+        </div>
+        <div class="col-6">
+            <div class="map-container">
+                <div class="map-frame">
+                  <div id="map"></div>
+                </div>
+              </div>
+        </div>
+    </div>    
+</div>
+
+<div *ngIf="isLoading ">
+    <app-loader></app-loader>
+  </div>
