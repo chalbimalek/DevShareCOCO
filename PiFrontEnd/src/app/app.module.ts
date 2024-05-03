@@ -56,21 +56,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
-<<<<<<< HEAD
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
-import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { EventsComponent } from './Forum-Event/event/events/events.component';
-import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
-import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
-import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
-import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
-import { PostComponent } from './Forum-Event/post/post/post.component';
-import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
-import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
-import { RatingComponent } from './Forum-Event/rating/rating.component';
 import { RatingService } from './Service/rating.service';
-=======
 import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-dialog.component';
@@ -81,39 +67,15 @@ import { IconModule } from '@acpaas-ui/ngx-icon';
 import { ChattComponent } from './chatt/chatt.component';
 import { MapComponent } from './map/map.component';
 import { MapleafletComponent } from './mapleaflet/mapleaflet.component';
-import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
-import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
-import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
-import { PostComponent } from './Forum-Event/post/post/post.component';
-import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
-import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
-import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
-import { EventsComponent } from './Forum-Event/event/events/events.component';
-import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+
 import { PopContentComponent } from './pop-content/pop-content.component';
-import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
 import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/notifications-dialog.component';
-
-
->>>>>>> developer
 
 
 
 @NgModule({
   declarations: [
-    AddPostsComponent,
-    SearchPostsComponent,
-    PostComponent,
-    PostdetailComponent,
-    EditPostsComponent,
-    AddPostFileComponent,
-    CustomDatePipe,
-    EventsComponent,
-    EditEventsComponent,
-    DetailEventComponent,
-    AddEventComponent ,
+
     AppComponent,
     HomeComponent,
     MarketplaceComponent,
@@ -152,10 +114,6 @@ import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/
     AddCollocationComponent,
     ListCollocationComponent,
     DetailsCollocationComponent,
-<<<<<<< HEAD
-    RatingComponent,
-    
-=======
     MessageFormComponent,
     QRDialogComponent,
     CommentDialogComponent,
@@ -165,22 +123,9 @@ import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/
     ChattComponent,
     MapComponent,
     MapleafletComponent,
-    AddPostsComponent,
-    SearchPostsComponent,
-    PostComponent,
-    PostdetailComponent,
-    EditPostsComponent,
-    AddPostFileComponent,
-    CustomDatePipe,
-    EventsComponent,
-    EditEventsComponent,
-    DetailEventComponent,
-    AddEventComponent,
+
     PopContentComponent,
-    PostFrontComponent,
     NotificationsDialogComponent ,
-     
->>>>>>> developer
   ],
   imports: [
     BrowserModule,
@@ -206,11 +151,7 @@ import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/
     CommonModule,
     ReactiveFormsModule
   ],
-<<<<<<< HEAD
-  providers: [RatingService],
-=======
-  providers: [DatePipe],
->>>>>>> developer
+  providers: [RatingService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -64,7 +64,13 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateLastModified;
 
-
+    @ManyToMany
+    private List<OrderDetail> orderDetails;
+    @OneToOne
+    private Cart cart;
+    @JsonIgnore
+    @OneToMany(mappedBy = "userDestiner")
+    Set<Notification> notifications;
     @JsonIgnore
     @ManyToMany
     @JoinTable(

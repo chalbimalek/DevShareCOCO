@@ -30,8 +30,6 @@ import { ListCollocationComponent } from './Collocation/list-collocation/list-co
 import { CollocationResolveService } from './Collocation/ImageCollocation/collocation-resolve.service';
 import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
 import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
-<<<<<<< HEAD
-=======
 import { MessageFormComponent } from './message-form/message-form.component';
 import { QRDialogComponent } from './qrdialog/qrdialog.component';
 import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
@@ -39,68 +37,21 @@ import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.com
 import { ChattComponent } from './chatt/chatt.component';
 import { MapComponent } from './map/map.component';
 import { MapleafletComponent } from './mapleaflet/mapleaflet.component';
->>>>>>> developer
-import { PostComponent } from './Forum-Event/post/post/post.component';
-import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
-import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
-import { EventsComponent } from './Forum-Event/event/events/events.component';
-<<<<<<< HEAD
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
-import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
-import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
-import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
-=======
-import { EventFrontComponent } from './Forum-Event/event-front/event-front.component';
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
-import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
-import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
-import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
-import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
-import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
->>>>>>> developer
 
-import { RatingComponent } from './Forum-Event/rating/rating.component';
+import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
   //{path:'msg',component:MessageFormComponent},
   {path:'chat',component:ChattComponent},
  // {path:'map',component:MapComponent},
- { path: 'posts', component: PostComponent},
-    {path: 'addpost', component: AddPostsComponent},
-    { path: 'editPost/:id', component: EditPostsComponent },
-    {path: 'events', component: EventsComponent},
-    {path: 'eventsFront', component: EventFrontComponent},
 
-    {path: 'addEvent', component: AddEventComponent},
-    { path: 'editEvent/:id', component: EditEventsComponent },
-    { path: 'detailEvent/:id', component: DetailEventComponent },
-
-    { path:'detailPost/:id',component:PostdetailComponent},
-    { path: 'addPostFile/:id', component: AddPostFileComponent },
   {path:'',component:AlltemplatefrontComponent, children:[
-<<<<<<< HEAD
-    { path: 'posts', component: PostComponent},
-    {path: 'addpost', component: AddPostsComponent},
-    { path: 'editPost/:id', component: EditPostsComponent },
-    {path: 'events', component: EventsComponent},
-    {path: 'addEvent', component: AddEventComponent},
-    { path: 'editEvent/:id', component: EditEventsComponent },
-    { path: 'detailEvent/:id', component: DetailEventComponent },
-    { path:'detailPost/:id',component:PostdetailComponent},
-    { path: 'addPostFile/:id', component: AddPostFileComponent },
-    { path: 'post/SearchPosts/:word', component: SearchPostsComponent },
-    {path:'rating',component:RatingComponent},
-    
-    
-  
-=======
-   
-    { path: 'postFront', component: PostFrontComponent},
 
->>>>>>> developer
+    
+    
+   
+
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },
   {path:'chat', canActivate: [AuthGuardService], component: ChatbotComponent },
   {path:'map',component:MapleafletComponent, canActivate: [AuthGuardService]},
@@ -142,17 +93,7 @@ const routes: Routes = [
 
 
 {path:'back' ,component:AlltemplateBackComponent, canActivate: [AuthGuardService], children:[
-  { path: 'posts', component: PostComponent},
-  {path: 'addpost', component: AddPostsComponent},
-  { path: 'editPost/:id', component: EditPostsComponent },
-  {path: 'events', component: EventsComponent},
-  {path: 'addEvent', component: AddEventComponent},
-  { path: 'editEvent/:id', component: EditEventsComponent },
-  { path: 'detailEvent/:id', component: DetailEventComponent },
-  { path:'detailPost/:id',component:PostdetailComponent},
-  { path: 'addPostFile/:id', component: AddPostFileComponent },
-  { path: 'post/SearchPosts/:word', component: SearchPostsComponent },
-  {path:'rating',component:RatingComponent},
+
 
 
 

@@ -34,12 +34,7 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
     private final ProductRepo productRepo;
-<<<<<<< HEAD
 
-    private final RefGenerator refGenerator;
-=======
-    private final UserRepo userDao;
->>>>>>> developer
     private final UserRepo userRepo;
     private final CartDao cartDao;
 @Transactional
