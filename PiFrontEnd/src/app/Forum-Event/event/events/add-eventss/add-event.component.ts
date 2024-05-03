@@ -10,7 +10,7 @@ import { EventService } from 'src/app/Service/event.service';
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.css']
 })
-export class AddEventComponent implements OnInit {
+export class AddEventsComponent implements OnInit {
   addEventForm!: FormGroup ;
   events: any;
   id: any;

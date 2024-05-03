@@ -42,13 +42,15 @@ import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.c
 import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
 import { EventsComponent } from './Forum-Event/event/events/events.component';
 import { EventFrontComponent } from './Forum-Event/event-front/event-front.component';
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
 import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
 import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
 import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
 import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
 import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
+import { AddEventComponent } from './NewEvent/add-event/add-event.component';
+import { DetailsEventComponent } from './NewEvent/details-event/details-event.component';
+import { ListEventComponent } from './NewEvent/list-event/list-event.component';
+import { EventResolveService } from './NewEvent/image/event-resolve.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rediriger vers la page de connexion par défaut
@@ -61,14 +63,15 @@ const routes: Routes = [
     {path: 'events', component: EventsComponent},
     {path: 'eventsFront', component: EventFrontComponent},
 
-    {path: 'addEvent', component: AddEventComponent},
     { path: 'editEvent/:id', component: EditEventsComponent },
-    { path: 'detailEvent/:id', component: DetailEventComponent },
+    { path: 'detailEvent/:id', component: DetailsEventComponent },
 
     { path:'detailPost/:id',component:PostdetailComponent},
     { path: 'addPostFile/:id', component: AddPostFileComponent },
   {path:'',component:AlltemplatefrontComponent, children:[
-   
+    {path: 'addEvent', canActivate: [AuthGuardService],component: AddEventComponent},
+    {path:'listevents',canActivate: [AuthGuardService],component:ListEventComponent},
+    { path: 'detailEvent',canActivate: [AuthGuardService], component: DetailsEventComponent,resolve: { product: EventResolveService } },
     { path: 'postFront', component: PostFrontComponent},
 
   {path:'home', canActivate: [AuthGuardService], component: HomeComponent },

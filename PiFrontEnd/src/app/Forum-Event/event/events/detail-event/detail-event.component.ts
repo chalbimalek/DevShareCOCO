@@ -9,7 +9,7 @@ import { EventService } from 'src/app/Service/event.service';
   templateUrl: './detail-event.component.html',
   styleUrls: ['./detail-event.component.css']
 })
-export class DetailEventComponent implements OnInit {
+export class DetailEventsComponent implements OnInit {
   event: any ;
   events :any ;
   idEvent : any ;

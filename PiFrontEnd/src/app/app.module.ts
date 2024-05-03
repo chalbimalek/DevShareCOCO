@@ -75,11 +75,14 @@ import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-post
 import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
 import { EventsComponent } from './Forum-Event/event/events/events.component';
 import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
-import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
-import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { DetailEventsComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
 import { PopContentComponent } from './pop-content/pop-content.component';
 import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
 import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/notifications-dialog.component';
+import { ListEventComponent } from './NewEvent/list-event/list-event.component';
+import { DetailsEventComponent } from './NewEvent/details-event/details-event.component';
+import { AddEventComponent } from './NewEvent/add-event/add-event.component';
+import { ShowdialogComponent } from './NewEvent/showdialog/showdialog.component';
 
 
 
@@ -143,11 +146,14 @@ import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/
     CustomDatePipe,
     EventsComponent,
     EditEventsComponent,
-    DetailEventComponent,
-    AddEventComponent,
+    DetailEventsComponent,
     PopContentComponent,
     PostFrontComponent,
-    NotificationsDialogComponent ,
+    NotificationsDialogComponent,
+    ListEventComponent,
+    DetailsEventComponent ,
+    AddEventComponent,
+    ShowdialogComponent,
      
   ],
   imports: [

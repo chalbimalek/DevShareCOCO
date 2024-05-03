@@ -26,9 +26,9 @@ public class CarpoolingService {
     private final UserRepo userDao;
     private final NotificationServiceImpl notificationService;
     private final MessageSendingOperations<String> wsTemplate;
+
     @Transactional
     public Carpooling saveCarpooling(Carpooling carpooling) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userDao.findByUsername(username).orElse(null);

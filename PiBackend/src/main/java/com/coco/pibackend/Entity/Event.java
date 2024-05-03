@@ -2,11 +2,13 @@ package com.coco.pibackend.Entity;
 
 import com.coco.pibackend.Enum.Type_Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,10 +24,12 @@ public class Event implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String location_event;
-    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonProperty("startDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date startDate;
 
-    //@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonProperty("endDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date endDate;
 
     private String topic;

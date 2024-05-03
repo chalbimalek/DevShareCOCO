@@ -1,16 +1,28 @@
 package com.coco.pibackend.ServiceIMp;
 
 import com.coco.pibackend.Entity.Event;
+import com.coco.pibackend.Entity.Events;
+import com.coco.pibackend.Entity.Product;
+import com.coco.pibackend.Entity.User;
+import com.coco.pibackend.Enum.Category;
+import com.coco.pibackend.Enum.Type_Event;
 import com.coco.pibackend.Repo.EventsRepository;
+import com.coco.pibackend.Repo.UserRepo;
 import com.coco.pibackend.Service.IEventservice;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,13 +32,81 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
-public  class Eventservice {/*implements IEventservice {
+public  class Eventservice {
+    private final EventsRepository eventsRepository;
+private final UserRepo userDao;
+
+@Transactional
+    public Events addEvents(Events events ) {
+        //product.setCreationDate(new Date());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDao.findByUsername(username).get();
+        if (user == null) {
+            System.out.println("L'utilisateur avec le nom d'utilisateur " + username + " n'a pas été trouvé.");
+            return null;
+        }
+        LocalDate date=LocalDate.now();
+        Events events1 = eventsRepository.save(events);
+        events1.setUser( user);
+        events1.setCreated(date);
+
+
+        return events1;
+
+    }
+
+    public Events getProductById(int id) {
+
+        return eventsRepository.findById(id).orElse(null);
+    }
+
+    public List<Events> getAllProduct() {
+        return eventsRepository.findAll();
+    }
+
+    public List<Events> getProductsByCategory(Type_Event category) {
+        // Récupérer tous les produits depuis le repository
+        int a = 0;
+        List<Events> allProducts = getAllProduct();
+
+        // Filtrer les produits par catégorie
+        List<Events> filteredProducts = allProducts.stream()
+                .filter(product -> product.getType_Event() == category)
+                .collect(Collectors.toList());
+
+        return filteredProducts;
+    }
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    /*implements IEventservice {
     private static final String UPLOADED_FOLDER = "uploads/";
 
     @Autowired
@@ -181,7 +261,7 @@ public  class Eventservice {/*implements IEventservice {
                 .body(fileBytes);
     }*/
 
-}
+
 
 
 

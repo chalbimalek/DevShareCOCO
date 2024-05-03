@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,6 @@ public class Events implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_events;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Media> poster;
     private String title;
     private String description;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -33,8 +32,13 @@ public class Events implements Serializable {
     private LocalDateTime endDate;
     private String location_event;
     @Enumerated(EnumType.STRING)
-    private Type_Event event;
-    private Date created;
+    private Type_Event type_Event;
+    private int price;
+    private LocalDate created;
+    @ManyToMany(fetch = FetchType.EAGER ,cascade =  CascadeType.ALL)
+    @JoinTable(name = "event_image" ,joinColumns = {@JoinColumn(name = "event_idd")}
+            ,inverseJoinColumns = {@JoinColumn (name = "image_iddd")})
+    private Set<ImageModel> imageModels;
     @ManyToOne
     User user;
 
