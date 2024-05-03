@@ -1,4 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+    padding-top: 56px;}
+.element {
+    margin-top: 56px; /* adjust this value to match the height of your navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* adjust this value to ensure that it appears in front of the centered div */
+  }
+  /* Dans styles.css ou styles.scss */
+@import '~bootstrap/dist/css/bootstrap.min.css';

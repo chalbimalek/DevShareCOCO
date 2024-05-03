@@ -1,5 +1,19 @@
 package com.coco.pibackend.Entity;
 
+import com.coco.pibackend.Entity.Media;
+import com.coco.pibackend.Enum.Type_Event;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+
 import com.coco.pibackend.Enum.Type_Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -37,8 +51,6 @@ public class Event implements Serializable {
     @ManyToMany(mappedBy="event", cascade = CascadeType.ALL)
     private List<User> users;*/
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private List<Post> posts;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Media> poster;
 

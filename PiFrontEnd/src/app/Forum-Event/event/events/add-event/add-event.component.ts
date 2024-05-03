@@ -1,8 +1,14 @@
+<<<<<<< HEAD
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+=======
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as saveAs from 'file-saver';
+>>>>>>> developer
 import { EventService } from 'src/app/Service/event.service';
 
 @Component({
@@ -13,6 +19,8 @@ import { EventService } from 'src/app/Service/event.service';
 export class AddEventComponent implements OnInit {
   addEventForm!: FormGroup ;
   events: any;
+<<<<<<< HEAD
+=======
   id: any;
 
   file!: File;
@@ -22,6 +30,7 @@ export class AddEventComponent implements OnInit {
 
   document: any;
   showForm: boolean = false;
+>>>>>>> developer
 
   constructor(private router: Router,
     private fb: FormBuilder,private eventservice:EventService){}
@@ -43,8 +52,13 @@ export class AddEventComponent implements OnInit {
     this.eventservice.addevent(eventData).subscribe(
       (response) => {
         console.log('Response:', response);
+<<<<<<< HEAD
+        this.navigateToEventsList();
+      },
+=======
         const newEventId = response.id; // Assuming the response contains the new event's ID
         this.navigateToEventDetail(newEventId);      },
+>>>>>>> developer
       (error) => {
         console.error(error);
       }
@@ -53,6 +67,10 @@ export class AddEventComponent implements OnInit {
   navigateToEventsList() {
     this.router.navigate(['/events']);
   }
+<<<<<<< HEAD
+
+ 
+=======
   onChangeFiles(event: any): void {
     this.file = event.target.files[0];
     console.log(this.file);
@@ -139,4 +157,5 @@ export class AddEventComponent implements OnInit {
       // Handle error or notify user that event ID is missing
     }
   }
+>>>>>>> developer
 }

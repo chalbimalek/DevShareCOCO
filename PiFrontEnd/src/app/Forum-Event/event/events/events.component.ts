@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+import { Component,OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+=======
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { map } from 'rxjs';
+>>>>>>> developer
 import { EventService } from 'src/app/Service/event.service';
 
 
@@ -14,6 +20,8 @@ import { EventService } from 'src/app/Service/event.service';
   styleUrls: ['./events.component.css']
 })
 export class EventsComponent {
+<<<<<<< HEAD
+=======
   id: any;
   fileUrl:any ;
   file!: File;
@@ -23,12 +31,17 @@ export class EventsComponent {
 
   document: any;
   showForm: boolean = false;
+>>>>>>> developer
 
  event:any ;
   events :any ;
   editEventForm!: FormGroup;
   deleteEventForm!: FormGroup;
+<<<<<<< HEAD
+  constructor(private eventservice:EventService,
+=======
   constructor(private eventservice:EventService,private sanitizer: DomSanitizer,
+>>>>>>> developer
     
     private fb: FormBuilder,
     private router: Router){}
@@ -46,6 +59,8 @@ export class EventsComponent {
         (data) => {
           this.events = data;
           console.log(this.events);
+<<<<<<< HEAD
+=======
           this.events.map((post:any)=>{
             this.eventservice.retrieveFile(post.id).subscribe(blob=>{
         
@@ -55,6 +70,7 @@ export class EventsComponent {
             });
           })
           console.log(this.events);
+>>>>>>> developer
         },
         (error) => {
           console.log(error);
@@ -71,6 +87,9 @@ export class EventsComponent {
         location_event: [this.event.location_event, Validators.required],
       });
     }
+<<<<<<< HEAD
+
+=======
     retrieveFile(id:any){
       this.eventservice.retrieveFile(id).subscribe(blob=>{
         
@@ -88,6 +107,7 @@ export class EventsComponent {
         map(blob => this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob)))
       );
     }
+>>>>>>> developer
     deleteEvent() {
       this.eventservice.deletevent(this.event.id).subscribe(
         (response: any) => {
@@ -100,6 +120,10 @@ export class EventsComponent {
       );
   
     }
+<<<<<<< HEAD
+
+  
+=======
     onChangeFiles(event: any): void {
       this.file = event.target.files[0];
       console.log(this.file);
@@ -173,5 +197,6 @@ export class EventsComponent {
     navigateToPostsList() {
       this.router.navigate(['/Events']);
     }
+>>>>>>> developer
 }
 

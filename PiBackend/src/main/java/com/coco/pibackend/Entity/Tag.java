@@ -34,7 +34,13 @@ public class Tag {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateLastModified;
 
+<<<<<<< HEAD
+    /*@JsonIgnore
+    @ManyToMany(mappedBy = "postTags")
+    private List<Post> taggedPosts = new ArrayList<>();*/
+=======
 
+>>>>>>> developer
 
     @Override
     public boolean equals(Object o) {

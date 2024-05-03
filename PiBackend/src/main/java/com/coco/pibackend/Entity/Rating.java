@@ -1,0 +1,32 @@
+package com.coco.pibackend.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Table( name = "Rating")
+public class Rating implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private int value;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Event event;
+    private LocalDateTime ratedAt;
+    @JsonIgnore
+    @ManyToOne
+    private User user1;
+
+}

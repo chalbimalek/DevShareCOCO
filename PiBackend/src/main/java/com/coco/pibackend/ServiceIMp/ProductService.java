@@ -13,6 +13,7 @@ import com.coco.pibackend.Security.JWT.AuthTokenFilter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -33,7 +34,12 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
     private final ProductRepo productRepo;
+<<<<<<< HEAD
+
+    private final RefGenerator refGenerator;
+=======
     private final UserRepo userDao;
+>>>>>>> developer
     private final UserRepo userRepo;
     private final CartDao cartDao;
 @Transactional

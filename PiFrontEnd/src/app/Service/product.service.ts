@@ -16,7 +16,7 @@ import { ProductComment } from '../model/ProductComment';
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8080/api'; // L'URL de base de votre backend
+  private baseUrl = 'http://localhost:8081/api'; // L'URL de base de votre backend
 
   constructor(private authservice:AuthService, private httpClient: HttpClient) {
   }

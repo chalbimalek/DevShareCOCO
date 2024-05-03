@@ -40,13 +40,6 @@ public class User {
     @Column
     private String cin;
     @Column String phone;
-    @ManyToMany
-    private List<OrderDetail> orderDetails;
-    @OneToOne
-    private Cart cart;
-    @JsonIgnore
-    @OneToMany(mappedBy = "userDestiner")
-    Set<Notification> notifications;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -80,7 +73,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "follower_id")
     )
     private List<User> followerUsers = new ArrayList<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,65 +1,40 @@
 package com.coco.pibackend.Entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Table(name = "comments")
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+@NoArgsConstructor
+@Builder
+public class Comment implements Serializable {
     @Id
+   @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 1024)
-    private String content;
-    private Integer likeCount;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateCreated;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateLastModified;
-
-    @OneToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    private User author;
-
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    @NotEmpty
+    private String text;
+    @NotBlank(message = "React is mandatory")
+    private String react;
+    @Lob
+    private byte[] data;
+    private String nameFile;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    private User user;
+    @ManyToOne
     private Post post;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "comment_likes",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "liker_id")
-    )
-    private List<User> likeList = new ArrayList<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) && Objects.equals(author, comment.author);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, author);
-    }
 }

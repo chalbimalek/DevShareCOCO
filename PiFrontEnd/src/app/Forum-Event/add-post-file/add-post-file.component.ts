@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+<<<<<<< HEAD
+import { saveAs } from 'file-saver';
+import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+import { PostService } from 'src/app/Service/post.service';
+=======
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { PostService } from 'src/app/Service/post.service';
 import * as saveAs from 'file-saver';
+>>>>>>> developer
 
 
 @Component({
@@ -108,5 +114,8 @@ export class AddPostFileComponent  implements OnInit {
     this.router.navigate(['/posts']);
   }
 }
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> developer

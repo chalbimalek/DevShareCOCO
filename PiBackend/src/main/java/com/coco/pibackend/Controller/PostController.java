@@ -2,17 +2,39 @@ package com.coco.pibackend.Controller;
 
 import com.coco.pibackend.Entity.Post;
 import com.coco.pibackend.Repo.PostRepository;
+<<<<<<< HEAD
+import com.coco.pibackend.ServiceIMp.Postservice;
+import lombok.AllArgsConstructor;
+=======
 import com.coco.pibackend.Service.IPostservice;
 import lombok.RequiredArgsConstructor;
+>>>>>>> developer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+<<<<<<< HEAD
+=======
 
 import java.io.IOException;
 import java.util.List;
+>>>>>>> developer
 
+import java.io.IOException;
+import java.util.List;
+@CrossOrigin("*")
 @RestController
+<<<<<<< HEAD
+@AllArgsConstructor
+@RequestMapping("post")
+public class PostController {
+    @Autowired
+    Postservice postservice;
+    @Autowired
+    PostRepository postRepository;
+    @PostMapping("/addPOST")
+    public  Post addpost(@RequestBody Post post){return postservice.addPost(post);}
+=======
 @RequiredArgsConstructor
 @CrossOrigin("**")
 @RequestMapping("post")
@@ -73,84 +95,54 @@ public class PostController {
     private final CommentService commentService;
     private final UserService userService;
     private final TagService tagService;
+>>>>>>> developer
 
-    @PostMapping("/posts/create")
-    public ResponseEntity<?> createNewPost(@RequestParam(value = "content") Optional<String> content,
-                                           @RequestParam(name = "postPhoto") Optional<MultipartFile> postPhoto
-                                         ) throws JsonProcessingException {
-
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String contentToAdd = content.isEmpty() ? null : content.get();
-        MultipartFile postPhotoToAdd = postPhoto.isEmpty() ? null : postPhoto.get();
-
-
-        Post createdPost = postService.createNewPost(contentToAdd, postPhotoToAdd);
-        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+    @GetMapping("/retrievePost/{id}")
+    public Post retrievePost(@PathVariable("id") Long id) {
+        return postservice.retrievePost(id);
     }
 
-    @PostMapping("/posts/{postId}/update")
-    public ResponseEntity<?> updatePost(@PathVariable("postId") Long postId,
-                                        @RequestParam(value = "content", required = false) Optional<String> content,
-                                        @RequestParam(name = "postPhoto", required = false) Optional<MultipartFile> postPhoto,
-                                        @RequestParam(name = "postTags", required = false) Optional<String> postTags) throws JsonProcessingException {
-        if ((content.isEmpty() || content.get().length() <= 0) &&
-                (postPhoto.isEmpty() || postPhoto.get().getSize() <= 0)) {
-            throw new EmptyPostException();
-        }
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String contentToAdd = content.isEmpty() ? null : content.get();
-        MultipartFile postImageToAdd = postPhoto.isEmpty() ? null : postPhoto.get();
-        List<TagDto> postTagsToAdd = postTags.isEmpty() ? null :
-                mapper.readValue(postTags.get(), new TypeReference<>() {});
-
-        Post updatePost = postService.updatePost(postId, contentToAdd, postImageToAdd, postTagsToAdd);
-        return new ResponseEntity<>(updatePost, HttpStatus.OK);
+    @PutMapping("/EditPost/{id}")
+    public Post editPost(@PathVariable("id") Long id, @RequestBody Post updatedPost) {
+        return postservice.updatePost(id, updatedPost);
     }
 
-    @PostMapping("/posts/{postId}/delete")
-    public ResponseEntity<?> deletePost(@PathVariable("postId") Long postId) {
-        postService.deletePost(postId);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    @DeleteMapping("/deletePost/{id}")
+    public void deletePost(@PathVariable("id") long id) {
+        postservice.deletePost(id);
     }
 
-    @PostMapping("/posts/{postId}/photo/delete")
-    public ResponseEntity<?> deletePostPhoto(@PathVariable("postId") Long postId) {
-        postService.deletePostPhoto(postId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/retrieveallPOST")
+    public List<Post> getPosts() {
+        List<Post> listposts = postservice.retrieveAllPost();
+        return listposts;
     }
 
-    @GetMapping("/posts/{postId}")
-    public ResponseEntity<?> getPostById(@PathVariable("postId") Long postId) {
-        PostResponse foundPostResponse = postService.getPostResponseById(postId);
-        return new ResponseEntity<>(foundPostResponse, HttpStatus.OK);
+    @PostMapping("/AddPostFile/{id}")
+    public ResponseEntity<Post> AddPostFile(@RequestParam("file") MultipartFile multipartFile,
+                                               @PathVariable("id") Long id
+    )
+    {
+        Post messsage = postservice.addFile(multipartFile,id);
+        return ResponseEntity.ok().body(messsage);
     }
 
-    @GetMapping("/posts/{postId}/likes")
-    public ResponseEntity<?> getPostLikes(@PathVariable("postId") Long postId,
-                                          @RequestParam("page") Integer page,
-                                          @RequestParam("size") Integer size) {
-        page = page < 0 ? 0 : page-1;
-        size = size <= 0 ? 5 : size;
-        Post targetPost = postService.getPostById(postId);
-        List<User> postLikerList = userService.getLikesByPostPaginate(targetPost, page, size);
-        return new ResponseEntity<>(postLikerList, HttpStatus.OK);
+    @GetMapping("/retrieveFile/{id}")
+
+    public ResponseEntity<byte[]> retrieveFile(@PathVariable("id") Long id) throws IOException {
+        return postservice.retrieveFile(id);
     }
 
-    @GetMapping("/posts/{postId}/shares")
-    public ResponseEntity<?> getPostShares(@PathVariable("postId") Long postId,
-                                           @RequestParam("page") Integer page,
-                                           @RequestParam("size") Integer size) {
-        page = page < 0 ? 0 : page-1;
-        size = size <= 0 ? 5 : size;
-        Post sharedPost = postService.getPostById(postId);
-        List<PostResponse> foundPostShares = postService.getPostSharesPaginate(sharedPost, page, size);
-        return new ResponseEntity<>(foundPostShares, HttpStatus.OK);
+    @GetMapping("/SearchPosts/{word}")
+    public List<Post> SearchPosts(@PathVariable("word") String word ){
+        return postservice.SearchPosts(word);
     }
 
+<<<<<<< HEAD
+}
+=======
     @PostMapping("/posts/{postId}/like")
     public ResponseEntity<?> likePost(@PathVariable("postId") Long postId) {
         postService.likePost(postId);
@@ -256,3 +248,4 @@ public class PostController {
         return new ResponseEntity<>(taggedPosts, HttpStatus.OK);
     }*/
 
+>>>>>>> developer

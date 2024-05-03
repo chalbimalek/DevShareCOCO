@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+=======
 import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as saveAs from 'file-saver';
+>>>>>>> developer
 import { EventService } from 'src/app/Service/event.service';
 
 @Component({
@@ -13,11 +18,15 @@ export class DetailEventComponent implements OnInit {
   event: any ;
   events :any ;
   idEvent : any ;
+<<<<<<< HEAD
+  
+=======
   file!: File;
 
   filename!: string;
   fileStatus = { status: '', requestType: '', percent: 0 };
 
+>>>>>>> developer
   constructor(private route: ActivatedRoute,
     private eventservice:EventService
   ){}
@@ -47,6 +56,8 @@ export class DetailEventComponent implements OnInit {
     });
 
 }
+<<<<<<< HEAD
+=======
 onChangeFiles(event: any): void {
   this.file = event.target.files[0];
   console.log(this.file);
@@ -116,6 +127,7 @@ private updateStatus(
   this.fileStatus.requestType = requestType;
   this.fileStatus.percent = Math.round((100 * loaded) / total);
 }
+>>>>>>> developer
 
 
 }

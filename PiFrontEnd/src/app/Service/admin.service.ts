@@ -14,7 +14,7 @@ export class AdminService {
   }
   deleteUserById(userId: number): Observable<void> {
     return this.http.delete<void>(
-      `http://localhost:8080/api/deleteUser/${userId}`
+      `http://localhost:8081/api/deleteUser/${userId}`
     );
   }
   updateUserRole(userId: number, role: string): Observable<any> {

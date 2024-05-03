@@ -30,8 +30,12 @@
         <td>{{ event.endDate | customDate }}</td>
         <td>{{event.startDate | customDate}}</td>
         <td>{{event.location_event}}</td>
+<<<<<<< HEAD
+        
+=======
         <td><img [src]="event.fileUrl" alt="" width="70px" height="70px"></td>
 
+>>>>>>> developer
         <td>
           <div class="d-flex order-actions">
             <a type="button"
@@ -51,24 +55,31 @@
               [routerLink]="['/editEvent', event.id]"
               ><i class="bx bxs-plus-square"></i>Update Event
             </a>
+<<<<<<< HEAD
+
+=======
             <a
             type="button"
             class="btn btn-secondary radius-30 mt-2 mt-lg-0"
             [routerLink]="['/detailEvent', event.id]"
             ><i class="bx bxs-plus-square"></i>File
           </a>
+>>>>>>> developer
             <a
               type="button"
               class="btn btn-info radius-30 mt-2 mt-lg-0"
               [routerLink]="['/detailEvent', event.id]"
               ><i class="bx bxs-plus-square"></i>Event Details
             </a>
+<<<<<<< HEAD
+=======
             <a
             type="button"
             class="btn btn-danger radius-30 mt-2 mt-lg-0"
             (click)="retrieveFile(event.id)"
             ><i class="bx bxs-plus-square"></i>SeeFile
           </a>
+>>>>>>> developer
           </div>
         </td>
       </tr>
