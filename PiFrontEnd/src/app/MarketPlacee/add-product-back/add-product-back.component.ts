@@ -6,6 +6,7 @@ import { ProductService } from '../../Service/product.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from 'src/app/model/file_handle.model';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Category } from 'src/app/model/enumerations/Category';
 
 @Component({
   selector: 'app-add-product-back',
@@ -27,7 +28,9 @@ isnewProduct=true;
     price:0,
     description:"",
     brand:"",
-    imageModels:[]
+    imageModels:[],
+    category: Category.ELECTRONICS,
+    deliveryDays:0
   };
   ngOnInit(): void {
   this.product= this.activatedRouter.snapshot.data['product'];
@@ -108,7 +111,7 @@ isnewProduct=true;
   }
  
 showproduct(){
-  this.route.navigate(['/show'])
+  this.route.navigate(['back/showback'])
 }
 
 @ViewChild('selectfile') selectfile!: ElementRef<HTMLInputElement>;

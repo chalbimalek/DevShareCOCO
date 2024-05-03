@@ -1,21 +1,22 @@
 package com.coco.pibackend.Entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.sql.Date;
-@Entity
+
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@ToString
 public class Media implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +25,10 @@ public class Media implements Serializable {
     private String imagenUrl;
     private String codeImage;
 
+    public Media(String name, String imagenUrl, String imagencode) {
+
+        this.name = name;
+        this.imagenUrl = imagenUrl;
+        this.codeImage = imagencode;
+    }
 }

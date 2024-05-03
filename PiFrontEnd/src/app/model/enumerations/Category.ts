@@ -1,6 +1,5 @@
-export enum Category{
-    MOBILE='MOBILE',
-    ELECTRONIC='ELECTRONIC',
-
-  }
-  
+export enum Category {
+  ELECTRONICS = 'ELECTRONICS',
+  FASHION = 'FASHION',
+  HOMEANDGARDEN = 'HOMEANDGARDEN'
+}

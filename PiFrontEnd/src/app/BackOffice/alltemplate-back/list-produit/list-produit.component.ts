@@ -75,8 +75,15 @@ pageNumber: number = 0;
     this.pageNumber = this.pageNumber+1;
     this.getAllProducts();
   }
+   pages !:Array<number>;
+   setpage(i:any,event:any){
+      event.preventDefault();
+      this.pageNumber=i;
+      this.getAllProduct();
+   }
 
   goToProduct(id:any){
-    this.router.navigate(['/detailback',{id : id}]);
+    this.router.navigate(['back/detailback',{id : id}]);
   }
+
 }

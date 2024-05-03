@@ -52,6 +52,35 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <button class="btn btn-info btn-round  btn-lg"style="margin-right: 3px" (click)="add()">add</button>
-  <button class="btn btn-info btn-round  btn-lg"style="margin-right: 3px" routerLink="/list">List</button>
+  
+  <div class="container">
+    <div *ngFor="let categorie of statistiques" class="categorie">
+      <div>{{ categorie.nom }}:</div>
+      <div class="etoiles">
+        <span *ngFor="let etoile of categorie.nombreEtoiles" class="etoile"></span>
+      </div>
+    </div>
+  </div>
+  
+
+<!--<div >
+    <p>La catégorie la plus achetée est : "{{ mostPurchasedCategory }}"</p>
+  </div>
+  <div>
+    <h1>Statistiques de la catégorie la plus achetée</h1>
+    <div>
+      <canvas #chartCanvas></canvas>
+    </div>
+    <button type="button" class="btn btn-info" (click)="generatePdfButtonClicked()">Télécharger en PDF</button>
+    &nbsp;&nbsp;&nbsp;
+
+    <button class="btn btn-info btn-round  btn-lg"style="margin-right: 3px" (click)="add()">add</button>
+    &nbsp;&nbsp;&nbsp;
+
   <button class="btn btn-info btn-round  btn-lg"style="margin-right: 3px" routerLink="/">home</button>
+  </div>
+ --> 
+  
+
+  
+  

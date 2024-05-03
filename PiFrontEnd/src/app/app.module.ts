@@ -21,7 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ProdutShowDialogComponent } from './MarketPlacee/produt-show-dialog/produt-show-dialog.component';
 import { AddProductBackComponent } from './MarketPlacee/add-product-back/add-product-back.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DetaitlsbackComponent } from './MarketPlacee/detaitlsback/detaitlsback.component';
 import { MatCardModule } from '@angular/material/card';
 import { VaryingmodalcontentComponent } from './MarketPlacee/varyingmodalcontent/varyingmodalcontent.component';
@@ -29,12 +29,91 @@ import { AlltemplateBackComponent } from './BackOffice/alltemplate-back/alltempl
 import { FooterBackComponent } from './BackOffice/footer-back/footer-back.component';
 import { NavbarBackComponent } from './BackOffice/navbar-back/navbar-back.component';
 import { SidebarBackComponent } from './BackOffice/sidebar-back/sidebar-back.component';
-import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationModule depuis ngx-pagination
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NavbarFrontComponent } from './FrontOffice/navbar-front/navbar-front.component';
+import { AlltemplatefrontComponent } from './FrontOffice/alltemplatefront/alltemplatefront.component';
+import { FooterfrontComponent } from './FrontOffice/footerfront/footerfront.component'; // Importez NgxPaginationModule depuis ngx-pagination
+import * as QRCode from 'qrcode';
+import { RegisterCarpoolingComponent } from './Carpooling/register-carpooling/register-carpooling.component';
+import { ListCarpoolingComponent } from './Carpooling/list-carpooling/list-carpooling.component';
+import { DetailsCarpoolingComponent } from './Carpooling/details-carpooling/details-carpooling.component';
+import { DateFormatPipe } from './date-format.pipe'; // Importez la bibliothèque qrcode
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { SignupComponent } from './signup/signup.component';
+import { GuardComponent } from './guard/guard.component';
+import { LoginComponent } from './login/login.component';
+import { ProfilComponent } from './profil/profil.component';
+import { GoogleRecaptchaComponent } from './google-recaptcha/google-recaptcha.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartComponent } from './MarketPlacee/cart/cart.component';
+import { BuyProductComponent } from './MarketPlacee/buy-product/buy-product.component';
+import { MyOrdersComponent } from './MarketPlacee/my-orders/my-orders.component';
+import { OrderDetaisComponent } from './MarketPlacee/order-detais/order-detais.component';
+import { PaymentComponent } from './MarketPlacee/payment/payment.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AddCollocationComponent } from './Collocation/add-collocation/add-collocation.component';
+import { ListCollocationComponent } from './Collocation/list-collocation/list-collocation.component';
+import { DetailsCollocationComponent } from './Collocation/details-collocation/details-collocation.component';
+<<<<<<< HEAD
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { EventsComponent } from './Forum-Event/event/events/events.component';
+import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { PostComponent } from './Forum-Event/post/post/post.component';
+import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
+import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
+import { RatingComponent } from './Forum-Event/rating/rating.component';
+import { RatingService } from './Service/rating.service';
+=======
+import { MessageFormComponent } from './message-form/message-form.component';
+import { QRDialogComponent } from './qrdialog/qrdialog.component';
+import { CommentDialogComponent } from './MarketPlacee/comment-dialog/comment-dialog.component';
+import { ChatbotComponent } from './MarketPlacee/chatbot/chatbot.component';
+import { StatistiqueComponent } from './MarketPlacee/statistique/statistique.component';
+import { RatingChartComponent } from './MarketPlacee/rating-chart/rating-chart.component';
+import { IconModule } from '@acpaas-ui/ngx-icon';
+import { ChattComponent } from './chatt/chatt.component';
+import { MapComponent } from './map/map.component';
+import { MapleafletComponent } from './mapleaflet/mapleaflet.component';
+import { AddPostFileComponent } from './Forum-Event/add-post-file/add-post-file.component';
+import { AddPostsComponent } from './Forum-Event/post/post/add-posts/add-posts.component';
+import { SearchPostsComponent } from './Forum-Event/search-posts/search-posts.component';
+import { PostComponent } from './Forum-Event/post/post/post.component';
+import { PostdetailComponent } from './Forum-Event/post/post/postdetail/postdetail.component';
+import { EditPostsComponent } from './Forum-Event/post/post/edit-posts/edit-posts.component';
+import { CustomDatePipe } from './Forum-Event/event/CustomDatePipe';
+import { EventsComponent } from './Forum-Event/event/events/events.component';
+import { EditEventsComponent } from './Forum-Event/event/events/edit-events/edit-events.component';
+import { DetailEventComponent } from './Forum-Event/event/events/detail-event/detail-event.component';
+import { AddEventComponent } from './Forum-Event/event/events/add-event/add-event.component';
+import { PopContentComponent } from './pop-content/pop-content.component';
+import { PostFrontComponent } from './Forum-Event/post-front/post-front.component';
+import { NotificationsDialogComponent } from './Carpooling/notifications-dialog/notifications-dialog.component';
+
+
+>>>>>>> developer
 
 
 
 @NgModule({
   declarations: [
+    AddPostsComponent,
+    SearchPostsComponent,
+    PostComponent,
+    PostdetailComponent,
+    EditPostsComponent,
+    AddPostFileComponent,
+    CustomDatePipe,
+    EventsComponent,
+    EditEventsComponent,
+    DetailEventComponent,
+    AddEventComponent ,
     AppComponent,
     HomeComponent,
     MarketplaceComponent,
@@ -52,7 +131,56 @@ import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationM
     FooterBackComponent,
     NavbarBackComponent,
     SidebarBackComponent,
+    NavbarFrontComponent,
+    AlltemplatefrontComponent,
+    FooterfrontComponent,
+    RegisterCarpoolingComponent,
+    ListCarpoolingComponent,
+    DetailsCarpoolingComponent,
+    DateFormatPipe,
+    SignupComponent,
+    GuardComponent,
+    LoginComponent,
+    ProfilComponent,
+    GoogleRecaptchaComponent,
+    CartComponent,
+    BuyProductComponent,
+    MyOrdersComponent,
+    OrderDetaisComponent,
+    PaymentComponent,
+    SnackbarComponent,
+    AddCollocationComponent,
+    ListCollocationComponent,
+    DetailsCollocationComponent,
+<<<<<<< HEAD
+    RatingComponent,
     
+=======
+    MessageFormComponent,
+    QRDialogComponent,
+    CommentDialogComponent,
+    ChatbotComponent,
+    StatistiqueComponent,
+    RatingChartComponent,
+    ChattComponent,
+    MapComponent,
+    MapleafletComponent,
+    AddPostsComponent,
+    SearchPostsComponent,
+    PostComponent,
+    PostdetailComponent,
+    EditPostsComponent,
+    AddPostFileComponent,
+    CustomDatePipe,
+    EventsComponent,
+    EditEventsComponent,
+    DetailEventComponent,
+    AddEventComponent,
+    PopContentComponent,
+    PostFrontComponent,
+    NotificationsDialogComponent ,
+     
+>>>>>>> developer
   ],
   imports: [
     BrowserModule,
@@ -62,6 +190,7 @@ import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationM
     BrowserAnimationsModule,
     MatFormFieldModule,
     HttpClientModule,
+    IconModule,
     FormsModule,
     MatGridListModule,
     MatTableModule,
@@ -70,9 +199,18 @@ import { NgxPaginationModule } from 'ngx-pagination'; // Importez NgxPaginationM
     MatDialogModule,
     CommonModule,
     MatCardModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatDatepickerModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    CommonModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+<<<<<<< HEAD
+  providers: [RatingService],
+=======
+  providers: [DatePipe],
+>>>>>>> developer
   bootstrap: [AppComponent]
 })
 export class AppModule { }
